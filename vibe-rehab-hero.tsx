@@ -9,6 +9,8 @@ import { ArrowRight, Check } from "lucide-react"
 import { useParallax, use3DScroll } from "./hooks/use-scroll-animation"
 import { WaitlistDialog } from "./components/waitlist-dialog"
 import { PaymentDialog } from "./components/payment-dialog"
+import { ContactDialog } from "./components/contact-dialog"
+import { EmailContactDialog } from "./components/email-contact-dialog"
 import { AnimatedSection } from "./components/animated-section"
 import { Logo } from "./components/logo"
 
@@ -55,9 +57,47 @@ const placeholderExamples = [
   "My database queries are super slow...",
 ]
 
+// Input detection functions
+const detectInputType = (input: string): "github" | "url" | "email" | "message" => {
+  const trimmedInput = input.trim()
+
+  // GitHub URL patterns
+  const githubPatterns = [
+    /^https?:\/\/(www\.)?github\.com\/[\w\-.]+\/[\w\-.]+/i,
+    /^github\.com\/[\w\-.]+\/[\w\-.]+/i,
+    /^[\w\-.]+\/[\w\-.]+$/, // username/repo format
+  ]
+
+  // Email pattern
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  // URL pattern (more general)
+  const urlPattern = /^https?:\/\/[^\s]+\.[^\s]+/i
+
+  // Check for GitHub
+  if (githubPatterns.some((pattern) => pattern.test(trimmedInput))) {
+    return "github"
+  }
+
+  // Check for email
+  if (emailPattern.test(trimmedInput)) {
+    return "email"
+  }
+
+  // Check for general URL
+  if (urlPattern.test(trimmedInput)) {
+    return "url"
+  }
+
+  // Default to message
+  return "message"
+}
+
 export default function Component() {
   const [showWaitlistDialog, setShowWaitlistDialog] = useState(false)
   const [showPaymentDialog, setShowPaymentDialog] = useState(false)
+  const [showContactDialog, setShowContactDialog] = useState(false)
+  const [showEmailContactDialog, setShowEmailContactDialog] = useState(false)
   const [selectedService, setSelectedService] = useState<typeof services.project | null>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0)
@@ -65,6 +105,8 @@ export default function Component() {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [inputValue, setInputValue] = useState("")
   const [isFocused, setIsFocused] = useState(false)
+  const [submittedValue, setSubmittedValue] = useState("")
+  const [detectedType, setDetectedType] = useState<"github" | "url" | "email" | "message">("message")
   const scrollY = useParallax()
   const scrollProgress = use3DScroll()
 
@@ -99,10 +141,32 @@ export default function Component() {
     setShowWaitlistDialog(true)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log("Submitted:", inputValue)
+
+    if (!inputValue.trim()) return
+
+    const type = detectInputType(inputValue)
+    setDetectedType(type)
+    setSubmittedValue(inputValue)
+
+    if (type === "email") {
+      // Show email-specific dialog
+      setShowEmailContactDialog(true)
+    } else {
+      // Show contact dialog for other types
+      setShowContactDialog(true)
+    }
+  }
+
+  const handleContactDialogClose = () => {
+    setShowContactDialog(false)
+    setInputValue("") // Clear the input when dialog closes
+  }
+
+  const handleEmailContactDialogClose = () => {
+    setShowEmailContactDialog(false)
+    setInputValue("") // Clear the input when dialog closes
   }
 
   const handleFocus = () => {
@@ -127,6 +191,17 @@ export default function Component() {
           service={selectedService}
         />
       )}
+      <ContactDialog
+        isOpen={showContactDialog}
+        onClose={handleContactDialogClose}
+        submittedValue={submittedValue}
+        detectedType={detectedType}
+      />
+      <EmailContactDialog
+        isOpen={showEmailContactDialog}
+        onClose={handleEmailContactDialogClose}
+        email={submittedValue}
+      />
 
       {/* Blueprint Background */}
       <div className="absolute inset-0 overflow-hidden z-0" style={{ opacity: 0.4 }}>
@@ -571,7 +646,7 @@ export default function Component() {
 
                       {/* Floating label hint */}
                       <div className="absolute -top-2 left-4 px-2 bg-white/90 text-xs text-slate-500 font-medium opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 transition-opacity duration-300">
-                        Share your project URL, repo, or describe your issue
+                        Share your project URL, repo, email, or describe your issue
                       </div>
                     </div>
 
