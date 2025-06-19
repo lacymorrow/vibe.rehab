@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -38,17 +40,55 @@ const services = {
   },
 }
 
+const placeholderExamples = [
+  "https://mybrokenapp.com",
+  "john@example.com",
+  "https://github.com/username/my-project",
+  "My React app crashes when users login...",
+  "https://staging.mysite.com",
+  "sarah.dev@gmail.com",
+  "https://github.com/company/legacy-code",
+  "Need help with my Next.js deployment...",
+  "https://beta.mystartup.io",
+  "dev@mycompany.com",
+  "https://github.com/me/abandoned-saas",
+  "My database queries are super slow...",
+]
+
 export default function Component() {
   const [showWaitlistDialog, setShowWaitlistDialog] = useState(false)
   const [showPaymentDialog, setShowPaymentDialog] = useState(false)
   const [selectedService, setSelectedService] = useState<typeof services.project | null>(null)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(0)
+  const [nextPlaceholder, setNextPlaceholder] = useState(1)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [inputValue, setInputValue] = useState("")
+  const [isFocused, setIsFocused] = useState(false)
   const scrollY = useParallax()
   const scrollProgress = use3DScroll()
 
   useEffect(() => {
     setIsLoaded(true)
   }, [])
+
+  // Rotate placeholder text with fade transition
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isFocused && !inputValue) {
+        setIsTransitioning(true)
+
+        // After fade out completes, update the text
+        setTimeout(() => {
+          setCurrentPlaceholder((prev) => (prev + 1) % placeholderExamples.length)
+          setNextPlaceholder((prev) => (prev + 1) % placeholderExamples.length)
+          setIsTransitioning(false)
+        }, 200) // Half of transition duration
+      }
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [isFocused, inputValue])
 
   const handleServiceClick = (service: typeof services.project) => {
     setSelectedService(service)
@@ -57,6 +97,20 @@ export default function Component() {
 
   const handleRoastClick = () => {
     setShowWaitlistDialog(true)
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Handle form submission here
+    console.log("Submitted:", inputValue)
+  }
+
+  const handleFocus = () => {
+    setIsFocused(true)
+  }
+
+  const handleBlur = () => {
+    setIsFocused(false)
   }
 
   return (
@@ -474,26 +528,110 @@ export default function Component() {
 
           {/* Main CTA */}
           <AnimatedSection animation="perspective" delay={600} className="mb-20">
-            <Button
-              size="lg"
-              onClick={handleRoastClick}
-              variant="outline"
-              className="bg-transparent border-2 border-slate-900 text-slate-900 hover:bg-slate-900 hover:text-white font-medium text-lg px-8 py-4 rounded-xl transition-all duration-500 shadow-lg hover:shadow-2xl mb-4 group transform-gpu hover:translate-z-4 hover:rotate-x-3"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              Sign up to be roasted
-              <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-z-2" />
-            </Button>
-            <Button
-              size="lg"
-              onClick={() => handleServiceClick(services.project)}
-              className="bg-slate-900 hover:bg-blue-900 text-white font-medium text-lg px-8 py-4 rounded-xl transition-all duration-500 shadow-lg hover:shadow-2xl mb-4 group transform-gpu hover:translate-z-4 hover:rotate-x-3 ml-4"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              Let's Finish This Thing
-              <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-z-2" />
-            </Button>
-            <p className="text-slate-500 text-sm">Starting at $99 • 2-4 week delivery</p>
+            <div className="max-w-3xl mx-auto">
+              {/* Main Form Container */}
+              <div className="relative group">
+                {/* Subtle background glow */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 via-slate-100 to-blue-100 rounded-3xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                {/* Main form */}
+                <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden">
+                  {/* Subtle top border accent */}
+                  <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
+
+                  <form onSubmit={handleSubmit} className="p-8">
+                    {/* Input container */}
+                    <div className="relative mb-6">
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={inputValue}
+                          onChange={(e) => setInputValue(e.target.value)}
+                          onFocus={handleFocus}
+                          onBlur={handleBlur}
+                          className="w-full px-6 py-5 text-lg bg-white/60 backdrop-blur-sm border border-slate-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-300/50 transition-all duration-500 text-slate-800 shadow-inner"
+                        />
+
+                        {/* Custom animated placeholder */}
+                        {!inputValue && !isFocused && (
+                          <div className="absolute inset-0 px-6 py-5 pointer-events-none flex items-center">
+                            <span
+                              className={`text-lg text-slate-400 transition-opacity duration-400 ${
+                                isTransitioning ? "opacity-0" : "opacity-100"
+                              }`}
+                            >
+                              {placeholderExamples[currentPlaceholder]}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Subtle input glow on focus */}
+                        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400/5 via-transparent to-blue-400/5 opacity-0 focus-within:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                      </div>
+
+                      {/* Floating label hint */}
+                      <div className="absolute -top-2 left-4 px-2 bg-white/90 text-xs text-slate-500 font-medium opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 transition-opacity duration-300">
+                        Share your project URL, repo, or describe your issue
+                      </div>
+                    </div>
+
+                    {/* Submit button */}
+                    <Button
+                      size="lg"
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 hover:from-blue-900 hover:via-blue-800 hover:to-blue-900 text-white font-medium text-xl px-8 py-5 rounded-xl transition-all duration-700 shadow-lg hover:shadow-xl group relative overflow-hidden"
+                    >
+                      {/* Button background shimmer */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+
+                      <span className="relative flex items-center justify-center">
+                        Fix My Code
+                        <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" />
+                      </span>
+                    </Button>
+                  </form>
+
+                  {/* Bottom section */}
+                  <div className="px-8 pb-6 border-t border-slate-100/50">
+                    <div className="flex items-center justify-center gap-6 text-sm text-slate-500 pt-4">
+                      <span className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                        Free consultation
+                      </span>
+                      <div className="w-px h-4 bg-slate-200"></div>
+                      <span className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                        2-4 week delivery
+                      </span>
+                      <div className="w-px h-4 bg-slate-200"></div>
+                      <span className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                        Starting at $99
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Alternative action */}
+              <div className="mt-8 text-center">
+                <div className="flex items-center justify-center gap-4 text-sm">
+                  <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent flex-1 max-w-20"></div>
+                  <span className="text-slate-400 font-medium">or</span>
+                  <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent flex-1 max-w-20"></div>
+                </div>
+
+                <button
+                  onClick={handleRoastClick}
+                  className="mt-4 text-slate-600 hover:text-slate-900 font-medium transition-all duration-300 relative group"
+                >
+                  <span className="relative">
+                    Just roast my work for free
+                    <div className="absolute inset-x-0 -bottom-1 h-px bg-gradient-to-r from-transparent via-slate-400 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                  </span>
+                </button>
+              </div>
+            </div>
           </AnimatedSection>
 
           {/* Services Grid */}
