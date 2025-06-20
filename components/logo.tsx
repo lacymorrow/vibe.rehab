@@ -1,12 +1,14 @@
 "use client"
 
+import Link from "next/link"
+
 interface LogoProps {
   className?: string
 }
 
 export function Logo({ className = "" }: LogoProps) {
   return (
-    <div className={`flex items-center ${className}`}>
+    <Link href="/" className={`flex items-center ${className}`}>
       <svg
         width="40"
         height="40"
@@ -98,6 +100,6 @@ export function Logo({ className = "" }: LogoProps) {
         </div>
         <div className="text-[10px] font-medium text-slate-400 tracking-wider uppercase -mt-1">Code Rehabilitation</div>
       </div>
-    </div>
+    </Link>
   )
 }

@@ -791,9 +791,10 @@ export default function Component() {
                   title: "Founder, IndieMRR",
                 },
                 {
-                  quote: "My MVP was a mess. They rebuilt it properly and helped me launch. Hit $8k MRR in month 2.",
-                  name: "Sarah L.",
-                  title: "Creator, DevToolkit",
+                  quote:
+                    "My AI platform was stuck in development hell. They got it production-ready and helped me scale to 10k users.",
+                  name: "Cait Russell",
+                  title: "Founder, Lunra.ai",
                 },
                 {
                   quote:
