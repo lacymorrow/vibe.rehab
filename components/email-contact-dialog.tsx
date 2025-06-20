@@ -98,7 +98,6 @@ export function EmailContactDialog({ isOpen, onClose, email }: EmailContactDialo
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   placeholder="John Doe"
                   className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
                 />
               </div>
             </div>
@@ -115,7 +114,6 @@ export function EmailContactDialog({ isOpen, onClose, email }: EmailContactDialo
                 placeholder="Tell us about your project, what's broken, what you need help with, timeline, etc."
                 rows={4}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                required
               />
             </div>
 
@@ -123,7 +121,7 @@ export function EmailContactDialog({ isOpen, onClose, email }: EmailContactDialo
             <div className="flex gap-3">
               <Button
                 onClick={(e) => handleSubmit(e, "submit")}
-                disabled={isSubmitting || !formData.name || !formData.projectDetails}
+                disabled={isSubmitting}
                 className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3"
               >
                 {isSubmitting ? (
@@ -138,7 +136,7 @@ export function EmailContactDialog({ isOpen, onClose, email }: EmailContactDialo
 
               <Button
                 onClick={(e) => handleSubmit(e, "roast")}
-                disabled={isSubmitting || !formData.name || !formData.projectDetails}
+                disabled={isSubmitting}
                 variant="outline"
                 className="flex-1 border-slate-300 text-slate-700 hover:bg-slate-50 font-medium py-3"
               >

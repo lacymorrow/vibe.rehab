@@ -22,21 +22,43 @@ export function ContactDialog({ isOpen, onClose, submittedValue, detectedType }:
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, type: "submit" | "roast") => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          name: formData.name,
+          projectDetails: formData.projectDetails,
+          submittedValue,
+          detectedType,
+          type,
+        }),
+      })
 
-    setIsSubmitted(true)
-    setIsSubmitting(false)
+      if (!response.ok) {
+        throw new Error("Failed to send email")
+      }
 
-    setTimeout(() => {
-      onClose()
-      setIsSubmitted(false)
-      setFormData({ name: "", email: "", projectDetails: "" })
-    }, 2000)
+      setIsSubmitted(true)
+      setIsSubmitting(false)
+
+      setTimeout(() => {
+        onClose()
+        setIsSubmitted(false)
+        setFormData({ name: "", email: "", projectDetails: "" })
+      }, 2000)
+    } catch (error) {
+      console.error("Error sending email:", error)
+      setIsSubmitting(false)
+      // You could add error handling here
+    }
   }
 
   const handleInputChange = (field: string, value: string) => {
@@ -82,7 +104,7 @@ export function ContactDialog({ isOpen, onClose, submittedValue, detectedType }:
         </div>
 
         {!isSubmitted ? (
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form className="space-y-6">
             {/* Detected submission display */}
             <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
               <div className="flex items-center gap-3 mb-2">
@@ -106,7 +128,6 @@ export function ContactDialog({ isOpen, onClose, submittedValue, detectedType }:
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   placeholder="John Doe"
                   className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
                 />
               </div>
             </div>
@@ -125,7 +146,6 @@ export function ContactDialog({ isOpen, onClose, submittedValue, detectedType }:
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   placeholder="john@example.com"
                   className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  required
                 />
               </div>
             </div>
@@ -139,27 +159,45 @@ export function ContactDialog({ isOpen, onClose, submittedValue, detectedType }:
                 id="projectDetails"
                 value={formData.projectDetails}
                 onChange={(e) => handleInputChange("projectDetails", e.target.value)}
-                placeholder="Tell us more about your project, what's broken, what you need help with, timeline, etc."
+                placeholder="Tell us about your project, what's broken, what you need help with, timeline, etc."
                 rows={4}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                required
               />
             </div>
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3"
-            >
-              {isSubmitting ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  Sending...
-                </div>
-              ) : (
-                "Send Project Details"
-              )}
-            </Button>
+            {/* Action buttons */}
+            <div className="flex gap-3">
+              <Button
+                onClick={(e) => handleSubmit(e, "submit")}
+                disabled={isSubmitting}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3"
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Sending...
+                  </div>
+                ) : (
+                  "Get Help with Project"
+                )}
+              </Button>
+
+              <Button
+                onClick={(e) => handleSubmit(e, "roast")}
+                disabled={isSubmitting}
+                variant="outline"
+                className="flex-1 border-slate-300 text-slate-700 hover:bg-slate-50 font-medium py-3"
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-slate-400/30 border-t-slate-400 rounded-full animate-spin"></div>
+                    Sending...
+                  </div>
+                ) : (
+                  "Just Roast My Work"
+                )}
+              </Button>
+            </div>
           </form>
         ) : (
           <div className="text-center py-8">

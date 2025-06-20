@@ -5,10 +5,10 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, name, projectDetails, type } = await request.json()
+    const { email, name, projectDetails, submittedValue, detectedType, type } = await request.json()
 
-    if (!email || !name || !projectDetails || !type) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+    if (!email) {
+      return NextResponse.json({ error: "Email is required" }, { status: 400 })
     }
 
     const subject = type === "roast" ? "🔥 New Roast Request" : "🚀 New Project Inquiry"
@@ -17,14 +17,29 @@ export async function POST(request: NextRequest) {
       <h2>${type === "roast" ? "New Roast Request" : "New Project Inquiry"}</h2>
       
       <h3>Contact Information:</h3>
-      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Name:</strong> ${name || "Not provided"}</p>
       <p><strong>Email:</strong> ${email}</p>
       
       <h3>Request Type:</h3>
       <p><strong>${type === "roast" ? "Roast Request" : "Project Help"}</strong></p>
       
-      <h3>Project Details:</h3>
-      <p>${projectDetails.replace(/\n/g, "<br>")}</p>
+      ${
+        submittedValue
+          ? `
+        <h3>Submitted ${detectedType === "github" ? "GitHub Repository" : detectedType === "url" ? "Website URL" : detectedType === "email" ? "Email" : "Message"}:</h3>
+        <p>${submittedValue}</p>
+      `
+          : ""
+      }
+      
+      ${
+        projectDetails
+          ? `
+        <h3>Project Details:</h3>
+        <p>${projectDetails.replace(/\n/g, "<br>")}</p>
+      `
+          : ""
+      }
       
       <hr>
       <p><em>Sent from Vibe Rehab contact form</em></p>

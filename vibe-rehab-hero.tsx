@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Check } from "lucide-react"
 import { useParallax, use3DScroll } from "./hooks/use-scroll-animation"
-import { WaitlistDialog } from "./components/waitlist-dialog"
 import { PaymentDialog } from "./components/payment-dialog"
 import { ContactDialog } from "./components/contact-dialog"
 import { EmailContactDialog } from "./components/email-contact-dialog"
@@ -72,7 +71,7 @@ const detectInputType = (input: string): "github" | "url" | "email" | "message" 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
   // URL pattern (more general)
-  const urlPattern = /^https?:\/\/[^\s]+\.[^\s]+/i
+  const urlPattern = /^https?:\/\/[^\s]+/i
 
   // Check for GitHub
   if (githubPatterns.some((pattern) => pattern.test(trimmedInput))) {
@@ -94,7 +93,6 @@ const detectInputType = (input: string): "github" | "url" | "email" | "message" 
 }
 
 export default function Component() {
-  const [showWaitlistDialog, setShowWaitlistDialog] = useState(false)
   const [showPaymentDialog, setShowPaymentDialog] = useState(false)
   const [showContactDialog, setShowContactDialog] = useState(false)
   const [showEmailContactDialog, setShowEmailContactDialog] = useState(false)
@@ -138,7 +136,10 @@ export default function Component() {
   }
 
   const handleRoastClick = () => {
-    setShowWaitlistDialog(true)
+    // Set a default "roast" message and trigger the contact dialog
+    setSubmittedValue("I want my work roasted")
+    setDetectedType("message")
+    setShowContactDialog(true)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -183,7 +184,6 @@ export default function Component() {
       style={{ backgroundColor: "#f0f4f8" }}
     >
       {/* Dialogs */}
-      <WaitlistDialog isOpen={showWaitlistDialog} onClose={() => setShowWaitlistDialog(false)} />
       {selectedService && (
         <PaymentDialog
           isOpen={showPaymentDialog}
