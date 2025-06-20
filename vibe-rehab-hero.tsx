@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Check } from "lucide-react"
-import { useParallax, use3DScroll } from "./hooks/use-scroll-animation"
-import { PaymentDialog } from "./components/payment-dialog"
-import { ContactDialog } from "./components/contact-dialog"
-import { EmailContactDialog } from "./components/email-contact-dialog"
-import { AnimatedSection } from "./components/animated-section"
-import { Logo } from "./components/logo"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Check } from "lucide-react";
+import { useParallax, use3DScroll } from "./hooks/use-scroll-animation";
+import { PaymentDialog } from "./components/payment-dialog";
+import { ContactDialog } from "./components/contact-dialog";
+import { EmailContactDialog } from "./components/email-contact-dialog";
+import { AnimatedSection } from "./components/animated-section";
+import { Logo } from "./components/logo";
 
 const services = {
   project: {
@@ -25,21 +25,24 @@ const services = {
       "Production deployment",
       "Launch strategy and support",
     ],
-    priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT || "price_1234567890",
+    priceId:
+      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT || "price_1234567890",
   },
   review: {
     name: "Code Review",
     price: 99,
-    description: "Pair-programming code audit with roadmap and security recommendations.",
+    description:
+      "Pair-programming code audit with roadmap and security recommendations.",
     features: [
       "Comprehensive code audit",
       "Security vulnerability assessment",
       "Performance optimization recommendations",
       "Detailed improvement roadmap",
     ],
-    priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW || "price_0987654321",
+    priceId:
+      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW || "price_0987654321",
   },
-}
+};
 
 const placeholderExamples = [
   "https://mybrokenapp.com",
@@ -54,129 +57,137 @@ const placeholderExamples = [
   "dev@mycompany.com",
   "https://github.com/me/abandoned-saas",
   "My database queries are super slow...",
-]
+];
 
 // Input detection functions
-const detectInputType = (input: string): "github" | "url" | "email" | "message" => {
-  const trimmedInput = input.trim()
+const detectInputType = (
+  input: string
+): "github" | "url" | "email" | "message" => {
+  const trimmedInput = input.trim();
 
   // GitHub URL patterns
   const githubPatterns = [
     /^https?:\/\/(www\.)?github\.com\/[\w\-.]+\/[\w\-.]+/i,
     /^github\.com\/[\w\-.]+\/[\w\-.]+/i,
     /^[\w\-.]+\/[\w\-.]+$/, // username/repo format
-  ]
+  ];
 
   // Email pattern
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   // URL pattern (more general)
-  const urlPattern = /^https?:\/\/[^\s]+/i
+  const urlPattern = /^https?:\/\/[^\s]+/i;
 
   // Check for GitHub
   if (githubPatterns.some((pattern) => pattern.test(trimmedInput))) {
-    return "github"
+    return "github";
   }
 
   // Check for email
   if (emailPattern.test(trimmedInput)) {
-    return "email"
+    return "email";
   }
 
   // Check for general URL
   if (urlPattern.test(trimmedInput)) {
-    return "url"
+    return "url";
   }
 
   // Default to message
-  return "message"
-}
+  return "message";
+};
 
 export default function Component() {
-  const [showPaymentDialog, setShowPaymentDialog] = useState(false)
-  const [showContactDialog, setShowContactDialog] = useState(false)
-  const [showEmailContactDialog, setShowEmailContactDialog] = useState(false)
-  const [selectedService, setSelectedService] = useState<typeof services.project | null>(null)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [currentPlaceholder, setCurrentPlaceholder] = useState(0)
-  const [nextPlaceholder, setNextPlaceholder] = useState(1)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const [inputValue, setInputValue] = useState("")
-  const [isFocused, setIsFocused] = useState(false)
-  const [submittedValue, setSubmittedValue] = useState("")
-  const [detectedType, setDetectedType] = useState<"github" | "url" | "email" | "message">("message")
-  const scrollY = useParallax()
-  const scrollProgress = use3DScroll()
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [showContactDialog, setShowContactDialog] = useState(false);
+  const [showEmailContactDialog, setShowEmailContactDialog] = useState(false);
+  const [selectedService, setSelectedService] = useState<
+    typeof services.project | null
+  >(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
+  const [nextPlaceholder, setNextPlaceholder] = useState(1);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [submittedValue, setSubmittedValue] = useState("");
+  const [detectedType, setDetectedType] = useState<
+    "github" | "url" | "email" | "message"
+  >("message");
+  const scrollY = useParallax();
+  const scrollProgress = use3DScroll();
 
   useEffect(() => {
-    setIsLoaded(true)
-  }, [])
+    setIsLoaded(true);
+  }, []);
 
   // Rotate placeholder text with fade transition
   useEffect(() => {
     const interval = setInterval(() => {
       if (!isFocused && !inputValue) {
-        setIsTransitioning(true)
+        setIsTransitioning(true);
 
         // After fade out completes, update the text
         setTimeout(() => {
-          setCurrentPlaceholder((prev) => (prev + 1) % placeholderExamples.length)
-          setNextPlaceholder((prev) => (prev + 1) % placeholderExamples.length)
-          setIsTransitioning(false)
-        }, 200) // Half of transition duration
+          setCurrentPlaceholder(
+            (prev) => (prev + 1) % placeholderExamples.length
+          );
+          setNextPlaceholder((prev) => (prev + 1) % placeholderExamples.length);
+          setIsTransitioning(false);
+        }, 200); // Half of transition duration
       }
-    }, 3000)
+    }, 3000);
 
-    return () => clearInterval(interval)
-  }, [isFocused, inputValue])
+    return () => clearInterval(interval);
+  }, [isFocused, inputValue]);
 
   const handleServiceClick = (service: typeof services.project) => {
-    setSelectedService(service)
-    setShowPaymentDialog(true)
-  }
+    setSelectedService(service);
+    setShowPaymentDialog(true);
+  };
 
   const handleRoastClick = () => {
     // Set a default "roast" message and trigger the contact dialog
-    setSubmittedValue("I want my work roasted")
-    setDetectedType("message")
-    setShowContactDialog(true)
-  }
+    setSubmittedValue("I want my work roasted");
+    setDetectedType("message");
+    setShowContactDialog(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!inputValue.trim()) return
+    if (!inputValue.trim()) return;
 
-    const type = detectInputType(inputValue)
-    setDetectedType(type)
-    setSubmittedValue(inputValue)
+    const type = detectInputType(inputValue);
+    setDetectedType(type);
+    setSubmittedValue(inputValue);
 
     if (type === "email") {
       // Show email-specific dialog
-      setShowEmailContactDialog(true)
+      setShowEmailContactDialog(true);
     } else {
       // Show contact dialog for other types
-      setShowContactDialog(true)
+      setShowContactDialog(true);
     }
-  }
+  };
 
   const handleContactDialogClose = () => {
-    setShowContactDialog(false)
-    setInputValue("") // Clear the input when dialog closes
-  }
+    setShowContactDialog(false);
+    setInputValue(""); // Clear the input when dialog closes
+  };
 
   const handleEmailContactDialogClose = () => {
-    setShowEmailContactDialog(false)
-    setInputValue("") // Clear the input when dialog closes
-  }
+    setShowEmailContactDialog(false);
+    setInputValue(""); // Clear the input when dialog closes
+  };
 
   const handleFocus = () => {
-    setIsFocused(true)
-  }
+    setIsFocused(true);
+  };
 
   const handleBlur = () => {
-    setIsFocused(false)
-  }
+    setIsFocused(false);
+  };
 
   return (
     <div
@@ -204,7 +215,10 @@ export default function Component() {
       />
 
       {/* Blueprint Background */}
-      <div className="absolute inset-0 overflow-hidden z-0" style={{ opacity: 0.4 }}>
+      <div
+        className="absolute inset-0 overflow-hidden z-0"
+        style={{ opacity: 0.4 }}
+      >
         {/* Blueprint Grid - More Prominent */}
         <div
           className="absolute inset-0"
@@ -217,7 +231,8 @@ export default function Component() {
               linear-gradient(rgba(0,50,150,0.04) 1px, transparent 1px),
               linear-gradient(90deg, rgba(0,50,150,0.04) 1px, transparent 1px)
             `,
-            backgroundSize: "10px 10px, 10px 10px, 50px 50px, 50px 50px, 200px 200px, 200px 200px",
+            backgroundSize:
+              "10px 10px, 10px 10px, 50px 50px, 50px 50px, 200px 200px, 200px 200px",
           }}
         />
 
@@ -254,7 +269,10 @@ export default function Component() {
           </div>
 
           {/* Comprehensive Dimension System */}
-          <div className="absolute top-24 left-32" style={{ transform: `translateY(${scrollY * 0.03}px)` }}>
+          <div
+            className="absolute top-24 left-32"
+            style={{ transform: `translateY(${scrollY * 0.03}px)` }}
+          >
             {/* Main horizontal dimension chain */}
             <div className="flex items-center text-blue-900/50">
               <div className="flex flex-col items-center">
@@ -342,7 +360,9 @@ export default function Component() {
           >
             <div className="flex items-center gap-3">
               <div className="border border-blue-900/40 bg-blue-50/90 p-2 text-[10px] leading-tight">
-                <div className="font-bold text-blue-900/80">TESTIMONIAL SECTION</div>
+                <div className="font-bold text-blue-900/80">
+                  TESTIMONIAL SECTION
+                </div>
                 <div className="text-blue-900/60 space-y-0.5 mt-1">
                   <div>Layout: Grid 3x1</div>
                   <div>Gap: gap-6</div>
@@ -365,10 +385,14 @@ export default function Component() {
             style={{ transform: `translateY(${scrollY * 0.015}px)` }}
           >
             <div className="text-blue-900/80 leading-tight space-y-2">
-              <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">TECHNICAL SPECIFICATIONS</div>
+              <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">
+                TECHNICAL SPECIFICATIONS
+              </div>
 
               <div className="space-y-1">
-                <div className="font-semibold text-blue-900/70">TYPOGRAPHY:</div>
+                <div className="font-semibold text-blue-900/70">
+                  TYPOGRAPHY:
+                </div>
                 <div>Primary: Inter, sans-serif</div>
                 <div>Mono: ui-monospace</div>
                 <div>H1: 5xl-7xl (48-72px)</div>
@@ -399,7 +423,9 @@ export default function Component() {
             style={{ transform: `translateY(${-scrollY * 0.01}px)` }}
           >
             <div className="text-blue-900/80 leading-tight space-y-2">
-              <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">BUILD SPECIFICATIONS</div>
+              <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">
+                BUILD SPECIFICATIONS
+              </div>
 
               <div className="space-y-1">
                 <div className="font-semibold text-blue-900/70">FRAMEWORK:</div>
@@ -416,7 +442,9 @@ export default function Component() {
               </div>
 
               <div className="space-y-1">
-                <div className="font-semibold text-blue-900/70">PERFORMANCE:</div>
+                <div className="font-semibold text-blue-900/70">
+                  PERFORMANCE:
+                </div>
                 <div>Core Web Vitals: ✓</div>
                 <div>Lighthouse: 95+</div>
                 <div>Bundle: &lt;200KB</div>
@@ -436,7 +464,9 @@ export default function Component() {
               </div>
               <div className="w-6 h-px bg-blue-900/50"></div>
             </div>
-            <div className="text-[9px] text-blue-900/40 mt-1 ml-8">HERO SECTION</div>
+            <div className="text-[9px] text-blue-900/40 mt-1 ml-8">
+              HERO SECTION
+            </div>
           </div>
 
           <div
@@ -450,7 +480,9 @@ export default function Component() {
               </div>
               <div className="w-6 h-px bg-blue-900/50"></div>
             </div>
-            <div className="text-[9px] text-blue-900/40 mt-1 ml-8">CTA SECTION</div>
+            <div className="text-[9px] text-blue-900/40 mt-1 ml-8">
+              CTA SECTION
+            </div>
           </div>
 
           {/* Elevation Markers */}
@@ -469,7 +501,10 @@ export default function Component() {
           </div>
 
           {/* Flow Diagram */}
-          <div className="absolute top-[40%] left-1/3" style={{ transform: `translateY(${scrollY * 0.02}px)` }}>
+          <div
+            className="absolute top-[40%] left-1/3"
+            style={{ transform: `translateY(${scrollY * 0.02}px)` }}
+          >
             <svg width="120" height="60" className="text-blue-900/40">
               <defs>
                 <marker
@@ -493,7 +528,13 @@ export default function Component() {
                 strokeDasharray="3,2"
               />
               <circle cx="10" cy="30" r="3" fill="currentColor" />
-              <text x="15" y="45" fontSize="9" fill="currentColor" className="font-mono">
+              <text
+                x="15"
+                y="45"
+                fontSize="9"
+                fill="currentColor"
+                className="font-mono"
+              >
                 USER FLOW
               </text>
             </svg>
@@ -524,7 +565,10 @@ export default function Component() {
           </div>
 
           {/* Revision Cloud */}
-          <div className="absolute top-[55%] left-8" style={{ transform: `translateY(${scrollY * 0.02}px)` }}>
+          <div
+            className="absolute top-[55%] left-8"
+            style={{ transform: `translateY(${scrollY * 0.02}px)` }}
+          >
             <svg width="80" height="40" className="text-blue-900/30">
               <path
                 d="M10 20 Q15 10, 25 15 Q35 5, 45 15 Q55 10, 65 20 Q70 30, 60 25 Q50 35, 40 25 Q30 35, 20 25 Q10 30, 10 20 Z"
@@ -533,7 +577,13 @@ export default function Component() {
                 fill="none"
                 strokeDasharray="2,1"
               />
-              <text x="25" y="24" fontSize="8" fill="currentColor" className="font-mono">
+              <text
+                x="25"
+                y="24"
+                fontSize="8"
+                fill="currentColor"
+                className="font-mono"
+              >
                 REV 2.1
               </text>
             </svg>
@@ -564,7 +614,10 @@ export default function Component() {
         </AnimatedSection>
 
         {/* Hero Content */}
-        <div className="max-w-4xl mx-auto text-center" style={{ perspective: "1500px" }}>
+        <div
+          className="max-w-4xl mx-auto text-center"
+          style={{ perspective: "1500px" }}
+        >
           {/* Badge */}
           <AnimatedSection animation="flip" delay={200} className="mb-8">
             <Badge className="bg-blue-50 hover:bg-blue-50 text-slate-700 border-blue-200 px-4 py-2 text-sm font-medium transform-gpu transition-transform duration-300">
@@ -579,12 +632,15 @@ export default function Component() {
                 className="inline-block transform-gpu transition-transform duration-700 hover:rotate-y-6"
                 style={{ transformStyle: "preserve-3d" }}
               >
-                We Fix Your
+                Fix Your
               </span>
               <br />
               <span
                 className="text-slate-900 inline-block transform-gpu transition-transform duration-700 hover:rotate-y-[-6deg] relative"
-                style={{ transformStyle: "preserve-3d", transitionDelay: "100ms" }}
+                style={{
+                  transformStyle: "preserve-3d",
+                  transitionDelay: "100ms",
+                }}
               >
                 <span className="line-through text-slate-400 mr-4">trash</span>
                 <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent">
@@ -593,8 +649,8 @@ export default function Component() {
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 font-light max-w-3xl mx-auto leading-relaxed mb-6">
-              Stop staring at that half-finished site or app. We'll finish what you started and get you earning in 2-4
-              weeks.
+              Stop staring at that half-finished site or app. We'll finish what
+              you started and get you earning in 2-4 weeks.
             </p>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
               ✨ No judgment, just results. We've seen <em>much</em> worse.
@@ -602,7 +658,11 @@ export default function Component() {
           </AnimatedSection>
 
           {/* Main CTA */}
-          <AnimatedSection animation="perspective" delay={600} className="mb-20">
+          <AnimatedSection
+            animation="perspective"
+            delay={600}
+            className="mb-20"
+          >
             <div className="max-w-3xl mx-auto">
               {/* Main Form Container */}
               <div className="relative group">
@@ -646,7 +706,8 @@ export default function Component() {
 
                       {/* Floating label hint */}
                       <div className="absolute -top-2 left-4 px-2 bg-white/90 text-xs text-slate-500 font-medium opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 transition-opacity duration-300">
-                        Share your project URL, repo, email, or describe your issue
+                        Share your project URL, repo, email, or describe your
+                        issue
                       </div>
                     </div>
 
@@ -714,10 +775,13 @@ export default function Component() {
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {/* Main Service */}
               <div className="md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl transition-all duration-300">
-                <h3 className="text-2xl font-semibold text-slate-900 mb-4">Finish Your Project</h3>
+                <h3 className="text-2xl font-semibold text-slate-900 mb-4">
+                  Finish Your Project
+                </h3>
                 <p className="text-slate-600 mb-6 leading-relaxed">
-                  From security nightmare to production-ready SaaS. We handle the technical debt, add missing features,
-                  and get you to market.
+                  From security nightmare to production-ready SaaS. We handle
+                  the technical debt, add missing features, and get you to
+                  market.
                 </p>
                 <div className="space-y-3 mb-6">
                   {[
@@ -732,7 +796,9 @@ export default function Component() {
                     </div>
                   ))}
                 </div>
-                <div className="text-3xl font-bold text-slate-900 mb-4">Starting at $249</div>
+                <div className="text-3xl font-bold text-slate-900 mb-4">
+                  Starting at $249
+                </div>
                 <Button
                   onClick={() => handleServiceClick(services.project)}
                   className="bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 relative z-40 pointer-events-auto"
@@ -745,13 +811,18 @@ export default function Component() {
               {/* Supporting Services */}
               <div className="space-y-6">
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
-                  <h4 className="text-lg font-semibold text-slate-900 mb-3">Code Review</h4>
+                  <h4 className="text-lg font-semibold text-slate-900 mb-3">
+                    Code Review
+                  </h4>
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-lg text-slate-400 line-through">$149</span>
+                    <span className="text-lg text-slate-400 line-through">
+                      $149
+                    </span>
                     <div className="text-2xl font-bold text-slate-900">$99</div>
                   </div>
                   <p className="text-slate-600 text-sm mb-4">
-                    Pair-programming code audit with roadmap and security recommendations.
+                    Pair-programming code audit with roadmap and security
+                    recommendations.
                   </p>
                   <Button
                     onClick={() => handleServiceClick(services.review)}
@@ -764,9 +835,15 @@ export default function Component() {
                 </div>
 
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
-                  <h4 className="text-lg font-semibold text-slate-900 mb-3">Roast My Work</h4>
-                  <div className="text-2xl font-bold text-slate-900 mb-3">Free</div>
-                  <p className="text-slate-600 text-sm mb-4">Brutally honest feedback about your project.</p>
+                  <h4 className="text-lg font-semibold text-slate-900 mb-3">
+                    Roast My Work
+                  </h4>
+                  <div className="text-2xl font-bold text-slate-900 mb-3">
+                    Free
+                  </div>
+                  <p className="text-slate-600 text-sm mb-4">
+                    Brutally honest feedback about your project.
+                  </p>
                   <Button
                     onClick={handleRoastClick}
                     variant="outline"
@@ -782,11 +859,17 @@ export default function Component() {
 
           {/* Testimonials */}
           <AnimatedSection animation="perspective" delay={1000}>
-            <h3 className="text-2xl font-semibold text-slate-900 mb-8">Trusted by indie founders</h3>
-            <div className="grid md:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
+            <h3 className="text-2xl font-semibold text-slate-900 mb-8">
+              Trusted by indie founders
+            </h3>
+            <div
+              className="grid md:grid-cols-3 gap-6"
+              style={{ perspective: "1000px" }}
+            >
               {[
                 {
-                  quote: "Had a half-built SaaS sitting for 8 months. They finished it in 3 weeks. Now doing $15k MRR.",
+                  quote:
+                    "Had a half-built SaaS sitting for 8 months. They finished it in 3 weeks. Now doing $15k MRR.",
                   name: "Alex K.",
                   title: "Founder, IndieMRR",
                 },
@@ -811,12 +894,18 @@ export default function Component() {
                     transformStyle: "preserve-3d",
                   }}
                 >
-                  <p className="text-slate-700 mb-4 leading-relaxed">"{testimonial.quote}"</p>
+                  <p className="text-slate-700 mb-4 leading-relaxed">
+                    "{testimonial.quote}"
+                  </p>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gray-300 rounded-full transform-gpu transition-transform duration-300 hover:rotate-y-180"></div>
                     <div>
-                      <p className="font-medium text-slate-900">{testimonial.name}</p>
-                      <p className="text-slate-500 text-sm">{testimonial.title}</p>
+                      <p className="font-medium text-slate-900">
+                        {testimonial.name}
+                      </p>
+                      <p className="text-slate-500 text-sm">
+                        {testimonial.title}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -825,14 +914,21 @@ export default function Component() {
           </AnimatedSection>
 
           {/* Final CTA Section */}
-          <AnimatedSection animation="rotate3D" delay={1200} className="mt-20 py-16">
+          <AnimatedSection
+            animation="rotate3D"
+            delay={1200}
+            className="mt-20 py-16"
+          >
             <div
               className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl p-12 border border-slate-200 transform-gpu transition-all duration-700 hover:translate-z-6 hover:rotate-x-2 hover:shadow-2xl"
               style={{ transformStyle: "preserve-3d" }}
             >
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Ready to finish your project?</h2>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">
+                Ready to finish your project?
+              </h2>
               <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
-                Stop letting your ideas collect dust. Let's turn your abandoned project into your next success story.
+                Stop letting your ideas collect dust. Let's turn your abandoned
+                project into your next success story.
               </p>
               <Button
                 size="lg"
@@ -848,5 +944,5 @@ export default function Component() {
         </div>
       </div>
     </div>
-  )
+  );
 }
