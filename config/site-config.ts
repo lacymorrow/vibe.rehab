@@ -1,7 +1,8 @@
 export const siteConfig = {
 	name: "Vibe Rehab",
-	title: "Vibe Rehab - Finish Your Idea",
-	description: "Let's finish your site or app. We'll get you earning in 2-4 weeks. No judgment, just results.",
+	title: "Vibe Rehab",
+	tagline: "We Fix Vibe Code",
+	description: "Let's finish your MVP. We'll get you earning in 2-4 weeks. No judgment, just results.",
 	url: "https://vibe.rehab",
 	ogImage: "https://vibe.rehab/og",
 	links: {

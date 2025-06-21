@@ -40,7 +40,7 @@ async function loadAssets(): Promise<
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const title = searchParams.get("title") ?? siteConfig.title;
+    const title = searchParams.get("title") ?? siteConfig.tagline;
     const description =
       searchParams.get("description") ?? siteConfig.description;
     const url =
@@ -61,15 +61,10 @@ export async function GET(request: Request) {
           <div tw="flex border absolute border-stone-700 inset-x-0 h-[1px] bottom-16" />
 
           {/* Logo placeholder - using inline styles instead of Tailwind */}
-          <div tw="flex absolute bottom-18 right-18">
-            <div
-              tw="flex items-center justify-center w-[100px] h-[100px] rounded-2xl shadow-lg"
-              style={{
-                background: "linear-gradient(135deg, #2563eb 0%, #1e293b 100%)",
-              }}
-            >
-              <div tw="flex items-center justify-center text-white text-2xl font-bold">
-                VR
+          <div tw="flex absolute bottom-14 right-24">
+            <div tw="flex items-center justify-center h-[100px] rounded-2xl shadow-lg">
+              <div tw="flex items-center justify-center text-white text-4xl font-bold">
+                Vibe Rehab
               </div>
             </div>
           </div>
@@ -114,26 +109,6 @@ export async function GET(request: Request) {
               }}
             >
               {description}
-            </div>
-
-            {/* Accent elements */}
-            <div tw="flex items-center mt-8">
-              <div
-                tw="rounded-full mr-4"
-                style={{
-                  width: 48,
-                  height: 4,
-                  backgroundColor: "#2563eb",
-                }}
-              />
-              <div
-                tw="text-blue-400 font-medium"
-                style={{
-                  fontSize: 24,
-                }}
-              >
-                Professional Code Fixing
-              </div>
             </div>
           </div>
         </div>
