@@ -6,12 +6,13 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Check } from "lucide-react";
-import { useParallax, use3DScroll } from "./hooks/use-scroll-animation";
-import { PaymentDialog } from "./components/payment-dialog";
-import { ContactDialog } from "./components/contact-dialog";
-import { EmailContactDialog } from "./components/email-contact-dialog";
-import { AnimatedSection } from "./components/animated-section";
-import { Logo } from "./components/logo";
+import { useParallax, use3DScroll } from "@/hooks/use-scroll-animation";
+import { PaymentDialog } from "@/components/payment-dialog";
+import { ContactDialog } from "@/components/contact-dialog";
+import { EmailContactDialog } from "@/components/email-contact-dialog";
+import { AnimatedSection } from "@/components/animated-section";
+import { Logo } from "@/components/logo";
+import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 
 const services = {
   project: {
@@ -61,7 +62,7 @@ const placeholderExamples = [
 
 // Input detection functions
 const detectInputType = (
-  input: string
+  input: string,
 ): "github" | "url" | "email" | "message" => {
   const trimmedInput = input.trim();
 
@@ -130,7 +131,7 @@ export default function Component() {
         // After fade out completes, update the text
         setTimeout(() => {
           setCurrentPlaceholder(
-            (prev) => (prev + 1) % placeholderExamples.length
+            (prev) => (prev + 1) % placeholderExamples.length,
           );
           setNextPlaceholder((prev) => (prev + 1) % placeholderExamples.length);
           setIsTransitioning(false);
@@ -598,6 +599,7 @@ export default function Component() {
             <Logo />
             <div className="flex items-center gap-4">
               <button
+                type="button"
                 onClick={handleRoastClick}
                 className="text-slate-900 hover:text-gray-700 font-medium transition-colors duration-300 underline underline-offset-4 hover:no-underline"
               >
@@ -621,7 +623,7 @@ export default function Component() {
           {/* Badge */}
           <AnimatedSection animation="flip" delay={200} className="mb-8">
             <Badge className="bg-blue-50 hover:bg-blue-50 text-slate-700 border-blue-200 px-4 py-2 text-sm font-medium transform-gpu transition-transform duration-300">
-              6 projects completed • Book Now
+              11 projects launched • Book Now
             </Badge>
           </AnimatedSection>
 
@@ -678,34 +680,26 @@ export default function Component() {
                     {/* Input container */}
                     <div className="relative mb-6">
                       <div className="relative">
-                        <input
+                        <PlaceholdersAndVanishInput
+                          placeholders={placeholderExamples}
+                          onChange={(e) => setInputValue(e.target.value)}
+                          onSubmit={handleSubmit}
+                        />
+
+                        {/* <input
                           type="text"
                           value={inputValue}
                           onChange={(e) => setInputValue(e.target.value)}
                           onFocus={handleFocus}
                           onBlur={handleBlur}
                           className="w-full px-6 py-5 text-lg bg-white/60 backdrop-blur-sm border border-slate-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-300/50 transition-all duration-500 text-slate-800 shadow-inner"
-                        />
-
-                        {/* Custom animated placeholder */}
-                        {!inputValue && !isFocused && (
-                          <div className="absolute inset-0 px-6 py-5 pointer-events-none flex items-center">
-                            <span
-                              className={`text-lg text-slate-400 transition-opacity duration-400 ${
-                                isTransitioning ? "opacity-0" : "opacity-100"
-                              }`}
-                            >
-                              {placeholderExamples[currentPlaceholder]}
-                            </span>
-                          </div>
-                        )}
+                        /> */}
 
                         {/* Subtle input glow on focus */}
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400/5 via-transparent to-blue-400/5 opacity-0 focus-within:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                       </div>
-
                       {/* Floating label hint */}
-                      <div className="absolute -top-2 left-4 px-2 bg-white/90 text-xs text-slate-500 font-medium opacity-0 group-focus-within:opacity-100 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="text-xs text-slate-500 font-medium mt-2">
                         Share your project URL, repo, email, or describe your
                         issue
                       </div>
@@ -758,6 +752,7 @@ export default function Component() {
                 </div>
 
                 <button
+                  type="button"
                   onClick={handleRoastClick}
                   className="mt-4 text-slate-600 hover:text-slate-900 font-medium transition-all duration-300 relative group"
                 >

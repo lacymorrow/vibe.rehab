@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site-config";
-import Component from "../vibe-rehab-hero";
+import Component from "@/components/vibe-rehab-hero";
 
 export const metadata: Metadata = {
   title: siteConfig.title,
