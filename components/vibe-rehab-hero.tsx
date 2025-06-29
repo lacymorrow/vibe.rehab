@@ -12,6 +12,7 @@ import { ContactDialog } from "@/components/contact-dialog";
 import { EmailContactDialog } from "@/components/email-contact-dialog";
 import { AnimatedSection } from "@/components/animated-section";
 import { Logo } from "@/components/logo";
+import { IndieLaunchTweets } from "@/components/indie-launch-tweets";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 
 const services = {
@@ -907,6 +908,9 @@ export default function Component() {
               ))}
             </div>
           </AnimatedSection>
+
+          {/* Indie Launch Tweets Section */}
+          <IndieLaunchTweets />
 
           {/* Final CTA Section */}
           <AnimatedSection
