@@ -8,15 +8,6 @@ const launchTweets = [
   "1668408059125702661", // Real tweet example
   "1929952928070074388", // Another successful launch
   "1922263576737415217", // Indie success story
-  "1668408059125702661", // MRR milestone tweet
-  "1668408059125702661", // Product launch success
-  "1668408059125702661", // Revenue milestone
-  "1668408059125702661", // Growth story
-  "1668408059125702661", // Launch success
-  "1668408059125702661", // Customer milestone
-  "1668408059125702661", // MRR celebration
-  "1668408059125702661", // Product success
-  "1668408059125702661", // Growth achievement
 ];
 
 // Split tweets into rows for the marquee effect
@@ -70,23 +61,23 @@ export function IndieLaunchTweets() {
             }}
           >
             <Marquee pauseOnHover vertical className="[--duration:20s]">
-              {firstRow.map((tweetId, index) => (
-                <TweetCardWrapper key={`first-${index}`} id={tweetId} />
+              {firstRow.map((tweetId) => (
+                <TweetCardWrapper key={tweetId} id={tweetId} />
               ))}
             </Marquee>
             <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
-              {secondRow.map((tweetId, index) => (
-                <TweetCardWrapper key={`second-${index}`} id={tweetId} />
+              {secondRow.map((tweetId) => (
+                <TweetCardWrapper key={tweetId} id={tweetId} />
               ))}
             </Marquee>
             <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
-              {thirdRow.map((tweetId, index) => (
-                <TweetCardWrapper key={`third-${index}`} id={tweetId} />
+              {thirdRow.map((tweetId) => (
+                <TweetCardWrapper key={tweetId} id={tweetId} />
               ))}
             </Marquee>
             <Marquee pauseOnHover className="[--duration:20s]" vertical>
-              {fourthRow.map((tweetId, index) => (
-                <TweetCardWrapper key={`fourth-${index}`} id={tweetId} />
+              {fourthRow.map((tweetId) => (
+                <TweetCardWrapper key={tweetId} id={tweetId} />
               ))}
             </Marquee>
           </div>

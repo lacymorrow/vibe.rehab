@@ -910,14 +910,11 @@ export default function Component() {
 
           {/* Final CTA Section */}
           <AnimatedSection
-            animation="rotate3D"
+            animation="slideUp"
             delay={1200}
             className="mt-20 py-16"
           >
-            <div
-              className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl p-12 border border-slate-200 transform-gpu transition-all duration-700 hover:translate-z-6 hover:rotate-x-2 hover:shadow-2xl"
-              style={{ transformStyle: "preserve-3d" }}
-            >
+            <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl p-12 border border-slate-200 transition-all duration-700 hover:-translate-y-2 hover:shadow-2xl">
               <h2 className="text-3xl font-bold text-slate-900 mb-4">
                 Ready to finish your project?
               </h2>
@@ -928,11 +925,10 @@ export default function Component() {
               <Button
                 size="lg"
                 onClick={() => handleServiceClick(services.project)}
-                className="bg-slate-900 hover:bg-blue-900 text-white font-medium text-lg px-10 py-4 rounded-xl transition-all duration-500 shadow-lg hover:shadow-2xl group transform-gpu hover:translate-z-4 hover:rotate-x-3"
-                style={{ transformStyle: "preserve-3d" }}
+                className="bg-slate-900 hover:bg-blue-900 text-white font-medium text-lg px-10 py-4 rounded-xl transition-all duration-500 shadow-lg hover:shadow-2xl group hover:-translate-y-1"
               >
                 Finish My Project
-                <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-z-2" />
+                <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </div>
           </AnimatedSection>
