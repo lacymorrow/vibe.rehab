@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Check } from "lucide-react";
@@ -62,7 +62,7 @@ const placeholderExamples = [
 
 // Input detection functions
 const detectInputType = (
-  input: string,
+  input: string
 ): "github" | "url" | "email" | "message" => {
   const trimmedInput = input.trim();
 
@@ -131,7 +131,7 @@ export default function Component() {
         // After fade out completes, update the text
         setTimeout(() => {
           setCurrentPlaceholder(
-            (prev) => (prev + 1) % placeholderExamples.length,
+            (prev) => (prev + 1) % placeholderExamples.length
           );
           setNextPlaceholder((prev) => (prev + 1) % placeholderExamples.length);
           setIsTransitioning(false);
@@ -238,7 +238,7 @@ export default function Component() {
         />
 
         {/* Blueprint Annotations Layer */}
-        <div className="absolute inset-0 font-mono text-xs text-blue-900/60">
+        <div className="absolute inset-0 font-mono text-xs text-blue-900/60 hidden md:block">
           {/* Main Title Block - More Detailed */}
           <div
             className="absolute top-1/4 left-10 border-2 border-blue-900/40 bg-blue-50/80 p-4 shadow-sm"
@@ -676,7 +676,7 @@ export default function Component() {
                   {/* Subtle top border accent */}
                   <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
 
-                  <form onSubmit={handleSubmit} className="p-8">
+                  <div className="p-8">
                     {/* Input container */}
                     <div className="relative mb-6">
                       <div className="relative">
@@ -719,7 +719,7 @@ export default function Component() {
                         <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" />
                       </span>
                     </Button>
-                  </form>
+                  </div>
 
                   {/* Bottom section */}
                   <div className="px-8 pb-6 border-t border-slate-100/50">
