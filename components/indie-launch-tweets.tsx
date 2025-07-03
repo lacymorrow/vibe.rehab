@@ -8,6 +8,15 @@ const launchTweets = [
   "1668408059125702661", // Real tweet example
   "1929952928070074388", // Another successful launch
   "1922263576737415217", // Indie success story
+  "1668408059125702661", // MRR milestone tweet
+  "1668408059125702661", // Product launch success
+  "1668408059125702661", // Revenue milestone
+  "1668408059125702661", // Growth story
+  "1668408059125702661", // Launch success
+  "1668408059125702661", // Customer milestone
+  "1668408059125702661", // MRR celebration
+  "1668408059125702661", // Product success
+  "1668408059125702661", // Growth achievement
 ];
 
 // Split tweets into rows for the marquee effect
