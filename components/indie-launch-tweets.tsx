@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/magicui/marquee";
 import { TweetCard } from "@/components/magicui/tweet-card";
@@ -28,22 +28,24 @@ const fourthRow = launchTweets.slice(9, 12);
 const TweetCardWrapper = ({ id }: { id: string }) => {
   return (
     <div className="mx-2">
-      <TweetCard
-        id={id}
-        className={cn(
-          "relative h-full w-80 cursor-pointer overflow-hidden rounded-xl border",
-          // light styles
-          "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-          // dark styles
-          "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
-          "transition-all duration-300 hover:scale-105 hover:shadow-lg",
-        )}
-      />
+      <Suspense>
+        <TweetCard
+          id={id}
+          className={cn(
+            "relative h-full w-80 cursor-pointer overflow-hidden rounded-xl border",
+            // light styles
+            "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
+            // dark styles
+            "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
+            "transition-all duration-300 hover:scale-105 hover:shadow-lg"
+          )}
+        />
+      </Suspense>
     </div>
   );
 };
 
-export async function IndieLaunchTweets() {
+export function IndieLaunchTweets() {
   return (
     <div className="w-full py-16 bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,23 +70,23 @@ export async function IndieLaunchTweets() {
             }}
           >
             <Marquee pauseOnHover vertical className="[--duration:20s]">
-              {firstRow.map((tweetId) => (
-                <TweetCardWrapper key={tweetId} id={tweetId} />
+              {firstRow.map((tweetId, index) => (
+                <TweetCardWrapper key={`first-${index}`} id={tweetId} />
               ))}
             </Marquee>
             <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
-              {secondRow.map((tweetId) => (
-                <TweetCardWrapper key={tweetId} id={tweetId} />
+              {secondRow.map((tweetId, index) => (
+                <TweetCardWrapper key={`second-${index}`} id={tweetId} />
               ))}
             </Marquee>
             <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
-              {thirdRow.map((tweetId) => (
-                <TweetCardWrapper key={tweetId} id={tweetId} />
+              {thirdRow.map((tweetId, index) => (
+                <TweetCardWrapper key={`third-${index}`} id={tweetId} />
               ))}
             </Marquee>
             <Marquee pauseOnHover className="[--duration:20s]" vertical>
-              {fourthRow.map((tweetId) => (
-                <TweetCardWrapper key={tweetId} id={tweetId} />
+              {fourthRow.map((tweetId, index) => (
+                <TweetCardWrapper key={`fourth-${index}`} id={tweetId} />
               ))}
             </Marquee>
           </div>

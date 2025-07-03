@@ -69,7 +69,7 @@ export const TweetSkeleton = ({
   <div
     className={cn(
       "flex size-full max-h-max min-w-72 flex-col gap-2 rounded-lg border p-4",
-      className,
+      className
     )}
     {...props}
   >
@@ -91,7 +91,7 @@ export const TweetNotFound = ({
   <div
     className={cn(
       "flex size-full flex-col items-center justify-center gap-2 rounded-lg border p-4",
-      className,
+      className
     )}
     {...props}
   >
@@ -240,7 +240,7 @@ export const MagicTweet = ({
     <div
       className={cn(
         "relative flex size-full max-w-lg flex-col gap-2 overflow-hidden rounded-lg border p-4 backdrop-blur-md",
-        className,
+        className
       )}
       {...props}
     >

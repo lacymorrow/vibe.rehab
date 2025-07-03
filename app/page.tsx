@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { siteConfig } from "@/config/site-config";
 import Component from "@/components/vibe-rehab-hero";
+import { IndieLaunchTweets } from "@/components/indie-launch-tweets";
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -33,5 +34,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <Component />;
+  return (
+    <>
+      <Component />
+      <IndieLaunchTweets />
+    </>
+  );
 }
