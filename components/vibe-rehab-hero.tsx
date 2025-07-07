@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Check } from "lucide-react";
@@ -117,6 +117,7 @@ export default function Component() {
   >("message");
   const scrollY = useParallax();
   const scrollProgress = use3DScroll();
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -154,7 +155,7 @@ export default function Component() {
     setShowContactDialog(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!inputValue.trim()) return;
@@ -166,6 +167,8 @@ export default function Component() {
     if (type === "email") {
       // Show email-specific dialog
       setShowEmailContactDialog(true);
+    } else if (type === "url" || type === "github") {
+      setShowContactDialog(true);
     } else {
       // Show contact dialog for other types
       setShowContactDialog(true);
@@ -673,6 +676,7 @@ export default function Component() {
 
                 {/* Main form */}
                 <form
+                  ref={formRef}
                   onSubmit={handleSubmit}
                   className="relative bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden"
                 >
@@ -689,15 +693,6 @@ export default function Component() {
                           onSubmit={handleSubmit}
                         />
 
-                        {/* <input
-                          type="text"
-                          value={inputValue}
-                          onChange={(e) => setInputValue(e.target.value)}
-                          onFocus={handleFocus}
-                          onBlur={handleBlur}
-                          className="w-full px-6 py-5 text-lg bg-white/60 backdrop-blur-sm border border-slate-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400/30 focus:border-blue-300/50 transition-all duration-500 text-slate-800 shadow-inner"
-                        /> */}
-
                         {/* Subtle input glow on focus */}
                         <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400/5 via-transparent to-blue-400/5 opacity-0 focus-within:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                       </div>
@@ -713,6 +708,9 @@ export default function Component() {
                       size="lg"
                       type="submit"
                       className="w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 hover:from-blue-900 hover:via-blue-800 hover:to-blue-900 text-white font-medium text-xl px-8 py-5 rounded-xl transition-all duration-700 shadow-lg hover:shadow-xl group relative overflow-hidden"
+                      onClick={() => {
+                        formRef.current?.submit();
+                      }}
                     >
                       {/* Button background shimmer */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
