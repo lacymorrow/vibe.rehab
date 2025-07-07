@@ -672,7 +672,10 @@ export default function Component() {
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 via-slate-100 to-blue-100 rounded-3xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
                 {/* Main form */}
-                <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden">
+                <form
+                  onSubmit={handleSubmit}
+                  className="relative bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden"
+                >
                   {/* Subtle top border accent */}
                   <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
 
@@ -740,7 +743,7 @@ export default function Component() {
                       </span>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
 
               {/* Alternative action */}
