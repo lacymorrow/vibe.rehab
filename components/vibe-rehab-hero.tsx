@@ -17,7 +17,8 @@ import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 const services = {
   project: {
     name: "Finish Your Project",
-    price: 249,
+    price: 2500,
+    discountedPrice: 999,
     description:
       "From broken MVP to production-ready SaaS. We handle the technical debt, add missing features, and get you to market.",
     features: [
@@ -31,7 +32,8 @@ const services = {
   },
   review: {
     name: "Code Review",
-    price: 99,
+    price: 149,
+    discountedPrice: 99,
     description:
       "Pair-programming code audit with roadmap and security recommendations.",
     features: [
@@ -793,10 +795,22 @@ export default function Component() {
                   ))}
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-4">
-                  Starting at $249
+                  Starting at{" "}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-lg text-slate-400 line-through">
+                      ${services.project.price}
+                    </span>
+                    <span className="text-2xl font-bold text-slate-900">
+                      ${services.project.discountedPrice}
+                    </span>
+                  </div>
                 </div>
                 <Button
-                  onClick={() => handleServiceClick(services.project)}
+                  onClick={() => {
+                    setSubmittedValue("I want to finish my project");
+                    setDetectedType("message");
+                    setShowContactDialog(true);
+                  }}
                   className="bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 relative z-40 pointer-events-auto"
                   style={{ position: "relative", zIndex: 50 }}
                 >
@@ -808,13 +822,15 @@ export default function Component() {
               <div className="space-y-6">
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
                   <h4 className="text-lg font-semibold text-slate-900 mb-3">
-                    Code Review
+                    Bug Fixes
                   </h4>
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-lg text-slate-400 line-through">
-                      $149
+                      ${services.review.price}
                     </span>
-                    <div className="text-2xl font-bold text-slate-900">$99</div>
+                    <div className="text-2xl font-bold text-slate-900">
+                      ${services.review.discountedPrice}
+                    </div>
                   </div>
                   <p className="text-slate-600 text-sm mb-4">
                     Pair-programming code audit with roadmap and security
@@ -928,7 +944,11 @@ export default function Component() {
               </p>
               <Button
                 size="lg"
-                onClick={() => handleServiceClick(services.project)}
+                onClick={() => {
+                  setSubmittedValue("I want to finish my project");
+                  setDetectedType("message");
+                  setShowContactDialog(true);
+                }}
                 className="bg-slate-900 hover:bg-blue-900 text-white font-medium text-lg px-10 py-4 rounded-xl transition-all duration-500 shadow-lg hover:shadow-2xl group transform-gpu hover:translate-z-4 hover:rotate-x-3"
                 style={{ transformStyle: "preserve-3d" }}
               >
