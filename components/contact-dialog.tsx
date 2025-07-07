@@ -26,40 +26,9 @@ export function ContactDialog({
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{
-    name?: string;
-    email?: string;
-    projectDetails?: string;
-  }>({});
-
-  const validateForm = () => {
-    const newErrors: {
-      name?: string;
-      email?: string;
-      projectDetails?: string;
-    } = {};
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required.";
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required.";
-    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
-      newErrors.email = "Invalid email address.";
-    }
-    if (!formData.projectDetails.trim()) {
-      newErrors.projectDetails = "Project details are required.";
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
   const handleSubmit = async (e: React.FormEvent, type: "submit" | "roast") => {
     e.preventDefault();
-    const isValid = validateForm();
-    if (!isValid) {
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
@@ -177,9 +146,6 @@ export function ContactDialog({
                   placeholder="John Doe"
                   className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                )}
               </div>
             </div>
 
@@ -201,9 +167,6 @@ export function ContactDialog({
                   placeholder="john@example.com"
                   className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                )}
               </div>
             </div>
 
@@ -225,11 +188,6 @@ export function ContactDialog({
                 rows={4}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
               />
-              {errors.projectDetails && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.projectDetails}
-                </p>
-              )}
             </div>
 
             {/* Action buttons */}

@@ -13,6 +13,8 @@ import { EmailContactDialog } from "@/components/email-contact-dialog";
 import { AnimatedSection } from "@/components/animated-section";
 import { Logo } from "@/components/logo";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const services = {
   project: {
@@ -120,6 +122,7 @@ export default function Component() {
   const scrollY = useParallax();
   const scrollProgress = use3DScroll();
   const formRef = useRef<HTMLFormElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     setIsLoaded(true);
@@ -160,7 +163,17 @@ export default function Component() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim()) {
+      // Optionally, add some visual feedback here, e.g., a toast notification
+      // Or, set an error state to display a message to the user
+      toast({
+        title: "Input Required",
+        description:
+          "Please enter a project URL, repo, email, or describe your issue.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     const type = detectInputType(inputValue);
     setDetectedType(type);
@@ -180,11 +193,15 @@ export default function Component() {
   const handleContactDialogClose = () => {
     setShowContactDialog(false);
     setInputValue(""); // Clear the input when dialog closes
+    setSubmittedValue("");
+    setDetectedType("message");
   };
 
   const handleEmailContactDialogClose = () => {
     setShowEmailContactDialog(false);
     setInputValue(""); // Clear the input when dialog closes
+    setSubmittedValue("");
+    setDetectedType("message");
   };
 
   const handleFocus = () => {
@@ -219,6 +236,8 @@ export default function Component() {
         onClose={handleEmailContactDialogClose}
         email={submittedValue}
       />
+
+      <Toaster />
 
       {/* Blueprint Background */}
       <div
@@ -628,7 +647,7 @@ export default function Component() {
           {/* Badge */}
           <AnimatedSection animation="flip" delay={200} className="mb-8">
             <Badge className="bg-blue-50 hover:bg-blue-50 text-slate-700 border-blue-200 px-4 py-2 text-sm font-medium transform-gpu transition-transform duration-300">
-              11 projects launched • Book Now
+              Now accepting new projects • Book Now
             </Badge>
           </AnimatedSection>
 
@@ -710,9 +729,6 @@ export default function Component() {
                       size="lg"
                       type="submit"
                       className="w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 hover:from-blue-900 hover:via-blue-800 hover:to-blue-900 text-white font-medium text-xl px-8 py-5 rounded-xl transition-all duration-700 shadow-lg hover:shadow-xl group relative overflow-hidden"
-                      onClick={() => {
-                        formRef.current?.submit();
-                      }}
                     >
                       {/* Button background shimmer */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>

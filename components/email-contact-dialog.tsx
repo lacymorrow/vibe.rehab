@@ -23,30 +23,9 @@ export function EmailContactDialog({
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{
-    name?: string;
-    projectDetails?: string;
-  }>({});
-
-  const validateForm = () => {
-    const newErrors: { name?: string; projectDetails?: string } = {};
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required.";
-    }
-    if (!formData.projectDetails.trim()) {
-      newErrors.projectDetails = "Project details are required.";
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
 
   const handleSubmit = async (e: React.FormEvent, type: "submit" | "roast") => {
     e.preventDefault();
-    const isValid = validateForm();
-    if (!isValid) {
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
@@ -136,9 +115,6 @@ export function EmailContactDialog({
                   placeholder="John Doe"
                   className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                )}
               </div>
             </div>
 
@@ -160,11 +136,6 @@ export function EmailContactDialog({
                 rows={4}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
               />
-              {errors.projectDetails && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.projectDetails}
-                </p>
-              )}
             </div>
 
             {/* Action buttons */}
