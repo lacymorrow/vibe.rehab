@@ -17,8 +17,8 @@ import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 const services = {
   project: {
     name: "Finish Your Project",
-    price: 2500,
-    discountedPrice: 999,
+    price: 999,
+    discountedPrice: 2500,
     description:
       "From broken MVP to production-ready SaaS. We handle the technical debt, add missing features, and get you to market.",
     features: [
@@ -32,8 +32,8 @@ const services = {
   },
   review: {
     name: "Code Review",
-    price: 149,
-    discountedPrice: 99,
+    price: 99,
+    discountedPrice: 149,
     description:
       "Pair-programming code audit with roadmap and security recommendations.",
     features: [
@@ -798,10 +798,10 @@ export default function Component() {
                   Starting at{" "}
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-lg text-slate-400 line-through">
-                      ${services.project.price}
+                      ${services.project.discountedPrice}
                     </span>
                     <span className="text-2xl font-bold text-slate-900">
-                      ${services.project.discountedPrice}
+                      ${services.project.price}
                     </span>
                   </div>
                 </div>
@@ -826,10 +826,10 @@ export default function Component() {
                   </h4>
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-lg text-slate-400 line-through">
-                      ${services.review.price}
+                      ${services.review.discountedPrice}
                     </span>
                     <div className="text-2xl font-bold text-slate-900">
-                      ${services.review.discountedPrice}
+                      ${services.review.price}
                     </div>
                   </div>
                   <p className="text-slate-600 text-sm mb-4">
