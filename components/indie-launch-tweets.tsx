@@ -26,23 +26,7 @@ const thirdRow = launchTweets.slice(6, 9);
 const fourthRow = launchTweets.slice(9, 12);
 
 const TweetCardWrapper = ({ id }: { id: string }) => {
-  return (
-    <div className="mx-2">
-      <Suspense>
-        <TweetCard
-          id={id}
-          className={cn(
-            "relative h-full w-80 cursor-pointer overflow-hidden rounded-xl border",
-            // light styles
-            "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-            // dark styles
-            "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
-            "transition-all duration-300 hover:scale-105 hover:shadow-lg"
-          )}
-        />
-      </Suspense>
-    </div>
-  );
+  return <div className="mx-2"></div>;
 };
 
 export function IndieLaunchTweets() {

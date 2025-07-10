@@ -15,6 +15,14 @@ import { Logo } from "@/components/logo";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import { PointerHighlight } from "./ui/pointer-highlight";
+import {
+  Highlight,
+  SectionSocialProof,
+} from "@/app/_components/section-social-proof";
+import { CardsMarquee } from "@/app/_components/cards-marquee";
+import { IndieLaunchTweets } from "./indie-launch-tweets";
+import { ThreeDMarqueeDemo } from "@/app/_components/section-marquee";
 
 const services = {
   project: {
@@ -616,9 +624,8 @@ export default function Component() {
         </div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 py-8">
-        {/* Header */}
-        <AnimatedSection animation="perspective" className="mb-20">
+      <div className="relative z-10 container mx-auto px-6 py-8 flex flex-col gap-16 max-w-6xl">
+        <AnimatedSection animation="perspective" className="">
           <header className="flex items-center justify-between">
             <Logo />
             <div className="flex items-center gap-4">
@@ -670,7 +677,13 @@ export default function Component() {
               >
                 <span className="line-through text-slate-400 mr-4">trash</span>
                 <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent">
-                  Vibe Code
+                  <PointerHighlight
+                    rectangleClassName="bg-blue-100 dark:bg-blue-900 border-blue-300 dark:border-blue-700 leading-loose"
+                    pointerClassName="text-blue-500 h-3 w-3"
+                    containerClassName="inline-block mx-1"
+                  >
+                    Vibe Code
+                  </PointerHighlight>
                 </span>
               </span>
             </h1>
@@ -684,11 +697,7 @@ export default function Component() {
           </AnimatedSection>
 
           {/* Main CTA */}
-          <AnimatedSection
-            animation="perspective"
-            delay={600}
-            className="mb-20"
-          >
+          <AnimatedSection animation="perspective" delay={600}>
             <div className="max-w-3xl mx-auto">
               {/* Main Form Container */}
               <div className="relative group">
@@ -783,197 +792,115 @@ export default function Component() {
               </div>
             </div>
           </AnimatedSection>
+        </div>
 
-          {/* Services Grid */}
-          <div className="mb-20 relative z-20">
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {/* Main Service */}
-              <div className="md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl transition-all duration-300">
-                <h3 className="text-2xl font-semibold text-slate-900 mb-4">
-                  Finish Your Project
-                </h3>
-                <p className="text-slate-600 mb-6 leading-relaxed">
-                  From security nightmare to production-ready SaaS. We handle
-                  the technical debt, add missing features, and get you to
-                  market.
-                </p>
-                <div className="space-y-3 mb-6">
-                  {[
-                    "Fix bugs and complete features",
-                    "Security audit and optimization",
-                    "Production deployment",
-                    "Launch strategy and support",
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <Check className="w-5 h-5 text-slate-900 flex-shrink-0" />
-                      <span className="text-slate-700">{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="text-3xl font-bold text-slate-900 mb-4">
-                  Starting at{" "}
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-lg text-slate-400 line-through">
-                      ${services.project.discountedPrice}
-                    </span>
-                    <span className="text-2xl font-bold text-slate-900">
-                      ${services.project.price}
-                    </span>
-                  </div>
-                </div>
-                <Button
-                  onClick={() => {
-                    setSubmittedValue("I want to finish my project");
-                    setDetectedType("message");
-                    setShowContactDialog(true);
-                  }}
-                  className="bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 relative z-40 pointer-events-auto"
-                  style={{ position: "relative", zIndex: 50 }}
-                >
-                  Finish My Project
-                </Button>
-              </div>
-
-              {/* Supporting Services */}
-              <div className="space-y-6">
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
-                  <h4 className="text-lg font-semibold text-slate-900 mb-3">
-                    Bug Fixes
-                  </h4>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-lg text-slate-400 line-through">
-                      ${services.review.discountedPrice}
-                    </span>
-                    <div className="text-2xl font-bold text-slate-900">
-                      ${services.review.price}
-                    </div>
-                  </div>
-                  <p className="text-slate-600 text-sm mb-4">
-                    Pair-programming code audit with roadmap and security
-                    recommendations.
-                  </p>
-                  <Button
-                    onClick={() => handleServiceClick(services.review)}
-                    variant="outline"
-                    className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
-                    style={{ position: "relative", zIndex: 50 }}
-                  >
-                    Book Review
-                  </Button>
-                </div>
-
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
-                  <h4 className="text-lg font-semibold text-slate-900 mb-3">
-                    Roast My Work
-                  </h4>
-                  <div className="text-2xl font-bold text-slate-900 mb-3">
-                    Free
-                  </div>
-                  <p className="text-slate-600 text-sm mb-4">
-                    Brutally honest feedback about your project.
-                  </p>
-                  <Button
-                    onClick={handleRoastClick}
-                    variant="outline"
-                    className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
-                    style={{ position: "relative", zIndex: 50 }}
-                  >
-                    Roast Me
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Testimonials */}
-          <AnimatedSection animation="perspective" delay={1000}>
-            <h3 className="text-2xl font-semibold text-slate-900 mb-8">
-              Trusted by indie founders
-            </h3>
-            <div
-              className="grid md:grid-cols-3 gap-6"
-              style={{ perspective: "1000px" }}
-            >
-              {[
-                {
-                  quote:
-                    "Had a half-built SaaS sitting for 8 months. They finished it in 3 weeks. Now doing $15k MRR.",
-                  name: "Alex K.",
-                  title: "Founder, IndieMRR",
-                },
-                {
-                  quote:
-                    "My AI platform was stuck in development hell. They got it production-ready and helped me scale to 10k users.",
-                  name: "Cait Russell",
-                  title: "Founder, Lunra.ai",
-                },
-                {
-                  quote:
-                    "Abandoned my project for a year. They revived it and got me to $12k MRR. Best investment ever.",
-                  name: "Marco T.",
-                  title: "Solo dev, LaunchFast",
-                },
-              ].map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left transform-gpu transition-all duration-700 hover:translate-z-4 hover:rotate-y-3 hover:shadow-xl"
-                  style={{
-                    transitionDelay: `${index * 150}ms`,
-                    transformStyle: "preserve-3d",
-                  }}
-                >
-                  <p className="text-slate-700 mb-4 leading-relaxed">
-                    "{testimonial.quote}"
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-300 rounded-full transform-gpu transition-transform duration-300 hover:rotate-y-180"></div>
-                    <div>
-                      <p className="font-medium text-slate-900">
-                        {testimonial.name}
-                      </p>
-                      <p className="text-slate-500 text-sm">
-                        {testimonial.title}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
-
-          {/* Final CTA Section */}
-          <AnimatedSection
-            animation="rotate3D"
-            delay={1200}
-            className="mt-20 py-16"
-          >
-            <div
-              className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl p-12 border border-slate-200 transform-gpu transition-all duration-700 hover:translate-z-6 hover:rotate-x-2 hover:shadow-2xl"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">
-                Ready to finish your project?
-              </h2>
-              <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
-                Stop letting your ideas collect dust. Let's turn your abandoned
-                project into your next success story.
+        {/* Services Grid */}
+        <div className="relative z-20">
+          <div className="grid md:grid-cols-3 gap-8 mx-auto">
+            {/* Main Service */}
+            <div className="md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl transition-all duration-300">
+              <h3 className="text-2xl font-semibold text-slate-900 mb-4">
+                Finish Your Project
+              </h3>
+              <p className="text-slate-600 mb-6 leading-relaxed">
+                From security nightmare to production-ready SaaS. We handle the
+                technical debt, add missing features, and get you to market.
               </p>
+              <div className="space-y-3 mb-6">
+                {[
+                  "Fix bugs and complete features",
+                  "Security audit and optimization",
+                  "Production deployment",
+                  "Launch strategy and support",
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-slate-900 flex-shrink-0" />
+                    <span className="text-slate-700">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="text-3xl font-bold text-slate-900 mb-4">
+                <span className="text-lg">Starting at </span>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-lg text-slate-400 line-through">
+                    ${services.project.discountedPrice}
+                  </span>
+                  <span className="text-2xl font-bold text-slate-900">
+                    ${services.project.price}
+                  </span>
+                </div>
+              </div>
               <Button
-                size="lg"
                 onClick={() => {
                   setSubmittedValue("I want to finish my project");
                   setDetectedType("message");
                   setShowContactDialog(true);
                 }}
-                className="bg-slate-900 hover:bg-blue-900 text-white font-medium text-lg px-10 py-4 rounded-xl transition-all duration-500 shadow-lg hover:shadow-2xl group transform-gpu hover:translate-z-4 hover:rotate-x-3"
-                style={{ transformStyle: "preserve-3d" }}
+                className="bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 relative z-40 pointer-events-auto"
+                style={{ position: "relative", zIndex: 50 }}
               >
                 Finish My Project
-                <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-z-2" />
               </Button>
             </div>
-          </AnimatedSection>
+
+            {/* Supporting Services */}
+            <div className="space-y-6">
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
+                <h4 className="text-lg font-semibold text-slate-900 mb-3">
+                  Bug Fixes
+                </h4>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-lg text-slate-400 line-through">
+                    ${services.review.discountedPrice}
+                  </span>
+                  <div className="text-2xl font-bold text-slate-900">
+                    ${services.review.price}
+                  </div>
+                </div>
+                <p className="text-slate-600 text-sm mb-4">
+                  Pair-programming code audit with roadmap and security
+                  recommendations.
+                </p>
+                <Button
+                  onClick={() => handleServiceClick(services.review)}
+                  variant="outline"
+                  className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
+                  style={{ position: "relative", zIndex: 50 }}
+                >
+                  Book Review
+                </Button>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
+                <h4 className="text-lg font-semibold text-slate-900 mb-3">
+                  Roast My Work
+                </h4>
+                <div className="text-2xl font-bold text-slate-900 mb-3">
+                  Free
+                </div>
+                <p className="text-slate-600 text-sm mb-4">
+                  Brutally honest feedback about your project.
+                </p>
+                <Button
+                  onClick={handleRoastClick}
+                  variant="outline"
+                  className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
+                  style={{ position: "relative", zIndex: 50 }}
+                >
+                  Roast Me
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Testimonials */}
+        <AnimatedSection animation="perspective" delay={200}>
+          <SectionSocialProof />
+        </AnimatedSection>
+
+        {/* Final CTA Section */}
+        <ThreeDMarqueeDemo />
       </div>
     </div>
   );
