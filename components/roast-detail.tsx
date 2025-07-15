@@ -23,7 +23,7 @@ export function RoastDetail({ roast }: RoastDetailProps) {
             <ArrowLeft className="h-4 w-4" />
             <span className="text-sm">back to roasts</span>
           </Link>
-          <Logo className="h-6 w-6 text-slate-600" />
+          <Logo className="h-6 text-slate-600" />
         </div>
       </header>
 
