@@ -1,0 +1,50 @@
+---
+title: "StartupXYZ: When 'Move Fast' Means Breaking Everything"
+url: "https://example-startup.com"
+roastDate: "2024-01-15"
+summary: "A masterclass in how not to build a landing page. Loading time? 12 seconds. Mobile experience? What mobile experience?"
+issues:
+  - "12-second load time with 47 unoptimized images"
+  - "Contact form submits to nowhere (literally returns 404)"
+  - "Mobile menu covers the entire screen and won't close"
+  - "SEO so bad Google probably blocked their number"
+tags: ["Performance", "Mobile", "SEO", "Forms"]
+---
+
+# The Problem
+
+StartupXYZ's landing page is a perfect example of what happens when you prioritize speed of development over user experience. The site loads like it's 2003, but with none of the charm.
+
+## Performance Issues
+
+The homepage weighs in at a whopping **8.2MB** - that's larger than most mobile apps. The culprit? 47 unoptimized images, all served at their original 4K resolution. The hero image alone is 3.1MB.
+
+```
+First Contentful Paint: 8.2s
+Largest Contentful Paint: 12.1s
+Cumulative Layout Shift: 0.47
+```
+
+## Mobile Experience
+
+The mobile version is essentially unusable. The hamburger menu, when tapped, expands to cover the entire viewport with no way to close it. Users have to refresh the page to navigate.
+
+## The Contact Form
+
+Perhaps the most frustrating issue is the contact form. It looks professional, validates input correctly, shows a loading spinner... and then submits to a 404 page. The form action points to `/contact-submit.php` which doesn't exist.
+
+## SEO Disaster
+
+- No meta descriptions
+- H1 tag says "Welcome to Our Website" 
+- Images have no alt text
+- URLs are all `/page1.html`, `/page2.html`
+- No sitemap
+- No structured data
+
+## The Fix
+
+This site needs a complete rebuild focused on performance and user experience. The good news? The brand and content are solid - they just need a proper technical foundation.
+
+**Estimated fix time**: 2-3 weeks  
+**Priority**: High - actively losing customers
