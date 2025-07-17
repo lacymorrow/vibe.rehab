@@ -1,0 +1,17 @@
+---
+title: "Rahul portfolio and open-source roast."
+url: "https://www.rahul.eu.org"
+image: "https://rahul.eu.org/opengraph-image.png"
+roastDate: "2025-07-16"
+summary: "When your creative agency site is so creative it forgets to be usable. Features 37 parallax sections and zero actual information."
+issues:
+  - "37 parallax scrolling sections"
+  - "Menu only appears after 10 seconds of hovering"
+  - "Contact info hidden in source code comments"
+  - "Every click triggers a full-page animation"
+tags: ["portfolio", "resume"]
+---
+
+# Rahul
+
+Honestly, Rahul, you didn't make this easy. I really like all your work, and it's obvious you are a skilled developer, so these will be minor nitpicks. Don't take it personally.
