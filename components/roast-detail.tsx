@@ -12,14 +12,17 @@ interface RoastDetailProps {
 }
 
 export function RoastDetail({ roast }: RoastDetailProps) {
-  const readingTime = Math.ceil(roast.content.split(' ').length / 200);
+  const readingTime = Math.ceil(roast.content.split(" ").length / 200);
 
   return (
     <article className="min-h-screen">
       {/* Header */}
       <header className="border-b border-slate-200 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/roasts" className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors">
+          <Link
+            href="/roasts"
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors"
+          >
             <ArrowLeft className="h-4 w-4" />
             <span className="text-sm">back to roasts</span>
           </Link>
@@ -33,15 +36,15 @@ export function RoastDetail({ roast }: RoastDetailProps) {
           <h1 className="text-3xl sm:text-4xl font-light text-slate-800 leading-tight">
             {roast.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600">
             <div className="flex items-center gap-1">
               <Calendar className="h-3 w-3" />
               <time dateTime={roast.roastDate}>
-                {new Date(roast.roastDate).toLocaleDateString('en-US', { 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
+                {new Date(roast.roastDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
                 })}
               </time>
             </div>
@@ -51,8 +54,8 @@ export function RoastDetail({ roast }: RoastDetailProps) {
               <span>{readingTime} min read</span>
             </div>
             <span>•</span>
-            <Link 
-              href={roast.url} 
+            <Link
+              href={roast.url}
               target="_blank"
               className="flex items-center gap-1 text-amber-600 hover:text-amber-700 transition-colors"
             >
@@ -61,13 +64,14 @@ export function RoastDetail({ roast }: RoastDetailProps) {
             </Link>
           </div>
 
-          <p className="text-lg text-slate-600 italic">
-            "{roast.summary}"
-          </p>
+          <p className="text-lg text-slate-600 italic">"{roast.summary}"</p>
 
           <div className="flex flex-wrap gap-2">
             {roast.tags.map((tag) => (
-              <span key={tag} className="text-xs text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+              <span
+                key={tag}
+                className="text-xs text-slate-600 bg-slate-100 px-3 py-1 rounded-full"
+              >
                 {tag}
               </span>
             ))}
@@ -105,10 +109,8 @@ export function RoastDetail({ roast }: RoastDetailProps) {
       <footer className="border-t border-slate-200 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 py-12 text-center space-y-6">
           <div className="w-24 h-px bg-amber-300 mx-auto" />
-          <p className="text-slate-600 italic">
-            is your site next?
-          </p>
-          <Link 
+          <p className="text-slate-600 italic">is your site next?</p>
+          <Link
             href="/#contact"
             className="inline-block text-amber-600 hover:text-amber-700 transition-colors underline decoration-dotted underline-offset-4"
           >

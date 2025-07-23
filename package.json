@@ -51,6 +51,7 @@
     "lucide-react": "^0.454.0",
     "motion": "^12.23.3",
     "next": "15.2.4",
+    "next-mdx-remote": "^5.0.0",
     "next-themes": "latest",
     "react": "^19",
     "react-day-picker": "latest",
