@@ -25,6 +25,144 @@ import { CardsMarquee } from "@/app/_components/cards-marquee";
 import { IndieLaunchTweets } from "./indie-launch-tweets";
 import { ThreeDMarqueeDemo } from "@/app/_components/section-marquee";
 
+// Blueprint Background Component
+const BlueprintBackground = ({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) => (
+  <div
+    className="absolute inset-0 overflow-hidden z-0"
+    style={{ opacity: 0.4 }}
+  >
+    {/* Blueprint Grid */}
+    <div
+      className="absolute inset-0"
+      style={{
+        backgroundImage: `
+          linear-gradient(rgba(0,50,150,0.15) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,50,150,0.15) 1px, transparent 1px),
+          linear-gradient(rgba(0,50,150,0.08) 2px, transparent 2px),
+          linear-gradient(90deg, rgba(0,50,150,0.08) 2px, transparent 2px),
+          linear-gradient(rgba(0,50,150,0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,50,150,0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: isMobile
+          ? "20px 20px, 20px 20px, 100px 100px, 100px 100px, 400px 400px, 400px 400px"
+          : "10px 10px, 10px 10px, 50px 50px, 50px 50px, 200px 200px, 200px 200px",
+      }}
+    />
+
+    {/* Blueprint Annotations Layer */}
+    <div className="absolute inset-0 font-mono text-xs text-blue-900/60 hidden lg:block">
+      {/* Main Title Block */}
+      <div
+        className="absolute top-1/4 left-10 border-2 border-blue-900/40 bg-blue-50/80 p-4 shadow-sm"
+        style={{ transform: `translateY(${scrollY * 0.02}px)` }}
+      >
+        <div className="space-y-1 text-[11px] leading-tight">
+          <div className="font-bold text-blue-900/80 border-b border-blue-900/30 pb-1 mb-2">
+            VIBE REHABILITATION SYSTEMS
+          </div>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+            <div>PROJECT:</div>
+            <div className="font-semibold">VIBE.REHAB</div>
+            <div>DRAWING:</div>
+            <div>HERO-001</div>
+            <div>SCALE:</div>
+            <div>1:1 @1920px</div>
+            <div>REVISION:</div>
+            <div className="font-bold">R2.1</div>
+            <div>DATE:</div>
+            <div>{new Date().toLocaleDateString()}</div>
+            <div>DRAWN BY:</div>
+            <div>V0.DEV</div>
+            <div>CHECKED:</div>
+            <div>APPROVED</div>
+            <div>SHEET:</div>
+            <div>1 OF 1</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Technical Specifications Panel */}
+      <div
+        className="absolute top-[35%] right-8 border-2 border-blue-900/40 bg-blue-50/90 p-3 shadow-sm text-[10px]"
+        style={{ transform: `translateY(${scrollY * 0.015}px)` }}
+      >
+        <div className="text-blue-900/80 leading-tight space-y-2">
+          <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">
+            TECHNICAL SPECIFICATIONS
+          </div>
+          <div className="space-y-1">
+            <div className="font-semibold text-blue-900/70">TYPOGRAPHY:</div>
+            <div>Primary: Inter, sans-serif</div>
+            <div>Mono: ui-monospace</div>
+            <div>H1: 5xl-7xl (48-72px)</div>
+            <div>Body: xl-2xl (20-24px)</div>
+          </div>
+          <div className="space-y-1">
+            <div className="font-semibold text-blue-900/70">COLORS:</div>
+            <div>Primary: #111827</div>
+            <div>Secondary: #6B7280</div>
+            <div>Background: #F9FAFB</div>
+            <div>Accent: #3B82F6</div>
+          </div>
+          <div className="space-y-1">
+            <div className="font-semibold text-blue-900/70">SPACING:</div>
+            <div>Container: max-w-4xl</div>
+            <div>Padding: px-6 py-8</div>
+            <div>Margins: mb-20, mb-12</div>
+            <div>Gaps: gap-8, gap-6</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Build Specifications */}
+      <div
+        className="absolute bottom-16 right-12 border-2 border-blue-900/40 bg-blue-50/90 p-3 text-[10px]"
+        style={{ transform: `translateY(${-scrollY * 0.01}px)` }}
+      >
+        <div className="text-blue-900/80 leading-tight space-y-2">
+          <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">
+            BUILD SPECIFICATIONS
+          </div>
+          <div className="space-y-1">
+            <div className="font-semibold text-blue-900/70">FRAMEWORK:</div>
+            <div>Next.js 14 (App Router)</div>
+            <div>React 18.2+</div>
+            <div>TypeScript 5.0+</div>
+          </div>
+          <div className="space-y-1">
+            <div className="font-semibold text-blue-900/70">STYLING:</div>
+            <div>Tailwind CSS 3.4+</div>
+            <div>shadcn/ui components</div>
+            <div>CSS Transforms (3D)</div>
+          </div>
+          <div className="space-y-1">
+            <div className="font-semibold text-blue-900/70">PERFORMANCE:</div>
+            <div>Core Web Vitals: ✓</div>
+            <div>Lighthouse: 95+</div>
+            <div>Bundle: &lt;200KB</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Status Indicators */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-8 text-[9px] text-blue-900/40">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 border border-blue-900/40 bg-green-200/50"></div>
+          <span>IMPLEMENTED</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 border border-blue-900/40 bg-yellow-200/50"></div>
+          <span>IN DEVELOPMENT</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 border border-blue-900/40 bg-red-200/50"></div>
+          <span>REQUIRES REVIEW</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 const services = {
   project: {
     name: "Finish Your Project",
@@ -250,384 +388,9 @@ export default function Component() {
       <Toaster />
 
       {/* Blueprint Background */}
-      <div
-        className="absolute inset-0 overflow-hidden z-0"
-        style={{ opacity: 0.4 }}
-      >
-        {/* Blueprint Grid - More Prominent */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0,50,150,0.15) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0,50,150,0.15) 1px, transparent 1px),
-              linear-gradient(rgba(0,50,150,0.08) 2px, transparent 2px),
-              linear-gradient(90deg, rgba(0,50,150,0.08) 2px, transparent 2px),
-              linear-gradient(rgba(0,50,150,0.04) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0,50,150,0.04) 1px, transparent 1px)
-            `,
-            backgroundSize: isMobile
-              ? "20px 20px, 20px 20px, 100px 100px, 100px 100px, 400px 400px, 400px 400px"
-              : "10px 10px, 10px 10px, 50px 50px, 50px 50px, 200px 200px, 200px 200px",
-          }}
-        />
+      <BlueprintBackground scrollY={scrollY} isMobile={isMobile} />
 
-        {/* Blueprint Annotations Layer */}
-        <div className="absolute inset-0 font-mono text-xs text-blue-900/60 hidden lg:block">
-          {/* Main Title Block - More Detailed */}
-          <div
-            className="absolute top-1/4 left-10 border-2 border-blue-900/40 bg-blue-50/80 p-4 shadow-sm"
-            style={{ transform: `translateY(${scrollY * 0.02}px)` }}
-          >
-            <div className="space-y-1 text-[11px] leading-tight">
-              <div className="font-bold text-blue-900/80 border-b border-blue-900/30 pb-1 mb-2">
-                VIBE REHABILITATION SYSTEMS
-              </div>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-                <div>PROJECT:</div>
-                <div className="font-semibold">VIBE.REHAB</div>
-                <div>DRAWING:</div>
-                <div>HERO-001</div>
-                <div>SCALE:</div>
-                <div>1:1 @1920px</div>
-                <div>REVISION:</div>
-                <div className="font-bold">R2.1</div>
-                <div>DATE:</div>
-                <div>{new Date().toLocaleDateString()}</div>
-                <div>DRAWN BY:</div>
-                <div>V0.DEV</div>
-                <div>CHECKED:</div>
-                <div>APPROVED</div>
-                <div>SHEET:</div>
-                <div>1 OF 1</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Comprehensive Dimension System */}
-          <div
-            className="absolute top-24 left-32"
-            style={{ transform: `translateY(${scrollY * 0.03}px)` }}
-          >
-            {/* Main horizontal dimension chain */}
-            <div className="flex items-center text-blue-900/50">
-              <div className="flex flex-col items-center">
-                <div className="w-px h-3 bg-blue-900/50"></div>
-                <div className="w-px h-3 bg-blue-900/50 mt-1"></div>
-              </div>
-              <div className="w-24 h-px bg-blue-900/50 relative">
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-[10px] font-semibold bg-blue-50/80 px-1">
-                  480px
-                </div>
-                <div className="absolute -top-1 left-0 w-px h-2 bg-blue-900/50"></div>
-                <div className="absolute -top-1 right-0 w-px h-2 bg-blue-900/50"></div>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="w-px h-3 bg-blue-900/50"></div>
-                <div className="w-px h-3 bg-blue-900/50 mt-1"></div>
-              </div>
-            </div>
-
-            {/* Secondary dimensions */}
-            <div className="flex items-center text-blue-900/40 mt-6">
-              <div className="w-px h-2 bg-blue-900/40"></div>
-              <div className="w-16 h-px bg-blue-900/40 relative">
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[9px] bg-blue-50/80 px-1">
-                  320px
-                </div>
-              </div>
-              <div className="w-px h-2 bg-blue-900/40"></div>
-            </div>
-          </div>
-
-          {/* Vertical Dimension Chain */}
-          <div
-            className="absolute top-32 left-16 flex flex-col items-center text-blue-900/50"
-            style={{ transform: `translateY(${scrollY * 0.04}px)` }}
-          >
-            <div className="flex items-center">
-              <div className="h-px w-3 bg-blue-900/50"></div>
-              <div className="h-px w-3 bg-blue-900/50 ml-1"></div>
-            </div>
-            <div className="h-32 w-px bg-blue-900/50 relative">
-              <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 -rotate-90 text-[10px] font-semibold bg-blue-50/80 px-1 whitespace-nowrap">
-                768px
-              </div>
-              <div className="absolute -top-1 left-0 h-px w-2 bg-blue-900/50"></div>
-              <div className="absolute -bottom-1 left-0 h-px w-2 bg-blue-900/50"></div>
-            </div>
-            <div className="flex items-center">
-              <div className="h-px w-3 bg-blue-900/50"></div>
-              <div className="h-px w-3 bg-blue-900/50 ml-1"></div>
-            </div>
-          </div>
-
-          {/* Detailed Component Callouts */}
-          <div
-            className="absolute top-48 right-16 text-blue-900/60"
-            style={{ transform: `translateY(${scrollY * 0.025}px)` }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-4 h-4 border-2 border-blue-900/50 bg-blue-100/50 rounded-full relative">
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-blue-900/60 rounded-full"></div>
-              </div>
-              <div className="w-16 h-px bg-blue-900/50 relative">
-                <div className="absolute top-0 right-0 w-2 h-px bg-blue-900/50 transform rotate-45 origin-right"></div>
-                <div className="absolute top-0 right-0 w-2 h-px bg-blue-900/50 transform -rotate-45 origin-right"></div>
-              </div>
-              <div className="border border-blue-900/40 bg-blue-50/90 p-2 text-[10px] leading-tight">
-                <div className="font-bold text-blue-900/80">PRIMARY CTA</div>
-                <div className="text-blue-900/60 space-y-0.5 mt-1">
-                  <div>Component: Button</div>
-                  <div>Size: lg (px-8 py-4)</div>
-                  <div>Radius: rounded-xl</div>
-                  <div>Color: gray-900</div>
-                  <div>Shadow: shadow-lg</div>
-                  <div>Transform: 3D</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Section Detail Callouts */}
-          <div
-            className="absolute bottom-72 left-24 text-blue-900/60"
-            style={{ transform: `translateY(${-scrollY * 0.03}px)` }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="border border-blue-900/40 bg-blue-50/90 p-2 text-[10px] leading-tight">
-                <div className="font-bold text-blue-900/80">
-                  TESTIMONIAL SECTION
-                </div>
-                <div className="text-blue-900/60 space-y-0.5 mt-1">
-                  <div>Layout: Grid 3x1</div>
-                  <div>Gap: gap-6</div>
-                  <div>Cards: rounded-xl</div>
-                  <div>Animation: perspective</div>
-                  <div>Delay: 1000ms</div>
-                </div>
-              </div>
-              <div className="w-16 h-px bg-blue-900/50 relative">
-                <div className="absolute top-0 left-0 w-2 h-px bg-blue-900/50 transform rotate-45 origin-left"></div>
-                <div className="absolute top-0 left-0 w-2 h-px bg-blue-900/50 transform -rotate-45 origin-left"></div>
-              </div>
-              <div className="w-3 h-3 border border-blue-900/50 bg-blue-100/50 rotate-45"></div>
-            </div>
-          </div>
-
-          {/* Technical Specifications Panel */}
-          <div
-            className="absolute top-[35%] right-8 border-2 border-blue-900/40 bg-blue-50/90 p-3 shadow-sm text-[10px]"
-            style={{ transform: `translateY(${scrollY * 0.015}px)` }}
-          >
-            <div className="text-blue-900/80 leading-tight space-y-2">
-              <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">
-                TECHNICAL SPECIFICATIONS
-              </div>
-
-              <div className="space-y-1">
-                <div className="font-semibold text-blue-900/70">
-                  TYPOGRAPHY:
-                </div>
-                <div>Primary: Inter, sans-serif</div>
-                <div>Mono: ui-monospace</div>
-                <div>H1: 5xl-7xl (48-72px)</div>
-                <div>Body: xl-2xl (20-24px)</div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="font-semibold text-blue-900/70">COLORS:</div>
-                <div>Primary: #111827</div>
-                <div>Secondary: #6B7280</div>
-                <div>Background: #F9FAFB</div>
-                <div>Accent: #3B82F6</div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="font-semibold text-blue-900/70">SPACING:</div>
-                <div>Container: max-w-4xl</div>
-                <div>Padding: px-6 py-8</div>
-                <div>Margins: mb-20, mb-12</div>
-                <div>Gaps: gap-8, gap-6</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Construction Details */}
-          <div
-            className="absolute bottom-16 right-12 border-2 border-blue-900/40 bg-blue-50/90 p-3 text-[10px]"
-            style={{ transform: `translateY(${-scrollY * 0.01}px)` }}
-          >
-            <div className="text-blue-900/80 leading-tight space-y-2">
-              <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">
-                BUILD SPECIFICATIONS
-              </div>
-
-              <div className="space-y-1">
-                <div className="font-semibold text-blue-900/70">FRAMEWORK:</div>
-                <div>Next.js 14 (App Router)</div>
-                <div>React 18.2+</div>
-                <div>TypeScript 5.0+</div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="font-semibold text-blue-900/70">STYLING:</div>
-                <div>Tailwind CSS 3.4+</div>
-                <div>shadcn/ui components</div>
-                <div>CSS Transforms (3D)</div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="font-semibold text-blue-900/70">
-                  PERFORMANCE:
-                </div>
-                <div>Core Web Vitals: ✓</div>
-                <div>Lighthouse: 95+</div>
-                <div>Bundle: &lt;200KB</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Section Markers with Detail */}
-          <div
-            className="absolute top-64 left-2 text-blue-900/50"
-            style={{ transform: `translateY(${scrollY * 0.02}px)` }}
-          >
-            <div className="flex items-center gap-2 text-[11px]">
-              <div className="w-6 h-px bg-blue-900/50"></div>
-              <div className="w-6 h-6 border-2 border-blue-900/50 bg-blue-50/80 rounded-full flex items-center justify-center font-bold">
-                A
-              </div>
-              <div className="w-6 h-px bg-blue-900/50"></div>
-            </div>
-            <div className="text-[9px] text-blue-900/40 mt-1 ml-8">
-              HERO SECTION
-            </div>
-          </div>
-
-          <div
-            className="absolute bottom-32 left-2 text-blue-900/50"
-            style={{ transform: `translateY(${-scrollY * 0.02}px)` }}
-          >
-            <div className="flex items-center gap-2 text-[11px]">
-              <div className="w-6 h-px bg-blue-900/50"></div>
-              <div className="w-6 h-6 border-2 border-blue-900/50 bg-blue-50/80 rounded-full flex items-center justify-center font-bold">
-                B
-              </div>
-              <div className="w-6 h-px bg-blue-900/50"></div>
-            </div>
-            <div className="text-[9px] text-blue-900/40 mt-1 ml-8">
-              CTA SECTION
-            </div>
-          </div>
-
-          {/* Elevation Markers */}
-          <div
-            className="absolute top-[25%] right-1/4 text-blue-900/50"
-            style={{ transform: `translateY(${scrollY * 0.03}px)` }}
-          >
-            <div className="flex items-center gap-2 text-[10px]">
-              <div className="border border-blue-900/40 bg-blue-50/80 px-2 py-1 rounded">
-                <div className="font-semibold">ELEVATION</div>
-                <div>Z-INDEX: 10</div>
-              </div>
-              <div className="w-8 h-px bg-blue-900/50"></div>
-              <div className="w-2 h-2 bg-blue-900/50 rotate-45"></div>
-            </div>
-          </div>
-
-          {/* Flow Diagram */}
-          <div
-            className="absolute top-[40%] left-1/3"
-            style={{ transform: `translateY(${scrollY * 0.02}px)` }}
-          >
-            <svg width="120" height="60" className="text-blue-900/40">
-              <defs>
-                <marker
-                  id="blueprintArrow"
-                  markerWidth="8"
-                  markerHeight="6"
-                  refX="7"
-                  refY="3"
-                  orient="auto"
-                  fill="currentColor"
-                >
-                  <polygon points="0 0, 8 3, 0 6" />
-                </marker>
-              </defs>
-              <path
-                d="M10 30 L50 30 L50 15 L90 15"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                fill="none"
-                markerEnd="url(#blueprintArrow)"
-                strokeDasharray="3,2"
-              />
-              <circle cx="10" cy="30" r="3" fill="currentColor" />
-              <text
-                x="15"
-                y="45"
-                fontSize="9"
-                fill="currentColor"
-                className="font-mono"
-              >
-                USER FLOW
-              </text>
-            </svg>
-          </div>
-
-          {/* Grid Reference System */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-8 text-[9px] text-blue-900/40">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 border border-blue-900/40 bg-green-200/50"></div>
-              <span>IMPLEMENTED</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 border border-blue-900/40 bg-yellow-200/50"></div>
-              <span>IN DEVELOPMENT</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 border border-blue-900/40 bg-red-200/50"></div>
-              <span>REQUIRES REVIEW</span>
-            </div>
-          </div>
-
-          {/* Coordinate System */}
-          <div className="absolute bottom-4 right-4 text-[9px] text-blue-900/40 font-mono">
-            <div>COORDINATES:</div>
-            <div>X: 1920px</div>
-            <div>Y: 1080px</div>
-            <div>ORIGIN: TOP-LEFT</div>
-          </div>
-
-          {/* Revision Cloud */}
-          <div
-            className="absolute top-[55%] left-8"
-            style={{ transform: `translateY(${scrollY * 0.02}px)` }}
-          >
-            <svg width="80" height="40" className="text-blue-900/30">
-              <path
-                d="M10 20 Q15 10, 25 15 Q35 5, 45 15 Q55 10, 65 20 Q70 30, 60 25 Q50 35, 40 25 Q30 35, 20 25 Q10 30, 10 20 Z"
-                stroke="currentColor"
-                strokeWidth="1"
-                fill="none"
-                strokeDasharray="2,1"
-              />
-              <text
-                x="25"
-                y="24"
-                fontSize="8"
-                fill="currentColor"
-                className="font-mono"
-              >
-                REV 2.1
-              </text>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div className="relative z-10 container mx-auto px-6 py-8 flex flex-col gap-16 max-w-6xl">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-8 flex flex-col gap-16 max-w-6xl">
         <AnimatedSection animation="perspective" className="">
           <header className="flex items-center justify-between gap-3 sm:gap-4">
             <Logo className="flex-shrink" />

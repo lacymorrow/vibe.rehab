@@ -21,8 +21,13 @@ export function PointerHighlight({
     left: 0,
     top: 0,
   });
+  const [isWebkit, setIsWebkit] = useState(true);
 
   useEffect(() => {
+    // Detect webkit browsers
+    const isWebkitBrowser = /webkit/i.test(navigator.userAgent);
+    setIsWebkit(isWebkitBrowser);
+
     if (textRef.current) {
       const rect = textRef.current.getBoundingClientRect();
       const parentRect = textRef.current.offsetParent?.getBoundingClientRect();
@@ -71,8 +76,8 @@ export function PointerHighlight({
         {children}
       </span>
 
-      {/* Portal the highlight to the parent container */}
-      {dimensions.width > 0 && dimensions.height > 0 && (
+      {/* Portal the highlight to the parent container - only on webkit browsers */}
+      {isWebkit && dimensions.width > 0 && dimensions.height > 0 && (
         <motion.div
           className="pointer-events-none absolute"
           style={{
@@ -128,6 +133,37 @@ export function PointerHighlight({
             />
           </motion.div>
         </motion.div>
+      )}
+
+      {/* Fallback for non-webkit browsers - simple highlight without animation */}
+      {!isWebkit && dimensions.width > 0 && dimensions.height > 0 && (
+        <div
+          className="pointer-events-none absolute"
+          style={{
+            left: dimensions.left,
+            top: dimensions.top,
+            width: dimensions.width,
+            height: dimensions.height,
+            zIndex: -1,
+          }}
+        >
+          <div
+            className={cn(
+              "absolute inset-0 border border-neutral-800 dark:border-neutral-200",
+              rectangleClassName
+            )}
+          />
+          <div
+            className="pointer-events-none absolute"
+            style={{
+              transform: `translate(${dimensions.width + 4}px, ${dimensions.height + 4}px) rotate(-90deg)`,
+            }}
+          >
+            <Pointer
+              className={cn("h-5 w-5 text-blue-500", pointerClassName)}
+            />
+          </div>
+        </div>
       )}
     </>
   );
