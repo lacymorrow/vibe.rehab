@@ -135,3 +135,26 @@ body {
     }
   }
 }
+
+/* Mobile-specific marquee optimizations */
+@media (max-width: 640px) {
+  .animate-marquee {
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+
+  /* Ensure marquee container doesn't overflow on mobile */
+  [class*="marquee"] {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent text selection issues on mobile */
+  [class*="marquee"] * {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+}

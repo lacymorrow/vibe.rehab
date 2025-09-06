@@ -9,19 +9,21 @@ import { Button } from "@/components/ui/button";
 interface ContactDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  submittedValue: string;
-  detectedType: "github" | "url" | "message" | "email";
+  email?: string; // Optional: if provided, shows as read-only
+  submittedValue?: string; // Optional: for displaying submitted content
+  detectedType?: "github" | "url" | "message" | "email"; // Optional: for icon/type display
 }
 
 export function ContactDialog({
   isOpen,
   onClose,
+  email,
   submittedValue,
   detectedType,
 }: ContactDialogProps) {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
+    email: email || "",
     projectDetails: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -38,11 +40,11 @@ export function ContactDialog({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: formData.email,
+          email: email || formData.email, // Use prop email if provided, otherwise form email
           name: formData.name,
           projectDetails: formData.projectDetails,
-          submittedValue,
-          detectedType,
+          ...(submittedValue && { submittedValue }),
+          ...(detectedType && { detectedType }),
           type,
         }),
       });
@@ -57,7 +59,7 @@ export function ContactDialog({
       setTimeout(() => {
         onClose();
         setIsSubmitted(false);
-        setFormData({ name: "", email: "", projectDetails: "" });
+        setFormData({ name: "", email: email || "", projectDetails: "" });
       }, 2000);
     } catch (error) {
       console.error("Error sending email:", error);
@@ -67,7 +69,7 @@ export function ContactDialog({
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev: typeof formData) => ({ ...prev, [field]: value }));
   };
 
   const getTypeIcon = () => {
@@ -116,17 +118,34 @@ export function ContactDialog({
         {!isSubmitted ? (
           <form className="space-y-6">
             {/* Detected submission display */}
-            <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-              <div className="flex items-center gap-3 mb-2">
-                {getTypeIcon()}
-                <span className="text-sm font-medium text-slate-700">
-                  {getTypeLabel()}
-                </span>
+            {submittedValue && detectedType && (
+              <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                <div className="flex items-center gap-3 mb-2">
+                  {getTypeIcon()}
+                  <span className="text-sm font-medium text-slate-700">
+                    {getTypeLabel()}
+                  </span>
+                </div>
+                <div className="text-slate-600 text-sm break-all bg-white rounded px-3 py-2 border">
+                  {submittedValue}
+                </div>
               </div>
-              <div className="text-slate-600 text-sm break-all bg-white rounded px-3 py-2 border">
-                {submittedValue}
+            )}
+
+            {/* Email display (when email prop is provided) */}
+            {email && (
+              <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                <div className="flex items-center gap-3 mb-2">
+                  <Mail className="w-5 h-5 text-slate-600" />
+                  <span className="text-sm font-medium text-slate-700">
+                    Email Address
+                  </span>
+                </div>
+                <div className="text-slate-600 text-sm break-all bg-white rounded px-3 py-2 border">
+                  {email}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Name field */}
             <div>
@@ -149,26 +168,28 @@ export function ContactDialog({
               </div>
             </div>
 
-            {/* Email field */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  placeholder="john@example.com"
-                  className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+            {/* Email field (only show when email prop is not provided) */}
+            {!email && (
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-slate-700 mb-2"
+                >
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    placeholder="john@example.com"
+                    className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Project details */}
             <div>
@@ -191,7 +212,7 @@ export function ContactDialog({
             </div>
 
             {/* Action buttons */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               <Button
                 onClick={(e) => handleSubmit(e, "submit")}
                 disabled={isSubmitting}

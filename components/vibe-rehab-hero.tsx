@@ -9,7 +9,6 @@ import { ArrowRight, Check } from "lucide-react";
 import { useParallax, use3DScroll } from "@/hooks/use-scroll-animation";
 import { PaymentDialog } from "@/components/payment-dialog";
 import { ContactDialog } from "@/components/contact-dialog";
-import { EmailContactDialog } from "@/components/email-contact-dialog";
 import { AnimatedSection } from "@/components/animated-section";
 import { Logo } from "@/components/logo";
 import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
@@ -252,7 +251,6 @@ const detectInputType = (
 export default function Component() {
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [showContactDialog, setShowContactDialog] = useState(false);
-  const [showEmailContactDialog, setShowEmailContactDialog] = useState(false);
   const [selectedService, setSelectedService] = useState<
     typeof services.project | null
   >(null);
@@ -328,8 +326,8 @@ export default function Component() {
     setSubmittedValue(inputValue);
 
     if (type === "email") {
-      // Show email-specific dialog
-      setShowEmailContactDialog(true);
+      // Show contact dialog with email prop
+      setShowContactDialog(true);
     } else if (type === "url" || type === "github") {
       setShowContactDialog(true);
     } else {
@@ -345,12 +343,6 @@ export default function Component() {
     setDetectedType("message");
   };
 
-  const handleEmailContactDialogClose = () => {
-    setShowEmailContactDialog(false);
-    setInputValue(""); // Clear the input when dialog closes
-    setSubmittedValue("");
-    setDetectedType("message");
-  };
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -376,13 +368,9 @@ export default function Component() {
       <ContactDialog
         isOpen={showContactDialog}
         onClose={handleContactDialogClose}
-        submittedValue={submittedValue}
-        detectedType={detectedType}
-      />
-      <EmailContactDialog
-        isOpen={showEmailContactDialog}
-        onClose={handleEmailContactDialogClose}
-        email={submittedValue}
+        submittedValue={detectedType === "email" ? undefined : submittedValue}
+        detectedType={detectedType === "email" ? undefined : detectedType}
+        email={detectedType === "email" ? submittedValue : undefined}
       />
 
       <Toaster />

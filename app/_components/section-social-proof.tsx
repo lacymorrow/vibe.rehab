@@ -60,19 +60,21 @@ const TESTIMONIALS = [
   },
 ];
 
+interface TestimonialCardProps {
+  name: string;
+  designation: string;
+  content: string;
+}
+
 const TestimonialCard = ({
   name,
   designation,
   content,
-}: {
-  name: string;
-  designation: string;
-  content: string;
-}) => {
+}: TestimonialCardProps) => {
   return (
     <figure
       className={cn(
-        "relative h-full w-80 cursor-pointer overflow-hidden rounded-xl border p-6",
+        "relative h-full w-72 sm:w-80 cursor-pointer overflow-hidden rounded-xl border p-6 flex-shrink-0",
         // light styles
         "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
         // dark styles
@@ -107,7 +109,11 @@ export function SectionSocialProof() {
       </div>
 
       <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-        <Marquee pauseOnHover className="[--duration:25s]">
+        <Marquee
+          pauseOnHover={true}
+          className="[--duration:20s] sm:[--duration:25s] [--gap:1.5rem] sm:[--gap:2rem]"
+          repeat={8}
+        >
           {TESTIMONIALS.map((testimonial) => (
             <TestimonialCard key={testimonial.id} {...testimonial} />
           ))}
