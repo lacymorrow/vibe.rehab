@@ -5,5 +5,8 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 
+# Disallow success pages
+Disallow: /success
+
 # Sitemap
 Sitemap: https://vibe.rehab/sitemap.xml

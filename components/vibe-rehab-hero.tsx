@@ -16,6 +16,7 @@ import { PlaceholdersAndVanishInput } from "./ui/placeholders-and-vanish-input";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { PointerHighlight } from "./ui/pointer-highlight";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Highlight,
   SectionSocialProof,
@@ -131,6 +132,7 @@ export default function Component() {
   const scrollProgress = use3DScroll();
   const formRef = useRef<HTMLFormElement>(null);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setIsLoaded(true);
@@ -222,7 +224,7 @@ export default function Component() {
 
   return (
     <div
-      className="min-h-screen bg-blue-50 relative overflow-hidden font-['Inter_Tight',_'Inter',_sans-serif]"
+      className="min-h-screen bg-blue-50 relative overflow-hidden font-sans"
       style={{ backgroundColor: "#f0f4f8" }}
     >
       {/* Dialogs */}
@@ -264,13 +266,14 @@ export default function Component() {
               linear-gradient(rgba(0,50,150,0.04) 1px, transparent 1px),
               linear-gradient(90deg, rgba(0,50,150,0.04) 1px, transparent 1px)
             `,
-            backgroundSize:
-              "10px 10px, 10px 10px, 50px 50px, 50px 50px, 200px 200px, 200px 200px",
+            backgroundSize: isMobile
+              ? "20px 20px, 20px 20px, 100px 100px, 100px 100px, 400px 400px, 400px 400px"
+              : "10px 10px, 10px 10px, 50px 50px, 50px 50px, 200px 200px, 200px 200px",
           }}
         />
 
         {/* Blueprint Annotations Layer */}
-        <div className="absolute inset-0 font-mono text-xs text-blue-900/60 hidden md:block">
+        <div className="absolute inset-0 font-mono text-xs text-blue-900/60 hidden lg:block">
           {/* Main Title Block - More Detailed */}
           <div
             className="absolute top-1/4 left-10 border-2 border-blue-900/40 bg-blue-50/80 p-4 shadow-sm"
@@ -626,19 +629,24 @@ export default function Component() {
 
       <div className="relative z-10 container mx-auto px-6 py-8 flex flex-col gap-16 max-w-6xl">
         <AnimatedSection animation="perspective" className="">
-          <header className="flex items-center justify-between">
-            <Logo />
-            <div className="flex items-center gap-4">
+          <header className="flex items-center justify-between gap-3 sm:gap-4">
+            <Logo className="flex-shrink" />
+            <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-end">
               <button
                 type="button"
                 onClick={handleRoastClick}
-                className="text-slate-900 hover:text-gray-700 font-medium transition-colors duration-300 underline underline-offset-4 hover:no-underline"
+                className="hidden sm:inline-flex text-sm sm:text-base text-slate-900 hover:text-gray-700 font-medium transition-colors duration-300 underline underline-offset-4 hover:no-underline"
               >
                 Roast my 💩
               </button>
               <Button
                 onClick={() => handleServiceClick(services.project)}
-                className="bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-2 rounded-lg transition-all duration-300 transform-gpu hover:translate-z-2 hover:rotate-x-2"
+                className="bg-slate-900 hover:bg-blue-900 text-white font-medium text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3 rounded-lg transition-all duration-300"
+                style={
+                  isMobile
+                    ? {}
+                    : { transformStyle: "preserve-3d", transform: "translateZ(0)" }
+                }
               >
                 Get Started
               </Button>
@@ -653,27 +661,41 @@ export default function Component() {
         >
           {/* Badge */}
           <AnimatedSection animation="flip" delay={200} className="mb-8">
-            <Badge className="bg-blue-50 hover:bg-blue-50 text-slate-700 border-blue-200 px-4 py-2 text-sm font-medium transform-gpu transition-transform duration-300">
+            <Badge className="bg-blue-50 hover:bg-blue-50 text-slate-700 border-blue-200 px-4 py-2 text-sm font-medium">
               Now accepting new projects • Book Now
             </Badge>
           </AnimatedSection>
 
           {/* Main Headline */}
-          <AnimatedSection animation="rotate3D" delay={400} className="mb-12">
-            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight transform-gpu">
+          <AnimatedSection
+            animation={isMobile ? "fadeIn" : "rotate3D"}
+            delay={400}
+            className="mb-12"
+          >
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
               <span
-                className="inline-block transform-gpu transition-transform duration-700 hover:rotate-y-6"
-                style={{ transformStyle: "preserve-3d" }}
+                className="inline-block transition-transform duration-700 hover:rotate-y-6"
+                style={
+                  isMobile
+                    ? {}
+                    : {
+                        transformStyle: "preserve-3d",
+                      }
+                }
               >
                 We Fix Your
               </span>
               <br />
               <span
-                className="text-slate-900 inline-block transform-gpu transition-transform duration-700 hover:rotate-y-[-6deg] relative"
-                style={{
-                  transformStyle: "preserve-3d",
-                  transitionDelay: "100ms",
-                }}
+                className="text-slate-900 inline-block relative transition-transform duration-700 hover:rotate-y-[-6deg]"
+                style={
+                  isMobile
+                    ? {}
+                    : {
+                        transformStyle: "preserve-3d",
+                        transitionDelay: "100ms",
+                      }
+                }
               >
                 <span className="line-through text-slate-400 mr-4">trash</span>
                 <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent">
@@ -702,13 +724,15 @@ export default function Component() {
               {/* Main Form Container */}
               <div className="relative group">
                 {/* Subtle background glow */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 via-slate-100 to-blue-100 rounded-3xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-100 via-slate-100 to-blue-100 rounded-3xl blur-sm opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-700"></div>
 
                 {/* Main form */}
                 <form
                   ref={formRef}
                   onSubmit={handleSubmit}
-                  className="relative bg-white/80 backdrop-blur-sm rounded-2xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden"
+                  className={`relative bg-white/80 ${
+                    !isMobile ? "backdrop-blur-sm" : ""
+                  } rounded-2xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden`}
                 >
                   {/* Subtle top border accent */}
                   <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
@@ -740,28 +764,28 @@ export default function Component() {
                       className="w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 hover:from-blue-900 hover:via-blue-800 hover:to-blue-900 text-white font-medium text-xl px-8 py-5 rounded-xl transition-all duration-700 shadow-lg hover:shadow-xl group relative overflow-hidden"
                     >
                       {/* Button background shimmer */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] group-focus-within:translate-x-[100%] transition-transform duration-1000"></div>
 
                       <span className="relative flex items-center justify-center">
                         Fix My Code
-                        <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" />
+                        <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:translate-x-1 group-focus-within:translate-x-1" />
                       </span>
                     </Button>
                   </div>
 
                   {/* Bottom section */}
                   <div className="px-8 pb-6 border-t border-slate-100/50">
-                    <div className="flex items-center justify-center gap-6 text-sm text-slate-500 pt-4">
+                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-slate-500 pt-4">
                       <span className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
                         Free consultation
                       </span>
-                      <div className="w-px h-4 bg-slate-200"></div>
+                      <div className="hidden sm:block w-px h-4 bg-slate-200"></div>
                       <span className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
                         2-4 week delivery
                       </span>
-                      <div className="w-px h-4 bg-slate-200"></div>
+                      <div className="hidden sm:block w-px h-4 bg-slate-200"></div>
                       <span className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
                         Starting at $99
@@ -786,7 +810,7 @@ export default function Component() {
                 >
                   <span className="relative">
                     Just roast my work for free
-                    <div className="absolute inset-x-0 -bottom-1 h-px bg-gradient-to-r from-transparent via-slate-400 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                    <div className="absolute inset-x-0 -bottom-1 h-px bg-gradient-to-r from-transparent via-slate-400 to-transparent scale-x-0 group-hover:scale-x-100 group-focus-within:scale-x-100 transition-transform duration-300"></div>
                   </span>
                 </button>
               </div>

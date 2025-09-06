@@ -1,6 +1,19 @@
 import type { Metadata, Viewport } from "next";
+import { Inter_Tight, Roboto_Mono } from "next/font/google";
 import { siteConfig } from "@/config/site-config";
 import "./globals.css";
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter-tight",
+});
+
+const robotoMono = Roboto_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto-mono",
+});
 
 export const metadata: Metadata = {
   metadataBase: siteConfig.metadataBase,
@@ -48,7 +61,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${interTight.variable} ${robotoMono.variable}`}
+    >
       <head>
         <link rel="canonical" href={siteConfig.url} />
         <meta

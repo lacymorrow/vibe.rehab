@@ -53,7 +53,7 @@ export function PaymentDialog({ isOpen, onClose, service }: PaymentDialogProps) 
 
   return (
     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl p-8 w-full max-w-md transform animate-in fade-in-0 zoom-in-95 duration-200 shadow-xl">
+      <div className="bg-white rounded-2xl p-8 w-full max-w-md transform animate-in fade-in-0 zoom-in-95 duration-200 shadow-xl max-h-[90dvh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-semibold text-slate-900">{service.name}</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
