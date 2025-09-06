@@ -50,7 +50,7 @@
     "input-otp": "latest",
     "lucide-react": "^0.454.0",
     "motion": "^12.23.3",
-    "next": "15.2.4",
+    "next": "^15.5.2",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "latest",
     "react": "^19",
@@ -66,6 +66,7 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "latest",
+    "web-vitals": "^5.1.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
