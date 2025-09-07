@@ -1,0 +1,12 @@
+[
+  {
+    "url": "https://vibe.rehab",
+    "timestamp": "2025-09-07T17:39:10.443Z",
+    "error": "lighthouse is not a function"
+  },
+  {
+    "url": "https://vibe.rehab/roasts",
+    "timestamp": "2025-09-07T17:39:11.504Z",
+    "error": "lighthouse is not a function"
+  }
+]
