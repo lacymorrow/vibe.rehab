@@ -24,39 +24,32 @@ import { CardsMarquee } from "@/app/_components/cards-marquee";
 import { IndieLaunchTweets } from "./indie-launch-tweets";
 import { ThreeDMarqueeDemo } from "@/app/_components/section-marquee";
 
-// Blueprint Background Component
-const BlueprintBackground = ({ scrollY, isMobile }: { scrollY: number; isMobile: boolean }) => (
+// Blueprint Background Component - Simplified for LCP
+const BlueprintBackground = ({ isMobile }: { isMobile: boolean }) => (
   <div
     className="absolute inset-0 overflow-hidden z-0"
-    style={{ opacity: 0.4 }}
+    style={{ opacity: 0.3 }}
   >
-    {/* Blueprint Grid */}
+    {/* Simplified Blueprint Grid - Static for better LCP */}
     <div
       className="absolute inset-0"
       style={{
         backgroundImage: `
-          linear-gradient(rgba(0,50,150,0.15) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,50,150,0.15) 1px, transparent 1px),
-          linear-gradient(rgba(0,50,150,0.08) 2px, transparent 2px),
-          linear-gradient(90deg, rgba(0,50,150,0.08) 2px, transparent 2px),
-          linear-gradient(rgba(0,50,150,0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,50,150,0.04) 1px, transparent 1px)
+          linear-gradient(rgba(0,50,150,0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,50,150,0.1) 1px, transparent 1px)
         `,
         backgroundSize: isMobile
-          ? "20px 20px, 20px 20px, 100px 100px, 100px 100px, 400px 400px, 400px 400px"
-          : "10px 10px, 10px 10px, 50px 50px, 50px 50px, 200px 200px, 200px 200px",
+          ? "20px 20px"
+          : "15px 15px",
       }}
     />
 
-    {/* Blueprint Annotations Layer */}
-    <div className="absolute inset-0 font-mono text-xs text-blue-900/60 hidden lg:block">
-      {/* Main Title Block */}
-      <div
-        className="absolute top-1/4 left-10 border-2 border-blue-900/40 bg-blue-50/80 p-4 shadow-sm"
-        style={{ transform: `translateY(${scrollY * 0.02}px)` }}
-      >
+    {/* Simplified Blueprint Annotations - No scroll transforms for LCP */}
+    <div className="absolute inset-0 font-mono text-xs text-blue-900/50 hidden lg:block">
+      {/* Main Title Block - Static */}
+      <div className="absolute top-1/4 left-10 border-2 border-blue-900/30 bg-blue-50/70 p-4 shadow-sm">
         <div className="space-y-1 text-[11px] leading-tight">
-          <div className="font-bold text-blue-900/80 border-b border-blue-900/30 pb-1 mb-2">
+          <div className="font-bold text-blue-900/70 border-b border-blue-900/20 pb-1 mb-2">
             VIBE REHABILITATION SYSTEMS
           </div>
           <div className="grid grid-cols-2 gap-x-4 gap-y-1">
@@ -66,96 +59,19 @@ const BlueprintBackground = ({ scrollY, isMobile }: { scrollY: number; isMobile:
             <div>HERO-001</div>
             <div>SCALE:</div>
             <div>1:1 @1920px</div>
-            <div>REVISION:</div>
-            <div className="font-bold">R2.1</div>
-            <div>DATE:</div>
-            <div>{new Date().toLocaleDateString()}</div>
-            <div>DRAWN BY:</div>
-            <div>V0.DEV</div>
-            <div>CHECKED:</div>
-            <div>APPROVED</div>
-            <div>SHEET:</div>
-            <div>1 OF 1</div>
           </div>
         </div>
       </div>
 
-      {/* Technical Specifications Panel */}
-      <div
-        className="absolute top-[35%] right-8 border-2 border-blue-900/40 bg-blue-50/90 p-3 shadow-sm text-[10px]"
-        style={{ transform: `translateY(${scrollY * 0.015}px)` }}
-      >
-        <div className="text-blue-900/80 leading-tight space-y-2">
-          <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">
-            TECHNICAL SPECIFICATIONS
-          </div>
-          <div className="space-y-1">
-            <div className="font-semibold text-blue-900/70">TYPOGRAPHY:</div>
-            <div>Primary: Inter, sans-serif</div>
-            <div>Mono: ui-monospace</div>
-            <div>H1: 5xl-7xl (48-72px)</div>
-            <div>Body: xl-2xl (20-24px)</div>
-          </div>
-          <div className="space-y-1">
-            <div className="font-semibold text-blue-900/70">COLORS:</div>
-            <div>Primary: #111827</div>
-            <div>Secondary: #6B7280</div>
-            <div>Background: #F9FAFB</div>
-            <div>Accent: #3B82F6</div>
-          </div>
-          <div className="space-y-1">
-            <div className="font-semibold text-blue-900/70">SPACING:</div>
-            <div>Container: max-w-4xl</div>
-            <div>Padding: px-6 py-8</div>
-            <div>Margins: mb-20, mb-12</div>
-            <div>Gaps: gap-8, gap-6</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Build Specifications */}
-      <div
-        className="absolute bottom-16 right-12 border-2 border-blue-900/40 bg-blue-50/90 p-3 text-[10px]"
-        style={{ transform: `translateY(${-scrollY * 0.01}px)` }}
-      >
-        <div className="text-blue-900/80 leading-tight space-y-2">
-          <div className="font-bold border-b border-blue-900/30 pb-1 mb-2">
-            BUILD SPECIFICATIONS
-          </div>
-          <div className="space-y-1">
-            <div className="font-semibold text-blue-900/70">FRAMEWORK:</div>
-            <div>Next.js 14 (App Router)</div>
-            <div>React 18.2+</div>
-            <div>TypeScript 5.0+</div>
-          </div>
-          <div className="space-y-1">
-            <div className="font-semibold text-blue-900/70">STYLING:</div>
-            <div>Tailwind CSS 3.4+</div>
-            <div>shadcn/ui components</div>
-            <div>CSS Transforms (3D)</div>
-          </div>
-          <div className="space-y-1">
-            <div className="font-semibold text-blue-900/70">PERFORMANCE:</div>
-            <div>Core Web Vitals: ✓</div>
-            <div>Lighthouse: 95+</div>
-            <div>Bundle: &lt;200KB</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Status Indicators */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-8 text-[9px] text-blue-900/40">
+      {/* Status Indicators - Static */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-8 text-[9px] text-blue-900/30">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 border border-blue-900/40 bg-green-200/50"></div>
+          <div className="w-3 h-3 border border-blue-900/30 bg-green-200/40"></div>
           <span>IMPLEMENTED</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 border border-blue-900/40 bg-yellow-200/50"></div>
-          <span>IN DEVELOPMENT</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 border border-blue-900/40 bg-red-200/50"></div>
-          <span>REQUIRES REVIEW</span>
+          <div className="w-3 h-3 border border-blue-900/30 bg-blue-200/40"></div>
+          <span>OPTIMIZED</span>
         </div>
       </div>
     </div>
@@ -255,6 +171,7 @@ export default function Component() {
     typeof services.project | null
   >(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const [nextPlaceholder, setNextPlaceholder] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -272,10 +189,18 @@ export default function Component() {
 
   useEffect(() => {
     setIsLoaded(true);
+    // Delay non-critical animations to improve LCP
+    const animationTimer = setTimeout(() => {
+      setAnimationsEnabled(true);
+    }, 100);
+
+    return () => clearTimeout(animationTimer);
   }, []);
 
-  // Rotate placeholder text with fade transition
+  // Rotate placeholder text with fade transition - Only after animations are enabled
   useEffect(() => {
+    if (!animationsEnabled) return;
+
     const interval = setInterval(() => {
       if (!isFocused && !inputValue) {
         setIsTransitioning(true);
@@ -292,7 +217,7 @@ export default function Component() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [isFocused, inputValue]);
+  }, [isFocused, inputValue, animationsEnabled]);
 
   const handleServiceClick = (service: typeof services.project) => {
     setSelectedService(service);
@@ -375,11 +300,11 @@ export default function Component() {
 
       <Toaster />
 
-      {/* Blueprint Background */}
-      <BlueprintBackground scrollY={scrollY} isMobile={isMobile} />
+      {/* Blueprint Background - Simplified for LCP */}
+      <BlueprintBackground isMobile={isMobile} />
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 py-8 flex flex-col gap-16 max-w-6xl">
-        <AnimatedSection animation="perspective" className="">
+        <AnimatedSection animation={animationsEnabled ? "perspective" : "none"} className="">
           <header className="flex items-center justify-between gap-3 sm:gap-4">
             <Logo className="flex-shrink" />
             <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-end">
@@ -411,7 +336,7 @@ export default function Component() {
           style={{ perspective: "1500px" }}
         >
           {/* Badge */}
-          <AnimatedSection animation="flip" delay={200} className="mb-8">
+          <AnimatedSection animation={animationsEnabled ? "flip" : "none"} delay={200} className="mb-8">
             <Badge className="bg-blue-50 hover:bg-blue-50 text-slate-700 border-blue-200 px-4 py-2 text-sm font-medium">
               Now accepting new projects • Book Now
             </Badge>
@@ -419,15 +344,15 @@ export default function Component() {
 
           {/* Main Headline */}
           <AnimatedSection
-            animation={isMobile ? "fadeIn" : "rotate3D"}
+            animation={animationsEnabled ? (isMobile ? "fadeIn" : "rotate3D") : "none"}
             delay={400}
             className="mb-12"
           >
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
               <span
-                className="inline-block transition-transform duration-700 hover:rotate-y-6"
+                className={`inline-block ${animationsEnabled ? 'transition-transform duration-700 hover:rotate-y-6' : ''}`}
                 style={
-                  isMobile
+                  isMobile || !animationsEnabled
                     ? {}
                     : {
                         transformStyle: "preserve-3d",
@@ -438,9 +363,9 @@ export default function Component() {
               </span>
               <br />
               <span
-                className="text-slate-900 inline-block relative transition-transform duration-700 hover:rotate-y-[-6deg]"
+                className={`text-slate-900 inline-block relative ${animationsEnabled ? 'transition-transform duration-700 hover:rotate-y-[-6deg]' : ''}`}
                 style={
-                  isMobile
+                  isMobile || !animationsEnabled
                     ? {}
                     : {
                         transformStyle: "preserve-3d",
@@ -449,7 +374,7 @@ export default function Component() {
                 }
               >
                 <span className="line-through text-slate-400 mr-4">trash</span>
-                <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 bg-clip-text">
                   <PointerHighlight
                     rectangleClassName="bg-blue-100 dark:bg-blue-900 border-blue-300 dark:border-blue-700 leading-loose"
                     pointerClassName="text-blue-500 h-3 w-3"
@@ -470,7 +395,7 @@ export default function Component() {
           </AnimatedSection>
 
           {/* Main CTA */}
-          <AnimatedSection animation="perspective" delay={600}>
+          <AnimatedSection animation={animationsEnabled ? "perspective" : "none"} delay={600}>
             <div className="max-w-3xl mx-auto">
               {/* Main Form Container */}
               <div className="relative group">

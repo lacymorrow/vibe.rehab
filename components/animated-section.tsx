@@ -6,7 +6,7 @@ import { useScrollAnimation } from "../hooks/use-scroll-animation"
 
 interface AnimatedSectionProps {
   children: React.ReactNode
-  animation?: "fadeIn" | "slideUp" | "slideLeft" | "slideRight" | "scale" | "rotate3D" | "flip" | "perspective"
+  animation?: "none" | "fadeIn" | "slideUp" | "slideLeft" | "slideRight" | "scale" | "rotate3D" | "flip" | "perspective"
   delay?: number
   className?: string
 }
@@ -18,6 +18,8 @@ export function AnimatedSection({ children, animation = "fadeIn", delay = 0, cla
     const baseClasses = "transition-all duration-1000 ease-out"
 
     switch (animation) {
+      case "none":
+        return isVisible ? "opacity-100" : "opacity-0"
       case "fadeIn":
         return `${baseClasses} ${isVisible ? "opacity-100" : "opacity-0"}`
       case "slideUp":
