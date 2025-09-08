@@ -1,6 +1,7 @@
 "use client";
 import { Marquee } from "@/components/magicui/marquee";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 // Small utility to highlight the content of specific section of a testimonial content
 export const Highlight = ({
@@ -97,6 +98,13 @@ const TestimonialCard = ({
 };
 
 export function SectionSocialProof() {
+  const [hoverCapable, setHoverCapable] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const mql = window.matchMedia("(hover: hover)");
+      setHoverCapable(mql.matches);
+    }
+  }, []);
   return (
     <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200">
       <div className="text-center mb-8">
@@ -110,7 +118,7 @@ export function SectionSocialProof() {
 
       <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
         <Marquee
-          pauseOnHover={true}
+          pauseOnHover={hoverCapable}
           className="[--duration:20s] sm:[--duration:25s] [--gap:1.5rem] sm:[--gap:2rem]"
           repeat={8}
         >
