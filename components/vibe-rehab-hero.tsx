@@ -92,7 +92,7 @@ const services = {
       "Launch strategy and support",
     ],
     priceId:
-      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT || "price_1234567890",
+      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT || "LIVE_PRICE_ID_PROJECT_NEEDED",
   },
   review: {
     name: "Code Review",
@@ -107,7 +107,7 @@ const services = {
       "Detailed improvement roadmap",
     ],
     priceId:
-      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW || "price_0987654321",
+      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW || "LIVE_PRICE_ID_REVIEW_NEEDED",
   },
 };
 
