@@ -14,6 +14,29 @@ export async function POST(request: NextRequest) {
   try {
     const { priceId, email, serviceName } = await request.json();
 
+    // Basic input validation
+    if (!priceId || typeof priceId !== "string" || !priceId.startsWith("price_")) {
+      return NextResponse.json({ error: "Invalid priceId" }, { status: 400 });
+    }
+
+    if (!email || typeof email !== "string" || !/^\S+@\S+\.\S+$/.test(email)) {
+      return NextResponse.json({ error: "Valid email required" }, { status: 400 });
+    }
+
+    // Determine a safe base URL
+    const inferredBaseUrl = (() => {
+      const proto = request.headers.get("x-forwarded-proto") ?? "https";
+      const host = request.headers.get("host");
+      return host ? `${proto}://${host}` : "";
+    })();
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || inferredBaseUrl;
+    if (!baseUrl) {
+      return NextResponse.json(
+        { error: "Base URL not configured" },
+        { status: 500 },
+      );
+    }
+
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -25,8 +48,8 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/`,
+      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/`,
       metadata: {
         service_name: serviceName,
         customer_email: email,

@@ -38,10 +38,17 @@ export function PaymentDialog({ isOpen, onClose, service }: PaymentDialogProps) 
         }),
       })
 
-      const { url } = await response.json()
+      const data = await response.json().catch(() => ({} as any))
 
+      if (!response.ok) {
+        throw new Error((data as any)?.error || "Error creating checkout session")
+      }
+
+      const url = (data as any)?.url as string | undefined
       if (url) {
         window.location.href = url
+      } else {
+        setIsLoading(false)
       }
     } catch (error) {
       console.error("Payment error:", error)
