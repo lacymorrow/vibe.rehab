@@ -45,8 +45,8 @@ export async function POST(request: NextRequest) {
       ].filter(Boolean) as string[];
 
       if (!allowedPriceIds.includes(priceId)) {
-        console.warn("Rejected unknown Stripe priceId", { priceId });
-        return NextResponse.json({ error: "Unknown priceId" }, { status: 400 });
+        console.warn("Rejected request with an allowed Stripe priceId", { priceId });
+        return NextResponse.json({ error: "The provided price ID is not allowed" }, { status: 403 });
       }
     }
 

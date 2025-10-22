@@ -28,8 +28,8 @@ export function PaymentDialog({ isOpen, onClose, service }: PaymentDialogProps) 
     if (!email) return
     if (!isPriceIdValid) {
       toast({
-        title: "Payment unavailable",
-        description: "Payment is temporarily disabled due to missing Stripe configuration.",
+        title: "Payment Unavailable",
+        description: "We're sorry, but payments are currently unavailable. Please contact support for assistance.",
         variant: "destructive",
       })
       return
