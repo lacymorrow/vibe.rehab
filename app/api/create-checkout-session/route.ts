@@ -37,6 +37,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // In production, only allow known, configured Price IDs to prevent tampering
+    if (process.env.NODE_ENV === "production") {
+      const allowedPriceIds = [
+        process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT,
+        process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW,
+      ].filter(Boolean) as string[];
+
+      if (!allowedPriceIds.includes(priceId)) {
+        console.warn("Rejected unknown Stripe priceId", { priceId });
+        return NextResponse.json({ error: "Unknown priceId" }, { status: 400 });
+      }
+    }
+
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
