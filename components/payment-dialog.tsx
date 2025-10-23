@@ -54,6 +54,7 @@ export function PaymentDialog({ isOpen, onClose, service }: PaymentDialogProps) 
 
       if (!response.ok) {
         const message = (data as any)?.error || "Error creating checkout session"
+        console.error("Error creating checkout session:", message)
         throw new Error(message)
       }
 
@@ -71,6 +72,7 @@ export function PaymentDialog({ isOpen, onClose, service }: PaymentDialogProps) 
     } catch (error) {
       console.error("Payment error:", error)
       const message = error instanceof Error ? error.message : "Payment failed"
+      console.error("Payment failed:", message)
       toast({ title: "Payment failed", description: message, variant: "destructive" })
       setIsLoading(false)
     }
