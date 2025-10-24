@@ -163,6 +163,22 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <footer className="border-t border-slate-200 bg-slate-50">
+          <div className="max-w-4xl mx-auto px-4 py-6 text-center">
+            <p className="text-xs text-slate-500">
+              Building a product? Try{' '}
+              <a
+                href="https://shipkit.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-slate-600 hover:text-slate-800 underline decoration-dotted underline-offset-4"
+              >
+                Shipkit
+              </a>
+              {' '}— the Next.js stack for startups.
+            </p>
+          </div>
+        </footer>
         <WebVitals />
       </body>
     </html>

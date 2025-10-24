@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 import { X, CreditCard, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -19,9 +20,20 @@ interface PaymentDialogProps {
 export function PaymentDialog({ isOpen, onClose, service }: PaymentDialogProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState("")
+  const { toast } = useToast()
+
+  const isPriceIdValid = typeof service.priceId === "string" && service.priceId.startsWith("price_")
 
   const handlePayment = async () => {
     if (!email) return
+    if (!isPriceIdValid) {
+      toast({
+        title: "Payment Unavailable",
+        description: "We're sorry, but payments are currently unavailable. Please contact support for assistance.",
+        variant: "destructive",
+      })
+      return
+    }
 
     setIsLoading(true)
 
@@ -41,17 +53,27 @@ export function PaymentDialog({ isOpen, onClose, service }: PaymentDialogProps) 
       const data = await response.json().catch(() => ({} as any))
 
       if (!response.ok) {
-        throw new Error((data as any)?.error || "Error creating checkout session")
+        const message = (data as any)?.error || "Error creating checkout session"
+        console.error("Error creating checkout session:", message)
+        throw new Error(message)
       }
 
       const url = (data as any)?.url as string | undefined
       if (url) {
         window.location.href = url
       } else {
+        toast({
+          title: "Unexpected error",
+          description: "Checkout URL was not returned. Please try again later.",
+          variant: "destructive",
+        })
         setIsLoading(false)
       }
     } catch (error) {
       console.error("Payment error:", error)
+      const message = error instanceof Error ? error.message : "Payment failed"
+      console.error("Payment failed:", message)
+      toast({ title: "Payment failed", description: message, variant: "destructive" })
       setIsLoading(false)
     }
   }
@@ -95,11 +117,16 @@ export function PaymentDialog({ isOpen, onClose, service }: PaymentDialogProps) 
             className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             required
           />
+          {!isPriceIdValid && (
+            <p className="mt-2 text-xs text-red-600">
+              Payments are currently unavailable. Please contact support.
+            </p>
+          )}
         </div>
 
         <Button
           onClick={handlePayment}
-          disabled={!email || isLoading}
+          disabled={!email || isLoading || !isPriceIdValid}
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3"
         >
           <CreditCard className="w-4 h-4 mr-2" />

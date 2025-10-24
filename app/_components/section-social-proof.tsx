@@ -43,7 +43,7 @@ const TESTIMONIALS = [
     name: "Jonny Henly",
     designation: "Indie Hacker",
     content:
-      "Abandoned my project for a year. They revived it and got me to $12k MRR. Best investment ever.",
+      "Struggled with a half-finished MVP for 6 months. They transformed it into a polished product generating $8k MRR. Game changer!",
   },
   {
     id: 3,
