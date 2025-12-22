@@ -79,7 +79,7 @@
     "chrome-launcher": "^1.2.1",
     "lighthouse": "^13.0.1",
     "postcss": "^8.5",
-    "tailwindcss": "^4.1.18",
+    "tailwindcss": "^3.4.19",
     "typescript": "^5"
   },
   "packageManager": "pnpm@10.26.1"
