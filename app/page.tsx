@@ -4,7 +4,9 @@ import Component from "@/components/vibe-rehab-hero";
 import { IndieLaunchTweets } from "@/components/indie-launch-tweets";
 
 export const metadata: Metadata = {
-  title: siteConfig.title,
+  title: {
+    absolute: siteConfig.title,
+  },
   description: siteConfig.description,
   openGraph: {
     title: siteConfig.title,
