@@ -7,8 +7,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
-    formats: ['image/webp', 'image/avif'],
+    formats: ['image/avif', 'image/webp'],
   },
   // Performance optimizations
   compiler: {
@@ -19,8 +18,18 @@ const nextConfig = {
   },
   // Compression
   compress: true,
-  // Enable gzip compression
   poweredByHeader: false,
+  // Eliminate redirect chains - go directly to canonical HTTPS non-www URL
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.vibe.rehab' }],
+        destination: 'https://vibe.rehab/:path*',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

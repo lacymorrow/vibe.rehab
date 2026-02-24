@@ -25,10 +25,10 @@ type SiteConfig = {
 
 export const siteConfig: SiteConfig = {
   name: "Vibe Rehab",
-  title: "Vibe Rehab",
+  title: "Vibe Rehab - We Fix Your Broken Code & Finish Your MVP",
   tagline: "We Fix Vibe Code",
   description:
-    "Let's finish your MVP. We'll get you earning in 2-4 weeks. No judgment, just results.",
+    "Stop staring at that half-finished app. Vibe Rehab fixes broken code, completes your MVP, and gets you earning in 2-4 weeks. Professional dev services with no judgment, just results.",
   url: "https://vibe.rehab",
   ogImage: "https://vibe.rehab/og",
   links: {

@@ -79,10 +79,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <meta
-          name="google-site-verification"
-          content="your-google-verification-code"
-        />
         <meta name="theme-color" content="#ffffff" />
         <meta name="color-scheme" content="light dark" />
         <script
@@ -164,7 +160,12 @@ export default function RootLayout({
       <body>
         {children}
         <footer className="border-t border-slate-200 bg-slate-50">
-          <div className="max-w-4xl mx-auto px-4 py-6 text-center">
+          <div className="max-w-4xl mx-auto px-4 py-6 text-center space-y-2">
+            <nav className="flex items-center justify-center gap-4 text-xs text-slate-500">
+              <a href="/" className="font-medium text-slate-600 hover:text-slate-800 transition-colors">Home</a>
+              <span className="text-slate-300">·</span>
+              <a href="/roasts" className="font-medium text-slate-600 hover:text-slate-800 transition-colors">Website Roasts</a>
+            </nav>
             <p className="text-xs text-slate-500">
               Building a product? Try{' '}
               <a
