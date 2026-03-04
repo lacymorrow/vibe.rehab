@@ -1,0 +1,116 @@
+---
+title: "Musebox.io: A Prompt Library That Needs Its Own Prompt"
+url: "https://musebox.io"
+roastDate: "2026-03-03"
+summary: "A community-based prompt storage tool that scored 54/100. It has 800+ pages indexed, videos without captions, images the size of small novels, and enough accessibility violations to make a WCAG auditor cry."
+issues:
+  - "Overall health score: 54/100 (Grade F)"
+  - "60 accessibility errors including unlabeled forms and missing landmarks"
+  - "Images up to 620KB being served through Next.js Image (defeating the purpose)"
+  - "5 videos without captions or VideoObject schema"
+  - "Keyword stuffing: 'prompt' at 5.1%, 'your' across multiple pages"
+  - "No privacy policy on 19 pages, no contact page"
+  - "Thin content on 21 pages (under 300 words)"
+tags:
+  - "accessibility"
+  - "performance"
+  - "seo"
+  - "content"
+  - "saas"
+---
+
+# Musebox.io: 800 Pages and Nothing to Say
+
+**Submitted by:** Nigel Yoshida  
+**The pitch:** "A community-based prompt storage and organization tool"  
+**The reality:** A Next.js app that indexed 800+ URLs into Google and most of them are thinner than a ChatGPT-generated haiku.
+
+## The Good News First
+
+Musebox actually looks like a real product. It has features, users, a community page, blog, documentation. Someone clearly put in serious work here. The SEO metadata on the homepage is solid — OG tags, Twitter cards, structured data, proper meta descriptions. The bones are real.
+
+Now let's talk about everything else.
+
+## The Content Wasteland
+
+Our crawler found 803 URLs in the sitemap. That's impressive! Until you realize that **21 of the 25 pages we sampled had thin content** — under 300 words. Some prompt pages clock in at 55-65 words.
+
+<Issue type="error">
+Google's helpful content update specifically targets sites with lots of thin, low-value pages. Having 800+ indexed URLs where most contain barely a paragraph is a recipe for a rankings penalty.
+</Issue>
+
+Each prompt page is essentially: a title, a short description, and the prompt itself. That's a database record, not a page. Without context, examples, use cases, or discussion, these pages are SEO dead weight.
+
+**The keyword stuffing makes it worse:**
+- "prompt" at 5.1% density on the homepage
+- "your" at 3.6-5.5% across multiple pages
+- "musebox" at 3.2% on the docs page
+
+## Accessibility: The Real Problem
+
+**54/100 overall, but accessibility is where it hurts.** 10 errors and 66 warnings across 25 pages.
+
+The highlights:
+- **Unlabeled form inputs** — the newsletter signup email field and a honeypot field have no labels. Screen readers are lost.
+- **No `<main>` landmark** on the blog and features pages — assistive tech can't find the main content
+- **5 videos without captions** — across the homepage and features page. That's not just bad for accessibility, it's bad for SEO too.
+- **33 color contrast issues** — the gray-on-gray aesthetic that's trendy in dark mode? Fails WCAG for a lot of users.
+
+<Issue type="warning">
+The newsletter signup uses a hidden honeypot field (`b_6f33b644bdbc5f30e2acc4004_d9c2c64a21`) without an accessible label. Not only is this exposed in the DOM, screen readers will try to announce it, confusing users.
+</Issue>
+
+## Image Bloat
+
+For a Next.js app using `next/image`, the image optimization is surprisingly bad:
+
+- **4 images exceed 100KB** — one avatar is **620KB** being served through the image optimizer
+- **65 images missing width/height** — causing Cumulative Layout Shift (CLS) on every prompt page
+- **16 below-fold images without lazy loading** on the community page
+- Above-fold images on features/about pages ARE lazy loaded (the opposite of what you want)
+
+<Issue type="error">
+A 620KB avatar image served through `/_next/image?w=3840&q=75` is insane. You're requesting a 3840px wide version of a profile picture. Set proper `sizes` and `width` props on your Image components.
+</Issue>
+
+<Rating score={4}>
+The foundation is strong but the execution has serious gaps.
+</Rating>
+
+## The Legal Gap
+
+No privacy policy link on **19 pages** (all the prompt pages). The homepage has one, but Google crawls individual pages. A prompt storage platform handling user data needs a privacy policy footer on every single page.
+
+No contact page anywhere. If someone has an issue with their content being shared, how do they reach you?
+
+## Structured Data Issues
+
+The JSON-LD on the homepage has an invalid `Organization.logo` — it needs to be a string URL, not an object. This means Google's rich results won't pick up your brand info correctly.
+
+Videos on the homepage and features page have no `VideoObject` schema, meaning Google Video search won't index them.
+
+<Solution>
+**Priority fixes:**
+
+1. **Beef up prompt pages** — add examples, use cases, tags context, related prompts. Get each page above 300 words or noindex the thin ones.
+2. **Fix accessibility** — label all form inputs, add `<main>` landmarks, add video captions, fix contrast.
+3. **Image optimization** — add proper `width`/`height`/`sizes` to all Image components. Cap avatar images at 200px wide.
+4. **Privacy policy footer** — add it to the global layout so it appears on every page.
+5. **Fix JSON-LD** — make `Organization.logo` a string URL.
+6. **Add VideoObject schema** — your demo videos should be discoverable.
+
+**Estimated fix time:** 2-3 weeks  
+**Priority:** High — the thin content and accessibility issues are actively hurting SEO and excluding users
+</Solution>
+
+## Final Verdict
+
+Musebox has the most potential of any site we've roasted. It's a real product with real users and real features. But it's making classic mistakes: indexing hundreds of thin pages, neglecting accessibility, and letting image optimization slip despite using the framework that's literally famous for image optimization.
+
+Nigel, you're closer than you think. The product is there — the website just needs to catch up to it.
+
+**Overall Score: 54/100 — Grade F** (but with a clear path to B+)
+
+---
+
+*The cruelest irony: a platform for organizing and optimizing AI prompts that hasn't optimized its own web presence. Physician, heal thyself.*
