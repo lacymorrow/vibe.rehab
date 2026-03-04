@@ -27,13 +27,13 @@ tags:
 
 ## The Good News First
 
-Musebox actually looks like a real product. It has features, users, a community page, blog, documentation. Someone clearly put in serious work here. The SEO metadata on the homepage is solid — OG tags, Twitter cards, structured data, proper meta descriptions. The bones are real.
+Musebox actually looks like a real product. It has features, users, a community page, blog, documentation. Someone clearly put in serious work here. The SEO metadata on the homepage is solid  -  OG tags, Twitter cards, structured data, proper meta descriptions. The bones are real.
 
 Now let's talk about everything else.
 
 ## The Content Wasteland
 
-Our crawler found 803 URLs in the sitemap. That's impressive! Until you realize that **21 of the 25 pages we sampled had thin content** — under 300 words. Some prompt pages clock in at 55-65 words.
+Our crawler found 803 URLs in the sitemap. That's impressive! Until you realize that **21 of the 25 pages we sampled had thin content**  -  under 300 words. Some prompt pages clock in at 55-65 words.
 
 <Issue type="error">
 Google's helpful content update specifically targets sites with lots of thin, low-value pages. Having 800+ indexed URLs where most contain barely a paragraph is a recipe for a rankings penalty.
@@ -51,10 +51,10 @@ Each prompt page is essentially: a title, a short description, and the prompt it
 **54/100 overall, but accessibility is where it hurts.** 10 errors and 66 warnings across 25 pages.
 
 The highlights:
-- **Unlabeled form inputs** — the newsletter signup email field and a honeypot field have no labels. Screen readers are lost.
-- **No `<main>` landmark** on the blog and features pages — assistive tech can't find the main content
-- **5 videos without captions** — across the homepage and features page. That's not just bad for accessibility, it's bad for SEO too.
-- **33 color contrast issues** — the gray-on-gray aesthetic that's trendy in dark mode? Fails WCAG for a lot of users.
+- **Unlabeled form inputs**  -  the newsletter signup email field and a honeypot field have no labels. Screen readers are lost.
+- **No `<main>` landmark** on the blog and features pages  -  assistive tech can't find the main content
+- **5 videos without captions**  -  across the homepage and features page. That's not just bad for accessibility, it's bad for SEO too.
+- **33 color contrast issues**  -  the gray-on-gray aesthetic that's trendy in dark mode? Fails WCAG for a lot of users.
 
 <Issue type="warning">
 The newsletter signup uses a hidden honeypot field (`b_6f33b644bdbc5f30e2acc4004_d9c2c64a21`) without an accessible label. Not only is this exposed in the DOM, screen readers will try to announce it, confusing users.
@@ -64,8 +64,8 @@ The newsletter signup uses a hidden honeypot field (`b_6f33b644bdbc5f30e2acc4004
 
 For a Next.js app using `next/image`, the image optimization is surprisingly bad:
 
-- **4 images exceed 100KB** — one avatar is **620KB** being served through the image optimizer
-- **65 images missing width/height** — causing Cumulative Layout Shift (CLS) on every prompt page
+- **4 images exceed 100KB**  -  one avatar is **620KB** being served through the image optimizer
+- **65 images missing width/height**  -  causing Cumulative Layout Shift (CLS) on every prompt page
 - **16 below-fold images without lazy loading** on the community page
 - Above-fold images on features/about pages ARE lazy loaded (the opposite of what you want)
 
@@ -85,31 +85,31 @@ No contact page anywhere. If someone has an issue with their content being share
 
 ## Structured Data Issues
 
-The JSON-LD on the homepage has an invalid `Organization.logo` — it needs to be a string URL, not an object. This means Google's rich results won't pick up your brand info correctly.
+The JSON-LD on the homepage has an invalid `Organization.logo`  -  it needs to be a string URL, not an object. This means Google's rich results won't pick up your brand info correctly.
 
 Videos on the homepage and features page have no `VideoObject` schema, meaning Google Video search won't index them.
 
 <Solution>
 **Priority fixes:**
 
-1. **Beef up prompt pages** — add examples, use cases, tags context, related prompts. Get each page above 300 words or noindex the thin ones.
-2. **Fix accessibility** — label all form inputs, add `<main>` landmarks, add video captions, fix contrast.
-3. **Image optimization** — add proper `width`/`height`/`sizes` to all Image components. Cap avatar images at 200px wide.
-4. **Privacy policy footer** — add it to the global layout so it appears on every page.
-5. **Fix JSON-LD** — make `Organization.logo` a string URL.
-6. **Add VideoObject schema** — your demo videos should be discoverable.
+1. **Beef up prompt pages**  -  add examples, use cases, tags context, related prompts. Get each page above 300 words or noindex the thin ones.
+2. **Fix accessibility**  -  label all form inputs, add `<main>` landmarks, add video captions, fix contrast.
+3. **Image optimization**  -  add proper `width`/`height`/`sizes` to all Image components. Cap avatar images at 200px wide.
+4. **Privacy policy footer**  -  add it to the global layout so it appears on every page.
+5. **Fix JSON-LD**  -  make `Organization.logo` a string URL.
+6. **Add VideoObject schema**  -  your demo videos should be discoverable.
 
 **Estimated fix time:** 2-3 weeks  
-**Priority:** High — the thin content and accessibility issues are actively hurting SEO and excluding users
+**Priority:** High  -  the thin content and accessibility issues are actively hurting SEO and excluding users
 </Solution>
 
 ## Final Verdict
 
 Musebox has the most potential of any site we've roasted. It's a real product with real users and real features. But it's making classic mistakes: indexing hundreds of thin pages, neglecting accessibility, and letting image optimization slip despite using the framework that's literally famous for image optimization.
 
-Nigel, you're closer than you think. The product is there — the website just needs to catch up to it.
+Nigel, you're closer than you think. The product is there  -  the website just needs to catch up to it.
 
-**Overall Score: 54/100 — Grade F** (but with a clear path to B+)
+**Overall Score: 54/100  -  Grade F** (but with a clear path to B+)
 
 ---
 

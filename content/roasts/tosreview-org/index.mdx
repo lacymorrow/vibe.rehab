@@ -2,7 +2,7 @@
 title: "ToSReview.org: The Site Nobody Uses (Their Words, Not Ours)"
 url: "https://tosreview.org"
 roastDate: "2026-03-03"
-summary: "A Terms of Service analysis tool where the submitter literally said 'no one is using it.' We investigated why — and found a site so empty that even our web scraper couldn't find content to analyze."
+summary: "A Terms of Service analysis tool where the submitter literally said 'no one is using it.' We investigated why  -  and found a site so empty that even our web scraper couldn't find content to analyze."
 issues:
   - "Site renders almost no readable content to crawlers"
   - "Title exists but body content is invisible or JS-dependent"
@@ -24,7 +24,7 @@ tags:
 
 ## The Ghost Page
 
-When our crawler hit tosreview.org, it found a title tag — "ToS Review - Terms of Service Analysis" — and then... nothing. The page rendered a title and an empty void. Our content scraper returned 38 characters of actual content. Total.
+When our crawler hit tosreview.org, it found a title tag  -  "ToS Review - Terms of Service Analysis"  -  and then... nothing. The page rendered a title and an empty void. Our content scraper returned 38 characters of actual content. Total.
 
 <Issue type="error">
 If a search engine crawler can't read your content, your site functionally doesn't exist. This is the digital equivalent of opening a store with no sign, no products on the shelves, and the lights off.
@@ -57,31 +57,31 @@ Can't rate what we can't see.
 
 We couldn't run a proper audit because there's nothing to audit. To give this a real roast, we'd need:
 
-1. **The site to render server-side** — or at least have pre-rendered HTML for crawlers
-2. **Visible content** — features, pricing, how it works, literally anything
-3. **More than one page** — a homepage at minimum, ideally an about page and the actual tool
+1. **The site to render server-side**  -  or at least have pre-rendered HTML for crawlers
+2. **Visible content**  -  features, pricing, how it works, literally anything
+3. **More than one page**  -  a homepage at minimum, ideally an about page and the actual tool
 
 <Solution>
 **The fix (before we can even talk about SEO, design, or UX):**
 
-1. **Add Server-Side Rendering (SSR) or Static Site Generation (SSG)** — if you're using React, switch to Next.js. If Vue, use Nuxt. If you're already on one of these, make sure your pages aren't wrapped in client-only components.
-2. **Pre-render the homepage** — at minimum, the landing page should be fully readable without JavaScript.
-3. **Add meta tags** — description, OG tags, Twitter cards. Even if the page content is JS-rendered, meta tags should be in the initial HTML.
-4. **Build a real landing page** — explain what ToS Review does, who it's for, and why someone should use it. Even a single well-crafted page would be a 100x improvement over the current state.
-5. **Submit to Google Search Console** — once there's something to index.
+1. **Add Server-Side Rendering (SSR) or Static Site Generation (SSG)**  -  if you're using React, switch to Next.js. If Vue, use Nuxt. If you're already on one of these, make sure your pages aren't wrapped in client-only components.
+2. **Pre-render the homepage**  -  at minimum, the landing page should be fully readable without JavaScript.
+3. **Add meta tags**  -  description, OG tags, Twitter cards. Even if the page content is JS-rendered, meta tags should be in the initial HTML.
+4. **Build a real landing page**  -  explain what ToS Review does, who it's for, and why someone should use it. Even a single well-crafted page would be a 100x improvement over the current state.
+5. **Submit to Google Search Console**  -  once there's something to index.
 
 **Estimated fix time:** 1 week to add SSR + landing page content  
-**Priority:** Existential — the site currently doesn't exist as far as the internet is concerned
+**Priority:** Existential  -  the site currently doesn't exist as far as the internet is concerned
 </Solution>
 
 ## Final Verdict
 
-ToSReview has an interesting concept — Terms of Service analysis is a genuinely useful niche. Most people don't read ToS agreements, and a tool that breaks them down could serve millions of users. The idea has legs.
+ToSReview has an interesting concept  -  Terms of Service analysis is a genuinely useful niche. Most people don't read ToS agreements, and a tool that breaks them down could serve millions of users. The idea has legs.
 
 But an invisible website is a dead website. Right now, tosreview.org is Schrödinger's SaaS: it might be amazing, it might be terrible, but until it renders content for the outside world, it exists in a quantum state of "probably nothing."
 
-**Overall Score: Unratable** — come back when the lights are on.
+**Overall Score: Unratable**  -  come back when the lights are on.
 
 ---
 
-*Nithen, the honesty in your submission was refreshing. Now channel that self-awareness into shipping a landing page that actually renders. The concept is solid — the execution just needs to catch up. We'll happily re-roast once there's something to look at.*
+*Nithen, the honesty in your submission was refreshing. Now channel that self-awareness into shipping a landing page that actually renders. The concept is solid  -  the execution just needs to catch up. We'll happily re-roast once there's something to look at.*

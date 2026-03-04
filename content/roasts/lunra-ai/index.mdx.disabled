@@ -40,14 +40,14 @@ Let's talk about those stats in the hero section:
 - **50+ Countries Touched**
 
 <Issue type="error">
-These numbers are almost certainly fabricated. The site has zero social proof, no app store presence, no community, no blog posts, and no evidence of actual users. "50+ Countries Touched" — touched how? With what? The vibes?
+These numbers are almost certainly fabricated. The site has zero social proof, no app store presence, no community, no blog posts, and no evidence of actual users. "50+ Countries Touched"  -  touched how? With what? The vibes?
 </Issue>
 
 Fake social proof is worse than no social proof. It tells visitors who actually investigate that you're willing to lie to them before they even sign up.
 
 ## The SEO Disaster
 
-Our audit scored Lunra at **37/100 — Grade F**. Let's break down the carnage:
+Our audit scored Lunra at **37/100  -  Grade F**. Let's break down the carnage:
 
 **Missing entirely:**
 - No XML sitemap
@@ -67,9 +67,9 @@ The meta description is 101 characters. The minimum for Google to display it pro
 
 For an app that claims to "honor your unique journey," the site doesn't honor users who rely on screen readers:
 
-- **Buttons without accessible names** — screen readers just say "button" with no context
-- **H3 tags jumping straight from H1** — heading hierarchy is broken
-- **7 color contrast issues** — that gentle, muted color palette? Turns out it's also unreadable for many users
+- **Buttons without accessible names**  -  screen readers just say "button" with no context
+- **H3 tags jumping straight from H1**  -  heading hierarchy is broken
+- **7 color contrast issues**  -  that gentle, muted color palette? Turns out it's also unreadable for many users
 
 <Issue type="warning">
 The submit button has no accessible name. A screen reader user literally cannot know what it does. So much for "no judgment, just results."
@@ -89,32 +89,32 @@ The landing page is all promises, zero proof. It's the goal-setting equivalent o
 
 Beyond the technical failures:
 
-- **No About page** — who built this?
-- **No Contact page** — how do I reach you?
-- **No Privacy Policy** — you're collecting user data with an AI product and have NO privacy policy?
-- **No blog, no content, no SEO play** — the site is invisible to search engines
+- **No About page**  -  who built this?
+- **No Contact page**  -  how do I reach you?
+- **No Privacy Policy**  -  you're collecting user data with an AI product and have NO privacy policy?
+- **No blog, no content, no SEO play**  -  the site is invisible to search engines
 
 <Issue type="error">
-Running an AI product that processes personal goals and dreams without a privacy policy isn't just bad SEO — it's potentially a legal liability, especially under GDPR.
+Running an AI product that processes personal goals and dreams without a privacy policy isn't just bad SEO  -  it's potentially a legal liability, especially under GDPR.
 </Issue>
 
 ## The Silver Lining
 
-The site does load fast (Performance: 97/100). It's also mobile-friendly and the images are properly optimized. So the technical foundation of the Next.js app is fine — it's everything on top of it that needs work.
+The site does load fast (Performance: 97/100). It's also mobile-friendly and the images are properly optimized. So the technical foundation of the Next.js app is fine  -  it's everything on top of it that needs work.
 
 <Solution>
 **The fix list:**
 
-1. **Add a sitemap, canonical URLs, and OG tags** — basic SEO table stakes
-2. **Remove or replace fake stats** — use real metrics or don't use any
-3. **Add a privacy policy** — especially critical for an AI product handling personal data
-4. **Fix accessibility** — name your buttons, fix heading hierarchy, check contrast
-5. **Show the actual product** — screenshots, a demo video, anything
-6. **Write real copy** — less meditation transcript, more "here's what this does and why you should care"
-7. **Add About/Contact pages** — prove you're a real company
+1. **Add a sitemap, canonical URLs, and OG tags**  -  basic SEO table stakes
+2. **Remove or replace fake stats**  -  use real metrics or don't use any
+3. **Add a privacy policy**  -  especially critical for an AI product handling personal data
+4. **Fix accessibility**  -  name your buttons, fix heading hierarchy, check contrast
+5. **Show the actual product**  -  screenshots, a demo video, anything
+6. **Write real copy**  -  less meditation transcript, more "here's what this does and why you should care"
+7. **Add About/Contact pages**  -  prove you're a real company
 
 **Estimated fix time:** 1-2 weeks for a developer who cares  
-**Priority:** Critical — the site is currently invisible to search engines and legally exposed
+**Priority:** Critical  -  the site is currently invisible to search engines and legally exposed
 </Solution>
 
 ## Final Verdict
@@ -123,7 +123,7 @@ Lunra.ai is a beautifully designed nothing. The aesthetics are pleasant, the per
 
 The irony is thick: a goal-achievement app that hasn't achieved its own goal of being a real, findable, trustworthy website. Maybe it needs to set some milestones and do a gentle check-in with itself.
 
-**Overall Score: 37/100 — Grade F**
+**Overall Score: 37/100  -  Grade F**
 
 ---
 

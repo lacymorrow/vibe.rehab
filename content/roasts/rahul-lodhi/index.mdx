@@ -3,7 +3,7 @@ title: "Rahul Rajput's Portfolio: A Skilled Dev Who Forgot to Market Himself"
 url: "https://www.rahul.eu.org"
 image: "https://rahul.eu.org/opengraph-image.png"
 roastDate: "2026-03-03"
-summary: "A talented developer's portfolio that scored 45/100 — not because the work is bad, but because the site sabotages itself with SEO mistakes, accessibility gaps, a potential leaked secret, and social links that screen readers can't use."
+summary: "A talented developer's portfolio that scored 45/100  -  not because the work is bad, but because the site sabotages itself with SEO mistakes, accessibility gaps, a potential leaked secret, and social links that screen readers can't use."
 issues:
   - "Overall health score: 45/100 (Grade F)"
   - "Potential LinkedIn client secret leaked in JS bundle"
@@ -23,10 +23,10 @@ tags:
 # Rahul Rajput's Portfolio: Great Developer, Rough Website
 
 **Submitted by:** Rahul Rajput (yes, he asked for this)  
-**The site:** rahul.eu.org — a developer portfolio / online resume  
+**The site:** rahul.eu.org  -  a developer portfolio / online resume  
 **First impression:** Clean, minimal, clearly built by someone who knows what they're doing. Which makes the problems more frustrating, because Rahul should know better.
 
-Let's be clear up front: Rahul is obviously a skilled developer. The portfolio showcases real projects, real open-source work, and a real GitHub presence. This isn't a roast of his abilities — it's a roast of how he's presenting them.
+Let's be clear up front: Rahul is obviously a skilled developer. The portfolio showcases real projects, real open-source work, and a real GitHub presence. This isn't a roast of his abilities  -  it's a roast of how he's presenting them.
 
 ## The Screenshot Says It All
 
@@ -45,16 +45,16 @@ Let's start with the scariest finding:
 <Issue type="warning">
 Our scanner flagged what it *thinks* might be a **LinkedIn Client Secret** in a JavaScript bundle (`_next/static/chunks/aa30077ba7b2601e.js`). The matched pattern: `rrahul******2006`.
 
-Now — this could be a false positive. It looks like it could just be a username or ID that happens to match a credential pattern. But if it IS a real OAuth client secret, it shouldn't be in a frontend bundle. Despite the confusing name, "client secrets" are server-only credentials — the "client" refers to your *app* being a client of the OAuth provider, not the browser. Exposing one lets anyone impersonate your application.
+Now  -  this could be a false positive. It looks like it could just be a username or ID that happens to match a credential pattern. But if it IS a real OAuth client secret, it shouldn't be in a frontend bundle. Despite the confusing name, "client secrets" are server-only credentials  -  the "client" refers to your *app* being a client of the OAuth provider, not the browser. Exposing one lets anyone impersonate your application.
 
-Rahul — worth a quick check. If it's just a username, no sweat. If it's an actual secret, rotate it and move it to a server-side environment variable.
+Rahul  -  worth a quick check. If it's just a username, no sweat. If it's an actual secret, rotate it and move it to a server-side environment variable.
 </Issue>
 
 ## SEO: The Silent Killer
 
-**Score: 45/100 — Grade F.** Here's why no recruiter is finding this site through Google:
+**Score: 45/100  -  Grade F.** Here's why no recruiter is finding this site through Google:
 
-**The title tag is 20 characters.** The minimum for proper SEO is 30. "r2hu1 (Rahul Rajput)" is your GitHub handle, not a page title. It should be something like "Rahul Rajput — Full-Stack Developer & Open Source Contributor."
+**The title tag is 20 characters.** The minimum for proper SEO is 30. "r2hu1 (Rahul Rajput)" is your GitHub handle, not a page title. It should be something like "Rahul Rajput  -  Full-Stack Developer & Open Source Contributor."
 
 **The meta description is 388 characters.** The maximum Google displays is 160. You wrote an essay where a sentence was needed. Google will truncate it and it'll look broken in search results.
 
@@ -70,7 +70,7 @@ The heading hierarchy jumps from H1 straight to H3, skipping H2 entirely. This t
 
 ## Accessibility: The Social Links Problem
 
-This is the biggest UX failure on the site. Rahul has 5 social links — Twitter, Discord, GitHub, LinkedIn, Instagram — and **every single one is an icon with no accessible text.**
+This is the biggest UX failure on the site. Rahul has 5 social links  -  Twitter, Discord, GitHub, LinkedIn, Instagram  -  and **every single one is an icon with no accessible text.**
 
 <Issue type="error">
 Screen readers announce these links as... nothing. No `aria-label`, no visible text, no `title` attribute. A blind user navigating your portfolio encounters 5 links in a row that all say "link" with no indication of where they go.
@@ -78,11 +78,11 @@ Screen readers announce these links as... nothing. No `aria-label`, no visible t
 The fix takes 30 seconds per link: `aria-label="Follow me on GitHub"`. That's it.
 </Issue>
 
-The same links also lack `rel="noopener"` — a security best practice for external links that open in new tabs. Without it, the destination page can access your `window.opener` object.
+The same links also lack `rel="noopener"`  -  a security best practice for external links that open in new tabs. Without it, the destination page can access your `window.opener` object.
 
 **10 color contrast issues** round out the accessibility problems. That trendy `text-muted-foreground` class? Turns out "muted" and "accessible" are often opposites. The light gray text on a dark background looks sleek but fails WCAG contrast ratios for many users.
 
-Two `<main>` landmarks on one page is also a problem — assistive tech expects exactly one. You've got `main.px-4` and `main.min-h-screen` fighting for the role.
+Two `<main>` landmarks on one page is also a problem  -  assistive tech expects exactly one. You've got `main.px-4` and `main.min-h-screen` fighting for the role.
 
 ## Content: Thin but Honest
 
@@ -90,38 +90,38 @@ Two `<main>` landmarks on one page is also a problem — assistive tech expects 
 
 The site also has zero E-E-A-T signals:
 - No About page
-- No Contact page (the email link in the social icons doesn't count — screen readers can't even announce it)
+- No Contact page (the email link in the social icons doesn't count  -  screen readers can't even announce it)
 - No privacy policy
 - No published dates on anything
 
 ## The Broken LinkedIn Link
 
-The LinkedIn social link returns a **999 status code** — LinkedIn's way of saying "I blocked your request." This is common with LinkedIn URLs, but it means automated tools (including Google) can't verify the link works. Consider using a proper LinkedIn vanity URL and testing it.
+The LinkedIn social link returns a **999 status code**  -  LinkedIn's way of saying "I blocked your request." This is common with LinkedIn URLs, but it means automated tools (including Google) can't verify the link works. Consider using a proper LinkedIn vanity URL and testing it.
 
 ## The Good Stuff
 
 Let's be fair about what works:
-- **Performance: 87/100** — the site loads fast
-- **Mobile: 100/100** — fully responsive
-- **Social Media: 100/100** — OG tags and social sharing are properly configured (ironic given the other SEO gaps)
-- **The design is clean** — minimal, focused, professional dark theme
-- **Real projects** — this isn't a template filled with Lorem Ipsum
+- **Performance: 87/100**  -  the site loads fast
+- **Mobile: 100/100**  -  fully responsive
+- **Social Media: 100/100**  -  OG tags and social sharing are properly configured (ironic given the other SEO gaps)
+- **The design is clean**  -  minimal, focused, professional dark theme
+- **Real projects**  -  this isn't a template filled with Lorem Ipsum
 
 The GitHub stats integration is a nice touch. The project cards look good. The overall aesthetic says "I take my work seriously."
 
 <Solution>
 **The fix list (in priority order):**
 
-1. **Check that leaked secret** — rotate any LinkedIn/OAuth credentials if they're real. Audit your environment variables and make sure nothing else is leaking into client bundles.
-2. **Add `aria-label` to all social links** — 5 links, 30 seconds each. Biggest accessibility win possible.
-3. **Fix the title tag** — expand to 50-60 chars. "Rahul Rajput — Full-Stack Developer & Open Source Contributor"
-4. **Trim the meta description** — cut to 150-160 chars. One compelling sentence.
-5. **Consolidate to one H1, one `<main>`** — fix the document structure.
-6. **Add `rel="noopener"` to external links** — security hygiene.
-7. **Add a canonical URL** — point both www and non-www to the same place.
-8. **Improve contrast** — bump `text-muted-foreground` up a shade or two.
-9. **Add 100 more words of content** — who you are, what you do, what you're looking for.
-10. **Add a charset declaration** — `<meta charset="utf-8">` in your head.
+1. **Check that leaked secret**  -  rotate any LinkedIn/OAuth credentials if they're real. Audit your environment variables and make sure nothing else is leaking into client bundles.
+2. **Add `aria-label` to all social links**  -  5 links, 30 seconds each. Biggest accessibility win possible.
+3. **Fix the title tag**  -  expand to 50-60 chars. "Rahul Rajput  -  Full-Stack Developer & Open Source Contributor"
+4. **Trim the meta description**  -  cut to 150-160 chars. One compelling sentence.
+5. **Consolidate to one H1, one `<main>`**  -  fix the document structure.
+6. **Add `rel="noopener"` to external links**  -  security hygiene.
+7. **Add a canonical URL**  -  point both www and non-www to the same place.
+8. **Improve contrast**  -  bump `text-muted-foreground` up a shade or two.
+9. **Add 100 more words of content**  -  who you are, what you do, what you're looking for.
+10. **Add a charset declaration**  -  `<meta charset="utf-8">` in your head.
 
 **Estimated fix time:** One afternoon. Maybe two hours.  
 **Priority:** High on the security issue, medium on everything else.
@@ -129,12 +129,12 @@ The GitHub stats integration is a nice touch. The project cards look good. The o
 
 ## Final Verdict
 
-This is the most frustrating kind of roast to write, because the developer clearly has talent. The projects are real. The design sense is there. The technical chops are obvious. But the website — the thing that's supposed to showcase all of this — is undermining him with rookie SEO mistakes and accessibility gaps that a developer of his caliber should catch.
+This is the most frustrating kind of roast to write, because the developer clearly has talent. The projects are real. The design sense is there. The technical chops are obvious. But the website  -  the thing that's supposed to showcase all of this  -  is undermining him with rookie SEO mistakes and accessibility gaps that a developer of his caliber should catch.
 
 Rahul, you're building cool stuff. Now build a portfolio that lets people actually find it.
 
-**Overall Score: 45/100 — Grade F** (but fixable in an afternoon)
+**Overall Score: 45/100  -  Grade F** (but fixable in an afternoon)
 
 ---
 
-*Rahul, you submitted yourself for roasting, which shows more self-awareness than most. Every issue here is fixable in a single coding session. The potential leaked secret is the only urgent one — check that first. Everything else is polish. You've got the skills; now ship the fixes.*
+*Rahul, you submitted yourself for roasting, which shows more self-awareness than most. Every issue here is fixable in a single coding session. The potential leaked secret is the only urgent one  -  check that first. Everything else is polish. You've got the skills; now ship the fixes.*
