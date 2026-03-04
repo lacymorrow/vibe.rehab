@@ -1,0 +1,87 @@
+---
+title: "ToSReview.org: The Site Nobody Uses (Their Words, Not Ours)"
+url: "https://tosreview.org"
+roastDate: "2026-03-03"
+summary: "A Terms of Service analysis tool where the submitter literally said 'no one is using it.' We investigated why — and found a site so empty that even our web scraper couldn't find content to analyze."
+issues:
+  - "Site renders almost no readable content to crawlers"
+  - "Title exists but body content is invisible or JS-dependent"
+  - "No discoverable pages, features, or product information"
+  - "The founder knows nobody uses it and submitted a roast anyway (respect)"
+tags:
+  - "rendering"
+  - "seo"
+  - "launch"
+  - "legal-tech"
+---
+
+# ToSReview.org: A Website Review of a Website That Doesn't Want to Be Reviewed
+
+**Submitted by:** Nithen  
+**The pitch:** Terms of Service analysis  
+**Their exact words:** "No one is using it."  
+**Our analysis:** We can see why.
+
+## The Ghost Page
+
+When our crawler hit tosreview.org, it found a title tag — "ToS Review - Terms of Service Analysis" — and then... nothing. The page rendered a title and an empty void. Our content scraper returned 38 characters of actual content. Total.
+
+<Issue type="error">
+If a search engine crawler can't read your content, your site functionally doesn't exist. This is the digital equivalent of opening a store with no sign, no products on the shelves, and the lights off.
+</Issue>
+
+This is a classic client-side rendering problem. The actual app probably works fine in a browser with JavaScript enabled, but for SEO, social sharing, and web scrapers (including the ones Google uses), the site is a blank page with a title.
+
+## What We Think Is Happening
+
+Based on the title and Nithen's description, ToSReview is probably a JavaScript-heavy SPA (Single Page Application) that:
+
+1. Loads a shell HTML page
+2. Fetches all content via JavaScript
+3. Renders everything client-side
+4. Leaves search engines staring at a blank page
+
+This is the #1 killer of otherwise good side projects. You build a cool tool, deploy it, and wonder why nobody finds it. The answer: Google literally can't see it.
+
+## The Honest Submission
+
+We have to give Nithen credit. Most people submit their sites for roasts hoping we'll say "it's pretty good, just fix a few things." Nithen opened with "No one is using it." 
+
+That's either radical self-awareness or a cry for help. Either way, we respect it.
+
+<Rating score={2}>
+Can't rate what we can't see.
+</Rating>
+
+## What We'd Need to Actually Roast This
+
+We couldn't run a proper audit because there's nothing to audit. To give this a real roast, we'd need:
+
+1. **The site to render server-side** — or at least have pre-rendered HTML for crawlers
+2. **Visible content** — features, pricing, how it works, literally anything
+3. **More than one page** — a homepage at minimum, ideally an about page and the actual tool
+
+<Solution>
+**The fix (before we can even talk about SEO, design, or UX):**
+
+1. **Add Server-Side Rendering (SSR) or Static Site Generation (SSG)** — if you're using React, switch to Next.js. If Vue, use Nuxt. If you're already on one of these, make sure your pages aren't wrapped in client-only components.
+2. **Pre-render the homepage** — at minimum, the landing page should be fully readable without JavaScript.
+3. **Add meta tags** — description, OG tags, Twitter cards. Even if the page content is JS-rendered, meta tags should be in the initial HTML.
+4. **Build a real landing page** — explain what ToS Review does, who it's for, and why someone should use it. Even a single well-crafted page would be a 100x improvement over the current state.
+5. **Submit to Google Search Console** — once there's something to index.
+
+**Estimated fix time:** 1 week to add SSR + landing page content  
+**Priority:** Existential — the site currently doesn't exist as far as the internet is concerned
+</Solution>
+
+## Final Verdict
+
+ToSReview has an interesting concept — Terms of Service analysis is a genuinely useful niche. Most people don't read ToS agreements, and a tool that breaks them down could serve millions of users. The idea has legs.
+
+But an invisible website is a dead website. Right now, tosreview.org is Schrödinger's SaaS: it might be amazing, it might be terrible, but until it renders content for the outside world, it exists in a quantum state of "probably nothing."
+
+**Overall Score: Unratable** — come back when the lights are on.
+
+---
+
+*Nithen, the honesty in your submission was refreshing. Now channel that self-awareness into shipping a landing page that actually renders. The concept is solid — the execution just needs to catch up. We'll happily re-roast once there's something to look at.*
