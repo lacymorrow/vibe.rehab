@@ -1,0 +1,82 @@
+---
+title: "[Site Name]: [Punchy Subtitle]"
+url: "https://example.com"
+roastDate: "YYYY-MM-DD"
+summary: "One or two sentences that hook the reader. Include the score. Make it funny but accurate."
+issues:
+  - "Overall health score: XX/100 (Grade X)"
+  - "Top issue #1"
+  - "Top issue #2"
+  - "Top issue #3"
+  - "Top issue #4"
+tags:
+  - "seo"
+  - "accessibility"
+  - "performance"
+---
+
+# [Punchy Title - Make It a Headline Someone Would Click]
+
+**Submitted by:** [Name]
+**The site:** [url]
+**Score: XX/100 - Grade X**
+
+## First Impressions
+
+[Open with a genuine, human reaction. Be taken-aback if warranted. Be funny. Write like
+you're a dev friend who just pulled up their site and is reacting in real time. Short
+paragraphs, conversational. NO emdashes. Use " - " if you need a dash.]
+
+## [Issue Section 1 - Name It Something Specific]
+
+[Dig into the biggest problem. Use data from the audit. React to it - "okay wait, hold on"
+energy. Specific numbers, specific files, specific elements. Not mean, just honest.]
+
+## [Issue Section 2]
+
+[Next biggest problem area. Same energy.]
+
+## [Issue Section 3 - Optional]
+
+[Only if there's enough material for a third distinct section.]
+
+## What's Actually Working
+
+[Always find the good stuff. Performance scores, design choices, real effort that shows.
+Be genuine here - this isn't sarcastic praise. If the person clearly put work in, say so.]
+
+## The Fix List
+
+Here's what I'd do, in order:
+
+1. **[Most urgent fix]** - why and how
+2. **[Second priority]** - why and how
+3. **[Third]** - brief
+4. **[Fourth]** - brief
+5. **[Fifth]** - brief
+
+**Estimated fix time:** [realistic timeframe]
+**Priority:** [Critical/High/Medium] - [one line on why]
+
+## Final Verdict
+
+[Wrap it up. Score + grade. Encouraging but honest. End with something personal
+directed at the submitter - you're rooting for them.]
+
+**Overall Score: XX/100 - Grade X**
+
+---
+
+*[Closing note to the submitter. Warm, direct, encouraging. One short paragraph.]*
+
+<!-- 
+VOICE GUIDE:
+- Write like Lacy. Funny, taken-aback, genuinely helpful.
+- You're a senior dev friend looking at someone's site and reacting honestly.
+- "wait... is that real?" energy when you find something wild.
+- Never mean. Always land with actionable help.
+- NO EMDASHES. Ever. Use " - " instead.
+- Short paragraphs. Conversational. Not a formal audit report.
+- Every roast gets a score out of 100 and a letter grade.
+- Always find something good to say - even if it's just "it loads fast."
+-->
