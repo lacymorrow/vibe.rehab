@@ -8,7 +8,8 @@ issues:
   - "60 accessibility errors including unlabeled forms and missing landmarks"
   - "Images up to 620KB served through Next.js Image optimizer at 3840px wide"
   - "5 videos without captions or VideoObject schema"
-  - "21 of 25 sampled pages had thin content under 300 words"
+  - "800+ prompt pages behind a login wall - Google indexes them, visitors see nothing"
+  - "Leaked Supabase anon key in JS bundle"
   - "No privacy policy on 19 pages"
 tags:
   - "accessibility"
@@ -30,15 +31,17 @@ Okay I'm not gonna lie, I was pleasantly surprised at first. Musebox actually lo
 
 And then I started clicking around.
 
-## The Content Problem
+## The Login Wall Problem
 
-So our crawler found 803 URLs in the sitemap. Eight hundred and three! That's impressive! Until you look at what's actually on those pages.
+So our crawler found 803 URLs in the sitemap. Eight hundred and three! That's impressive! Until you actually click on one.
 
-**21 of the 25 pages we sampled had thin content.** Under 300 words. Some prompt pages clock in at 55-65 words. That's not a page, that's a sticky note. It's a title, a short description, and the prompt itself. Basically a database row with a URL.
+I went to visit a prompt page and got: **"Login Required - To view 'Brainstorm Buddy' and other community prompts, please sign in to your account."** Every. Single. Prompt. Page. All 800+ of them.
 
-Here's why that matters: Google's helpful content update specifically goes after sites with tons of thin, low-value pages. You've indexed 800+ URLs where most contain barely a paragraph. That's not an SEO strategy, that's an invitation for a rankings penalty.
+So let me get this straight: you indexed 800+ URLs into Google, Google shows them in search results, someone clicks through excited to see a prompt, and they hit a login wall with zero content. That's not just bad for SEO - that's actively making people *not* want to sign up. You're training potential users to associate your brand with disappointment.
 
-The keyword stuffing makes it worse:
+The pages that are publicly visible? Most have thin content - under 300 words. Some clock in at 55-65 words. That's a database row with a URL, not a page.
+
+And the keyword stuffing makes it worse:
 - "prompt" at 5.1% density on the homepage
 - "your" at 3.6-5.5% across multiple pages
 - "musebox" at 3.2% on the docs page
@@ -87,12 +90,13 @@ This isn't a template someone deployed and forgot about. Someone built this with
 
 Here's what I'd do, in order:
 
-1. **Beef up those prompt pages** - add examples, use cases, related prompts. Get each page above 300 words, or noindex the thin ones. This is the highest-impact fix.
-2. **Fix accessibility** - label all form inputs, add `<main>` landmarks, add video captions, fix contrast ratios.
-3. **Fix the images** - add proper `width`/`height`/`sizes` to all Image components. That 620KB avatar? Cap it at 200px wide.
-4. **Add privacy policy to the global layout** - one change, fixes 19 pages.
-5. **Fix the JSON-LD** - make `Organization.logo` a string URL.
-6. **Add VideoObject schema** - those demo videos should be discoverable in Google Video search.
+1. **Make prompt pages publicly visible** - at least show the prompt title, description, and category without login. Gate the "copy" or "use" action, not the entire page. 800 indexed pages that show a login wall is actively harmful.
+2. **Beef up those prompt pages** - add examples, use cases, related prompts. Get each page above 300 words, or noindex the truly thin ones.
+3. **Fix accessibility** - label all form inputs, add `<main>` landmarks, add video captions, fix contrast ratios.
+4. **Fix the images** - add proper `width`/`height`/`sizes` to all Image components. That 620KB avatar? Cap it at 200px wide.
+5. **Add privacy policy to the global layout** - one change, fixes 19 pages.
+6. **Fix the JSON-LD** - make `Organization.logo` a string URL.
+7. **Add VideoObject schema** - those demo videos should be discoverable in Google Video search.
 
 **Estimated fix time:** 2-3 weeks
 **Priority:** High - the thin content and accessibility issues are actively hurting rankings and excluding users
