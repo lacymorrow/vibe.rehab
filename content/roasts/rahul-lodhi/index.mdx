@@ -28,97 +28,74 @@ tags:
 
 ## First Impressions
 
-Okay first off - the site looks good. Clean, minimal, dark theme, professional. You pull it up and think "this person knows what they're doing." Real projects, real open-source work, real GitHub presence. Rahul is clearly a skilled developer.
+The site looks good. Dark theme, clean layout, real projects, active GitHub contribution graph lighting up the page like a heatmap of someone who actually ships code. shadcn-cookie-consent has 273 stars. ration, cavio, MySocials, MusicHub, IDE. All real. All linked. The "Resume" and "Let's Talk" buttons are right there.
 
-Which is exactly what makes the next part so frustrating. Because the website that's supposed to showcase all this talent is actively sabotaging him. These are rookie mistakes from someone who is very obviously not a rookie.
+Rahul is obviously a capable developer. That's what makes the rest of this so annoying.
 
 ![Rahul's Portfolio Screenshot](Screenshot%202025-07-17%20at%208.20.54%20PM.png)
 
-*Clean design. Solid vibes. Now let's talk about everything under the hood.*
+## The Possible Leaked Secret
 
-## Wait - Is That a Leaked Secret?
+Our scanner flagged a pattern in `_next/static/chunks/aa30077ba7b2601e.js` that looks like a LinkedIn Client Secret: `rrahul******2006`.
 
-Let's start with the scary one.
+Probably a false positive. Looks like a username that matches a credential pattern. But if it *is* a real OAuth secret in a client-side bundle, that's bad. "Client secret" is a misleading name. The "client" means your app, not the browser. It belongs on a server, never in frontend JavaScript.
 
-Our scanner flagged what it *thinks* might be a **LinkedIn Client Secret** sitting in a JavaScript bundle (`_next/static/chunks/aa30077ba7b2601e.js`). The matched pattern: `rrahul******2006`.
+Rahul: check this first. If it's a username, ignore it. If it's real, rotate it today.
 
-Now - could be a false positive. It looks like it could just be a username or ID that matches a credential pattern. But *if* it's a real OAuth client secret, it absolutely should not be in a frontend bundle. Despite the confusing name, "client secrets" are server-only credentials - the "client" refers to your *app* being a client of the OAuth provider, not the browser. Exposing one means anyone can impersonate your application.
+## SEO
 
-Rahul - check this one first. If it's just a username, you're fine. If it's real, rotate it *today* and move it to a server-side environment variable.
+The title tag is 20 characters: "r2hu1 (Rahul Rajput)." That's a GitHub handle, not a page title. Google wants 30-60 characters. Something like "Rahul Rajput / Full-Stack Developer" would work.
 
-## SEO: Nobody Can Find You
+The meta description is 388 characters. Google shows 160. Everything after that gets cut off mid-sentence.
 
-**45/100.** Here's why no recruiter is discovering this site through Google:
+Two H1 tags on one page. Heading hierarchy jumps from H1 to H3, skipping H2. No canonical URL, so Google might index the www and non-www versions as separate pages competing against each other.
 
-**The title tag is 20 characters.** The minimum for decent SEO is 30. "r2hu1 (Rahul Rajput)" is your GitHub handle, not a page title. It should be something like "Rahul Rajput - Full-Stack Developer & Open Source Contributor."
+203 words total on the homepage. Google generally treats anything under 300 as thin content. A short paragraph about what you specialize in and what you're looking for would push you past that threshold.
 
-**The meta description is 388 characters.** Google shows 160 max. You wrote an entire paragraph where one sentence would've done the job. Google will just chop it off mid-sentence.
+## Five Silent Links
 
-**Two H1 tags.** Pick one. Your name or your primary value prop. Everything else is H2 and below.
+Twitter. Discord. GitHub. LinkedIn. Instagram. Five social icons in the top right corner. Every one is just an SVG inside an anchor tag. No `aria-label`. No visible text. No `title` attribute.
 
-**No canonical URL**, so Google might index www and non-www as separate pages - splitting your already thin SEO juice in half.
+A screen reader hits those and says: "link." "link." "link." "link." "link."
 
-The heading hierarchy also jumps from H1 straight to H3, skipping H2 entirely. That tells search engines your content structure is broken, and it tells screen readers the same thing.
+Where do they go? Nobody knows. The fix is `aria-label="GitHub"` on each one. Two minutes of work for the biggest accessibility win on the site.
 
-## The Social Links Problem
+Those same links are also missing `rel="noopener"`. Without it, the target page can access `window.opener` on your site. Low risk for most pages, but free to fix.
 
-This is the one that really got me. Rahul has 5 social links - Twitter, Discord, GitHub, LinkedIn, Instagram - and **every single one is just an icon with no accessible text.**
+The LinkedIn URL returns a 999 status. That's LinkedIn blocking automated requests. Google can't verify the link works either.
 
-No `aria-label`. No visible text. No `title` attribute. A screen reader user hits those links and hears: "link." "link." "link." "link." "link." Five links in a row with zero information about where they go.
+Ten color contrast failures, mostly from `text-muted-foreground`. Muted and accessible don't usually go together. Bump that gray up a notch.
 
-The fix is 30 seconds per link: `aria-label="Follow me on GitHub"`. That's it. Five links, two and a half minutes, biggest accessibility win on the entire site.
+Two `<main>` landmarks on a single page: `main.px-4` and `main.min-h-screen`. Screen readers expect one.
 
-Those same links are also missing `rel="noopener"` - a security best practice for external links in new tabs. Without it, the destination page can access your `window.opener` object.
+## What Works
 
-Then there's the 10 color contrast issues. That `text-muted-foreground` class looks sleek but "muted" and "accessible" are usually opposites. The light gray on dark background fails WCAG contrast ratios for a lot of users.
+- Performance: 87/100
+- Mobile: 100/100
+- Social sharing metadata: 100/100 (the OG tags are configured correctly, which is ironic given the SEO issues)
+- The design is focused and professional
+- These are real projects, not placeholder cards
+- The contribution graph is a nice, honest touch
 
-Oh, and two `<main>` landmarks on one page. Assistive tech expects exactly one. You've got `main.px-4` and `main.min-h-screen` both fighting for the role.
+## Fixes
 
-## Content: Thin but Honest
+1. **Verify the flagged secret.** If real, rotate it immediately.
+2. **Add `aria-label` to all five social links.** Two minutes.
+3. **Rewrite the title tag.** 50-60 characters. Name + role.
+4. **Cut the meta description to 160 characters.** One good sentence.
+5. **One H1. One `<main>`.** Fix the document structure.
+6. **Add `rel="noopener"` to external links.**
+7. **Set a canonical URL.**
+8. **Increase contrast on muted text.**
+9. **Add ~100 more words of content.**
+10. **Add `<meta charset="utf-8">`.**
 
-203 words on the entire homepage. Google generally wants 300+ to consider a page "content-rich." You don't need a novel, but a short paragraph about who you are, what you specialize in, and what you're looking for would make a real difference.
+**Time estimate:** An afternoon. Two hours if you're focused.
 
-The LinkedIn social link also returns a 999 status code - LinkedIn's way of blocking automated requests. Automated tools (including Google) can't verify the link works. Consider using a proper LinkedIn vanity URL.
+## Verdict
 
-## What's Actually Working
+45/100. A skilled developer's portfolio that's undermining itself with fixable mistakes. The projects speak for themselves. The site just needs to stop getting in their way.
 
-Let's be fair:
+Every issue on this list is a quick fix. The security flag is the only one with any urgency. Everything else is an afternoon of cleanup that'd push this into the 70s.
 
-- **Performance: 87/100** - fast
-- **Mobile: 100/100** - fully responsive
-- **Social Media: 100/100** - OG tags and social sharing are properly configured (ironic given the SEO gaps)
-- The design is clean, focused, professional
-- Real projects - this isn't a template filled with placeholder text
-- The GitHub stats integration is a nice touch
-
-The overall aesthetic says "I take my work seriously." The code under the hood just needs to match that energy.
-
-## The Fix List
-
-Here's what I'd do, in order:
-
-1. **Check that leaked secret** - if it's real, rotate it today and audit your env vars.
-2. **Add `aria-label` to all 5 social links** - 30 seconds each, biggest accessibility win possible.
-3. **Fix the title tag** - expand to 50-60 chars. Make it your name + what you do.
-4. **Trim the meta description** - cut to 150-160 chars. One compelling sentence.
-5. **Consolidate to one H1, one `<main>`** - fix the document structure.
-6. **Add `rel="noopener"` to external links** - security hygiene.
-7. **Add a canonical URL** - point www and non-www to the same place.
-8. **Bump up contrast** - increase `text-muted-foreground` a shade or two.
-9. **Add 100 more words of content** - who you are, what you do, what you're looking for.
-10. **Add a charset declaration** - `<meta charset="utf-8">` in your head.
-
-**Estimated fix time:** One afternoon. Maybe two hours.
-**Priority:** High on the security check, medium on everything else
-
-## Final Verdict
-
-This is the most frustrating kind of roast to write. The developer is clearly talented. The projects are real. The design sense is there. The chops are obvious. But the website - the thing that's supposed to be *showing all of that off* - is undermining him with mistakes he absolutely knows how to fix.
-
-Rahul, you're building cool stuff. Now build a portfolio that lets people actually find it.
-
-**Overall Score: 45/100 - Grade F** (but fixable in an afternoon)
-
----
-
-*You submitted yourself for roasting, which shows more self-awareness than most. Every issue here is fixable in a single coding session. The potential leaked secret is the only urgent one - check that first. Everything else is polish. You've got the skills. Now ship the fixes.*
+**Overall Score: 45/100 - Grade F**
