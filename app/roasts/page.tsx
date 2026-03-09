@@ -6,10 +6,10 @@ import { getRoastSummaries } from "@/lib/mdx";
 
 export const metadata: Metadata = {
   title: "Website Roasts - Brutally Honest Code & Design Reviews",
-  description: "Brutal honesty about your broken website. We roast real sites with detailed teardowns so you can learn what's wrong, how to fix it, and what good code actually looks like.",
+  description: "Brutal honesty about your website. Real site teardowns with actionable fixes and code reviews.",
   openGraph: {
     title: "Website Roasts - Brutally Honest Code & Design Reviews | Vibe Rehab",
-    description: "Brutal honesty about your broken website. We roast real sites with detailed teardowns so you can learn what's wrong, how to fix it, and what good code actually looks like.",
+    description: "Brutal honesty about your website. Real site teardowns with actionable fixes and code reviews.",
     url: `${siteConfig.url}/roasts`,
     siteName: siteConfig.name,
     images: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Website Roasts - Brutally Honest Code & Design Reviews | Vibe Rehab",
-    description: "Brutal honesty about your broken website. We roast real sites with detailed teardowns so you can learn what's wrong, how to fix it, and what good code actually looks like.",
+    description: "Brutal honesty about your website. Real site teardowns with actionable fixes and code reviews.",
     images: [`${siteConfig.url}/og?title=Website%20Roasts`],
   },
   alternates: {
