@@ -28,7 +28,7 @@ export const siteConfig: SiteConfig = {
   title: "Vibe Rehab - We Fix Your Broken Code & Finish Your MVP",
   tagline: "We Fix Vibe Code",
   description:
-    "Stop staring at that half-finished app. Vibe Rehab fixes broken code, completes your MVP, and gets you earning in 2-4 weeks. Professional dev services with no judgment, just results.",
+    "Vibe Rehab fixes broken code and finishes your MVP in 2-4 weeks. No judgment, just results. Starting at $99.",
   url: "https://vibe.rehab",
   ogImage: "https://vibe.rehab/og",
   links: {
@@ -62,7 +62,7 @@ export const siteConfig: SiteConfig = {
     url: "https://vibe.rehab",
     title: "Vibe Rehab - We Fix Your Code",
     description:
-      "Stop staring at that half-finished site or app. We'll finish what you started and get you earning in 2-4 weeks. No judgment, just results.",
+      "We fix broken code and finish your MVP in 2-4 weeks. No judgment, just results.",
     siteName: "Vibe Rehab",
     images: [
       {
@@ -77,7 +77,7 @@ export const siteConfig: SiteConfig = {
     card: "summary_large_image",
     title: "Vibe Rehab - We Fix Your Code",
     description:
-      "Stop staring at that half-finished site or app. We'll finish what you started and get you earning in 2-4 weeks. No judgment, just results.",
+      "We fix broken code and finish your MVP in 2-4 weeks. No judgment, just results.",
     images: ["https://vibe.rehab/og"],
     creator: "@viberehab",
     site: "@viberehab",
