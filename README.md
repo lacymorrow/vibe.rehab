@@ -1,30 +1,44 @@
-# Vibe rehab hero
+<p align="center">
+  <img src="https://vibe.rehab/og-image.png" alt="vibe.rehab" width="600" />
+</p>
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+<h1 align="center">vibe.rehab</h1>
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/lacymorrows-projects/v0-vibe-rehab-hero)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/QsgaNZsw4rb)
+<p align="center">
+  <strong>We fix your broken vibe code and finish your MVP.</strong><br/>
+  No judgment, just results. We've seen much worse.
+</p>
 
-## Overview
+<p align="center">
+  <a href="https://vibe.rehab">🌐 vibe.rehab</a>
+</p>
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+---
 
-## Deployment
+## What is this?
 
-Your project is live at:
+AI-generated code is everywhere. Most of it is broken, insecure, and half-finished. **vibe.rehab** is a dev service that takes your vibe-coded project from "it works on my machine (sometimes)" to production-ready.
 
-**[https://vercel.com/lacymorrows-projects/v0-vibe-rehab-hero](https://vercel.com/lacymorrows-projects/v0-vibe-rehab-hero)**
+### Services
 
-## Build your app
+- **Fix & Finish** - Bug fixes, missing features, security audit, production deployment. Starting at $999.
+- **Bug Fixes** - Targeted pair-programming code audit with roadmap and security recommendations. $99.
+- **Roast My Work** - Free. Brutally honest feedback about your project.
 
-Continue building your app on:
+## Tech Stack
 
-**[https://v0.dev/chat/projects/QsgaNZsw4rb](https://v0.dev/chat/projects/QsgaNZsw4rb)**
+- [Next.js](https://nextjs.org) + React
+- [Tailwind CSS](https://tailwindcss.com)
+- [shadcn/ui](https://ui.shadcn.com) components
+- [MDX](https://mdxjs.com) for content
 
-## How It Works
+## Development
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+```bash
+npm install
+npm run dev
+```
+
+## License
+
+MIT
