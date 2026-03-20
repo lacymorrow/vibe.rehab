@@ -82,7 +82,6 @@ const services = {
   project: {
     name: "Finish Your Project",
     price: 999,
-    discountedPrice: 2500,
     description:
       "From broken MVP to production-ready SaaS. We handle the technical debt, add missing features, and get you to market.",
     features: [
@@ -97,7 +96,6 @@ const services = {
   review: {
     name: "Code Review",
     price: 99,
-    discountedPrice: 149,
     description:
       "Pair-programming code audit with roadmap and security recommendations.",
     features: [
@@ -498,7 +496,7 @@ export default function Component() {
         <div className="relative z-20">
           <div className="grid md:grid-cols-3 gap-8 mx-auto">
             {/* Main Service */}
-            <div className="md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl transition-all duration-300">
+            <div className="md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
               <h3 className="text-2xl font-semibold text-slate-900 mb-4">
                 Finish Your Project
               </h3>
@@ -519,16 +517,11 @@ export default function Component() {
                   </div>
                 ))}
               </div>
-              <div className="text-3xl font-bold text-slate-900 mb-4">
-                <span className="text-lg">Starting at </span>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-lg text-slate-400 line-through">
-                    ${services.project.discountedPrice}
-                  </span>
-                  <span className="text-2xl font-bold text-slate-900">
-                    ${services.project.price}
-                  </span>
-                </div>
+              <div className="mb-4">
+                <span className="text-lg text-slate-600">Starting at </span>
+                <span className="text-3xl font-bold text-slate-900">
+                  ${services.project.price}
+                </span>
               </div>
               <Button
                 onClick={() => {
@@ -545,17 +538,12 @@ export default function Component() {
 
             {/* Supporting Services */}
             <div className="space-y-6">
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
                 <h4 className="text-lg font-semibold text-slate-900 mb-3">
                   Bug Fixes
                 </h4>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-lg text-slate-400 line-through">
-                    ${services.review.discountedPrice}
-                  </span>
-                  <div className="text-2xl font-bold text-slate-900">
-                    ${services.review.price}
-                  </div>
+                <div className="text-2xl font-bold text-slate-900 mb-3">
+                  ${services.review.price}
                 </div>
                 <p className="text-slate-600 text-sm mb-4">
                   Pair-programming code audit with roadmap and security
@@ -571,7 +559,7 @@ export default function Component() {
                 </Button>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg transition-all duration-300">
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
                 <h4 className="text-lg font-semibold text-slate-900 mb-3">
                   Roast My Work
                 </h4>

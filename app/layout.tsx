@@ -176,7 +176,7 @@ export default function RootLayout({
               >
                 Shipkit
               </a>
-              {' '}— the Next.js stack for startups.
+              , the Next.js stack for startups.
             </p>
           </div>
         </footer>
