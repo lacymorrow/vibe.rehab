@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter_Tight, Roboto_Mono } from "next/font/google";
 import { siteConfig } from "@/config/site-config";
 import "./globals.css";
@@ -181,6 +182,11 @@ export default function RootLayout({
           </div>
         </footer>
         <WebVitals />
+        <Script
+          src="https://analytics.lacy.sh/script.js"
+          data-website-id="7ea9eace-debb-4291-bc21-251a79dae897"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
