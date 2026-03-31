@@ -79,11 +79,27 @@ const BlueprintBackground = ({ isMobile }: { isMobile: boolean }) => (
 );
 
 const services = {
-  project: {
-    name: "Finish Your Project",
-    price: 999,
+  audit: {
+    name: "Code Audit",
+    price: 200,
+    priceLabel: "$200-500",
     description:
-      "From broken MVP to production-ready SaaS. We handle the technical debt, add missing features, and get you to market.",
+      "Pair-programming code audit with security review and a clear roadmap for what to fix first.",
+    features: [
+      "Comprehensive code audit",
+      "Security vulnerability assessment",
+      "Performance analysis",
+      "Prioritized improvement roadmap",
+    ],
+    priceId:
+      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW || "LIVE_PRICE_ID_REVIEW_NEEDED",
+  },
+  project: {
+    name: "Full Cleanup",
+    price: 500,
+    priceLabel: "$500-2,000",
+    description:
+      "From broken MVP to production-ready app. We fix the bugs, clean up the architecture, and get you to market.",
     features: [
       "Fix bugs and complete features",
       "Security audit and optimization",
@@ -93,19 +109,19 @@ const services = {
     priceId:
       process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT || "LIVE_PRICE_ID_PROJECT_NEEDED",
   },
-  review: {
-    name: "Code Review",
-    price: 99,
+  maintenance: {
+    name: "Ongoing Maintenance",
+    price: 2000,
+    priceLabel: "$2,000+/mo",
     description:
-      "Pair-programming code audit with roadmap and security recommendations.",
+      "Dedicated engineering support on retainer. Bug fixes, feature work, and infrastructure monitoring every month.",
     features: [
-      "Comprehensive code audit",
-      "Security vulnerability assessment",
-      "Performance optimization recommendations",
-      "Detailed improvement roadmap",
+      "Priority bug fixes and feature work",
+      "Monthly code health reports",
+      "Infrastructure monitoring",
+      "Direct Slack/email access to your engineer",
     ],
-    priceId:
-      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW || "LIVE_PRICE_ID_REVIEW_NEEDED",
+    priceId: null,
   },
 };
 
@@ -494,91 +510,121 @@ export default function Component() {
 
         {/* Services Grid */}
         <div className="relative z-20">
-          <div className="grid md:grid-cols-3 gap-8 mx-auto">
-            {/* Main Service */}
-            <div className="md:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
-              <h3 className="text-2xl font-semibold text-slate-900 mb-4">
-                Finish Your Project
+          <div className="grid md:grid-cols-3 gap-6 mx-auto">
+            {/* Code Audit */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+              <h3 className="text-xl font-semibold text-slate-900 mb-3">
+                {services.audit.name}
               </h3>
-              <p className="text-slate-600 mb-6 leading-relaxed">
-                From security nightmare to production-ready SaaS. We handle the
-                technical debt, add missing features, and get you to market.
+              <p className="text-slate-600 text-sm mb-4 leading-relaxed">
+                {services.audit.description}
               </p>
-              <div className="space-y-3 mb-6">
-                {[
-                  "Fix bugs and complete features",
-                  "Security audit and optimization",
-                  "Production deployment",
-                  "Launch strategy and support",
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <Check className="w-5 h-5 text-slate-900 flex-shrink-0" />
-                    <span className="text-slate-700">{item}</span>
+              <div className="space-y-2 mb-5">
+                {services.audit.features.map((item, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-slate-900 flex-shrink-0" />
+                    <span className="text-slate-700 text-sm">{item}</span>
                   </div>
                 ))}
               </div>
               <div className="mb-4">
-                <span className="text-lg text-slate-600">Starting at </span>
-                <span className="text-3xl font-bold text-slate-900">
-                  ${services.project.price}
+                <span className="text-2xl font-bold text-slate-900">
+                  {services.audit.priceLabel}
+                </span>
+              </div>
+              <Button
+                onClick={() => handleServiceClick(services.audit)}
+                variant="outline"
+                className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
+                style={{ position: "relative", zIndex: 50 }}
+              >
+                Book Audit
+              </Button>
+            </div>
+
+            {/* Full Cleanup - Featured */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-slate-900 text-left relative z-30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+              <Badge className="mb-3 bg-slate-900 text-white hover:bg-slate-900">Most Popular</Badge>
+              <h3 className="text-xl font-semibold text-slate-900 mb-3">
+                {services.project.name}
+              </h3>
+              <p className="text-slate-600 text-sm mb-4 leading-relaxed">
+                {services.project.description}
+              </p>
+              <div className="space-y-2 mb-5">
+                {services.project.features.map((item, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-slate-900 flex-shrink-0" />
+                    <span className="text-slate-700 text-sm">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mb-4">
+                <span className="text-2xl font-bold text-slate-900">
+                  {services.project.priceLabel}
                 </span>
               </div>
               <Button
                 onClick={() => {
-                  setSubmittedValue("I want to finish my project");
+                  setSubmittedValue("I need a full cleanup for my project");
                   setDetectedType("message");
                   setShowContactDialog(true);
                 }}
-                className="bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 relative z-40 pointer-events-auto"
+                className="w-full bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 relative z-40 pointer-events-auto"
                 style={{ position: "relative", zIndex: 50 }}
               >
-                Finish My Project
+                Get Started
               </Button>
             </div>
 
-            {/* Supporting Services */}
-            <div className="space-y-6">
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                <h4 className="text-lg font-semibold text-slate-900 mb-3">
-                  Bug Fixes
-                </h4>
-                <div className="text-2xl font-bold text-slate-900 mb-3">
-                  ${services.review.price}
-                </div>
-                <p className="text-slate-600 text-sm mb-4">
-                  Pair-programming code audit with roadmap and security
-                  recommendations.
-                </p>
-                <Button
-                  onClick={() => handleServiceClick(services.review)}
-                  variant="outline"
-                  className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
-                  style={{ position: "relative", zIndex: 50 }}
-                >
-                  Book Review
-                </Button>
+            {/* Ongoing Maintenance */}
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+              <h3 className="text-xl font-semibold text-slate-900 mb-3">
+                {services.maintenance.name}
+              </h3>
+              <p className="text-slate-600 text-sm mb-4 leading-relaxed">
+                {services.maintenance.description}
+              </p>
+              <div className="space-y-2 mb-5">
+                {services.maintenance.features.map((item, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-slate-900 flex-shrink-0" />
+                    <span className="text-slate-700 text-sm">{item}</span>
+                  </div>
+                ))}
               </div>
-
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                <h4 className="text-lg font-semibold text-slate-900 mb-3">
-                  Roast My Work
-                </h4>
-                <div className="text-2xl font-bold text-slate-900 mb-3">
-                  Free
-                </div>
-                <p className="text-slate-600 text-sm mb-4">
-                  Brutally honest feedback about your project.
-                </p>
-                <Button
-                  onClick={handleRoastClick}
-                  variant="outline"
-                  className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
-                  style={{ position: "relative", zIndex: 50 }}
-                >
-                  Roast Me
-                </Button>
+              <div className="mb-4">
+                <span className="text-2xl font-bold text-slate-900">
+                  {services.maintenance.priceLabel}
+                </span>
               </div>
+              <Button
+                onClick={() => {
+                  setSubmittedValue("I need ongoing maintenance for my project");
+                  setDetectedType("message");
+                  setShowContactDialog(true);
+                }}
+                variant="outline"
+                className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
+                style={{ position: "relative", zIndex: 50 }}
+              >
+                Talk to Us
+              </Button>
             </div>
+          </div>
+
+          {/* Free roast CTA */}
+          <div className="mt-8 text-center">
+            <button
+              type="button"
+              onClick={handleRoastClick}
+              className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-all duration-300 relative group"
+            >
+              <span className="relative">
+                Or get a free roast of your code
+                <div className="absolute inset-x-0 -bottom-1 h-px bg-gradient-to-r from-transparent via-slate-400 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+              </span>
+            </button>
           </div>
         </div>
 
