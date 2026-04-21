@@ -80,48 +80,51 @@ const BlueprintBackground = ({ isMobile }: { isMobile: boolean }) => (
 
 const services = {
   audit: {
-    name: "Code Audit",
-    price: 200,
-    priceLabel: "$200-500",
+    name: "Quick Fix",
+    price: 299,
+    priceLabel: "$299",
     description:
-      "Pair-programming code audit with security review and a clear roadmap for what to fix first.",
+      "Something specific broke and you need it working. Give us the issue, we'll fix it and ship it back.",
     features: [
-      "Comprehensive code audit",
-      "Security vulnerability assessment",
-      "Performance analysis",
-      "Prioritized improvement roadmap",
+      "Root cause diagnosis",
+      "Bug fixes or error resolution",
+      "Tested and deployed",
+      "1-week turnaround",
     ],
     priceId:
       process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW || "LIVE_PRICE_ID_REVIEW_NEEDED",
+    preset: "Quick Fix ($299): I have a specific bug or error I need resolved.",
   },
   project: {
-    name: "Full Cleanup",
-    price: 500,
-    priceLabel: "$500-2,000",
+    name: "Full Rescue",
+    price: 499,
+    priceLabel: "$499",
     description:
-      "From broken MVP to production-ready app. We fix the bugs, clean up the architecture, and get you to market.",
+      "Your AI project is half-built or broken across multiple areas. We clean up the mess and get it production-ready.",
     features: [
-      "Fix bugs and complete features",
-      "Security audit and optimization",
+      "Full codebase audit",
+      "Bug fixes across all problem areas",
+      "Architecture cleanup",
       "Production deployment",
-      "Launch strategy and support",
     ],
     priceId:
       process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT || "LIVE_PRICE_ID_PROJECT_NEEDED",
+    preset: "Full Rescue ($499): My project has multiple broken areas and needs a full cleanup.",
   },
   maintenance: {
-    name: "Ongoing Maintenance",
-    price: 2000,
-    priceLabel: "$2,000+/mo",
+    name: "Complete Rehab",
+    price: 799,
+    priceLabel: "$799",
     description:
-      "Dedicated engineering support on retainer. Bug fixes, feature work, and infrastructure monitoring every month.",
+      "Large broken project with a lot of AI-generated spaghetti code. We rebuild what needs rebuilding and make it something you can actually maintain.",
     features: [
-      "Priority bug fixes and feature work",
-      "Monthly code health reports",
-      "Infrastructure monitoring",
-      "Direct Slack/email access to your engineer",
+      "Full architecture review",
+      "Selective rewrite where needed",
+      "Security audit",
+      "Production deployment",
     ],
     priceId: null,
+    preset: "Complete Rehab ($799): My project is heavily broken and needs major reconstruction.",
   },
 };
 
@@ -330,7 +333,11 @@ export default function Component() {
                 Roast my 💩
               </button>
               <Button
-                onClick={() => handleServiceClick(services.project)}
+                onClick={() => {
+                  setSubmittedValue("I want to fix my broken AI project");
+                  setDetectedType("message");
+                  setShowContactDialog(true);
+                }}
                 className="bg-slate-900 hover:bg-blue-900 text-white font-medium text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3 rounded-lg transition-all duration-300"
                 style={
                   isMobile
@@ -338,7 +345,7 @@ export default function Component() {
                     : { transformStyle: "preserve-3d", transform: "translateZ(0)" }
                 }
               >
-                Get Started
+                Get a Free Scope Call
               </Button>
             </div>
           </header>
@@ -352,7 +359,7 @@ export default function Component() {
           {/* Badge */}
           <AnimatedSection animation={animationsEnabled ? "flip" : "none"} delay={200} className="mb-8">
             <Badge className="bg-blue-50 hover:bg-blue-50 text-slate-700 border-blue-200 px-4 py-2 text-sm font-medium">
-              Now accepting new projects • Book Now
+              Fixed pricing from $299 • Free scoping call
             </Badge>
           </AnimatedSection>
 
@@ -400,11 +407,11 @@ export default function Component() {
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-slate-600 font-light max-w-3xl mx-auto leading-relaxed mb-6">
-              Stop staring at that half-finished site or app. We'll finish what
-              you started and get you earning in 2-4 weeks.
+              Submit your broken AI project. We diagnose it, fix it, and ship it
+              back to you in 1-4 weeks. Flat-rate pricing, no surprises.
             </p>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-              ✨ No judgment, just results. We've seen <em>much</em> worse.
+              No judgment. We've seen much worse.
             </p>
           </AnimatedSection>
 
@@ -473,12 +480,12 @@ export default function Component() {
                       <div className="hidden sm:block w-px h-4 bg-slate-200"></div>
                       <span className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-                        2-4 week delivery
+                        1-4 week turnaround
                       </span>
                       <div className="hidden sm:block w-px h-4 bg-slate-200"></div>
                       <span className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                        Starting at $99
+                        Starting at $299
                       </span>
                     </div>
                   </div>
@@ -533,12 +540,16 @@ export default function Component() {
                 </span>
               </div>
               <Button
-                onClick={() => handleServiceClick(services.audit)}
+                onClick={() => {
+                  setSubmittedValue(services.audit.preset);
+                  setDetectedType("message");
+                  setShowContactDialog(true);
+                }}
                 variant="outline"
                 className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
                 style={{ position: "relative", zIndex: 50 }}
               >
-                Book Audit
+                Book a Quick Fix
               </Button>
             </div>
 
@@ -566,14 +577,14 @@ export default function Component() {
               </div>
               <Button
                 onClick={() => {
-                  setSubmittedValue("I need a full cleanup for my project");
+                  setSubmittedValue(services.project.preset);
                   setDetectedType("message");
                   setShowContactDialog(true);
                 }}
                 className="w-full bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 relative z-40 pointer-events-auto"
                 style={{ position: "relative", zIndex: 50 }}
               >
-                Get Started
+                Start My Rescue
               </Button>
             </div>
 
@@ -600,7 +611,7 @@ export default function Component() {
               </div>
               <Button
                 onClick={() => {
-                  setSubmittedValue("I need ongoing maintenance for my project");
+                  setSubmittedValue(services.maintenance.preset);
                   setDetectedType("message");
                   setShowContactDialog(true);
                 }}
@@ -608,7 +619,7 @@ export default function Component() {
                 className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
                 style={{ position: "relative", zIndex: 50 }}
               >
-                Talk to Us
+                Book Full Rehab
               </Button>
             </div>
           </div>

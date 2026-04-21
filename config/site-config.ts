@@ -28,7 +28,7 @@ export const siteConfig: SiteConfig = {
   title: "Vibe Rehab - We Fix Your Broken Code & Finish Your MVP",
   tagline: "We Fix Vibe Code",
   description:
-    "Vibe Rehab fixes broken code and finishes your MVP in 2-4 weeks. No judgment, just results. Starting at $99.",
+    "Vibe Rehab fixes broken AI projects and vibe code in 1-4 weeks. Flat-rate pricing from $299. No judgment, just results.",
   url: "https://vibe.rehab",
   ogImage: "https://vibe.rehab/og",
   links: {
