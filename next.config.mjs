@@ -19,14 +19,17 @@ const nextConfig = {
   // Compression
   compress: true,
   poweredByHeader: false,
-  // Eliminate redirect chains - go directly to canonical HTTPS non-www URL
-  async redirects() {
+  // Security and SEO headers
+  async headers() {
     return [
       {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.vibe.rehab' }],
-        destination: 'https://vibe.rehab/:path*',
-        permanent: true,
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://analytics.lacy.sh https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://analytics.lacy.sh https://api.stripe.com https://*.resend.com; frame-src https://js.stripe.com;" },
+        ],
       },
     ];
   },

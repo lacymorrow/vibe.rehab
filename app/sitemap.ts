@@ -16,6 +16,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'weekly',
             priority: 0.8,
         },
+        {
+            url: `${siteConfig.url}/about`,
+            lastModified: new Date().toISOString().split('T')[0],
+            changeFrequency: 'monthly',
+            priority: 0.5,
+        },
+        {
+            url: `${siteConfig.url}/privacy`,
+            lastModified: new Date().toISOString().split('T')[0],
+            changeFrequency: 'monthly',
+            priority: 0.3,
+        },
     ]
 
     const roasts = getAllRoasts()

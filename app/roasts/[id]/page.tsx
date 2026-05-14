@@ -21,9 +21,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     };
   }
 
+  const truncatedTitle = roast.title.length > 46 ? roast.title.slice(0, 43) + "..." : roast.title;
   return {
-    title: `${roast.title} | Vibe Rehab`,
-    description: roast.summary,
+    title: `${truncatedTitle} | Vibe Rehab`,
+    description: roast.summary.length > 155 ? roast.summary.slice(0, 152) + "..." : roast.summary,
     openGraph: {
       title: roast.title,
       description: roast.summary,

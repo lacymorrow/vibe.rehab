@@ -517,6 +517,7 @@ export default function Component() {
 
         {/* Services Grid */}
         <div className="relative z-20">
+          <h2 className="sr-only">Our Services</h2>
           <div className="grid md:grid-cols-3 gap-6 mx-auto">
             {/* Code Audit */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 text-left relative z-30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">

@@ -27,13 +27,14 @@ export function RoastCard({ roast }: { roast: Roast }) {
               <Calendar className="h-3 w-3" />
               <span>{new Date(roast.roastDate).toLocaleDateString()}</span>
               <span>•</span>
-              <Link 
-                href={roast.url} 
+              <Link
+                href={roast.url}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-amber-600 transition-colors flex items-center gap-1"
               >
                 <ExternalLink className="h-3 w-3" />
-                visit
+                <span>visit {roast.title.split(':')[0]}</span>
               </Link>
             </div>
           </div>
@@ -64,11 +65,11 @@ export function RoastCard({ roast }: { roast: Roast }) {
                 </span>
               ))}
             </div>
-            <Link 
+            <Link
               href={`/roasts/${roast.id}`}
               className="text-sm text-amber-600 hover:text-amber-700 transition-colors underline decoration-dotted underline-offset-2"
             >
-              read more
+              read full roast
             </Link>
           </div>
         </div>

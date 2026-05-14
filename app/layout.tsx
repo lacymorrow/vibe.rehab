@@ -75,6 +75,7 @@ export default function RootLayout({
       className={`${interTight.variable} ${robotoMono.variable}`}
     >
       <head>
+        <meta charSet="utf-8" />
         <link rel="canonical" href={siteConfig.url} />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
@@ -94,10 +95,7 @@ export default function RootLayout({
                   name: siteConfig.name,
                   description: siteConfig.description,
                   url: siteConfig.url,
-                  logo: {
-                    "@type": "ImageObject",
-                    url: `${siteConfig.url}/logo.png`,
-                  },
+                  logo: `${siteConfig.url}/logo.png`,
                   contactPoint: {
                     "@type": "ContactPoint",
                     contactType: "customer service",
@@ -159,13 +157,22 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-slate-900 focus:rounded-md focus:shadow-lg">
+          Skip to main content
+        </a>
+        <main id="main-content">
+          {children}
+        </main>
         <footer className="border-t border-slate-200 bg-slate-50">
           <div className="max-w-4xl mx-auto px-4 py-6 text-center space-y-2">
             <nav className="flex items-center justify-center gap-4 text-xs text-slate-500">
               <a href="/" className="font-medium text-slate-600 hover:text-slate-800 transition-colors">Home</a>
               <span className="text-slate-300">·</span>
               <a href="/roasts" className="font-medium text-slate-600 hover:text-slate-800 transition-colors">Website Roasts</a>
+              <span className="text-slate-300">·</span>
+              <a href="/about" className="font-medium text-slate-600 hover:text-slate-800 transition-colors">About</a>
+              <span className="text-slate-300">·</span>
+              <a href="/privacy" className="font-medium text-slate-600 hover:text-slate-800 transition-colors">Privacy Policy</a>
             </nav>
             <p className="text-xs text-slate-500">
               Building a product? Try{' '}

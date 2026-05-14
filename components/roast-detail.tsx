@@ -57,6 +57,7 @@ export function RoastDetail({ roast }: RoastDetailProps) {
             <Link
               href={roast.url}
               target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-1 text-amber-600 hover:text-amber-700 transition-colors"
             >
               <ExternalLink className="h-3 w-3" />
