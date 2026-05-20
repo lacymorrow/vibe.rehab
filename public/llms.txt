@@ -1,0 +1,21 @@
+# Vibe Rehab
+
+> We finish your broken AI-generated code. Stalled MVPs, half-built apps, vibe-coded projects — shipped in 2-4 weeks by senior engineers.
+
+## What is Vibe Rehab?
+Vibe Rehab takes over projects that AI coding tools started but couldn't finish. You hand us the repo, we audit it, fix what's broken, and ship a production-ready app. Common cases: prototypes that work locally but break in prod, AI-generated codebases nobody understands, founders who hit a wall partway through.
+
+## Main
+- [Home](https://vibe.rehab): How it works, pricing, and getting started
+- [About](https://vibe.rehab/about): Who we are and how we work
+- [Roasts](https://vibe.rehab/roasts): Public teardowns of broken AI-built sites with fixes
+- [Privacy](https://vibe.rehab/privacy): Privacy policy
+
+## How It Works
+1. Send us your repo and a description of what's broken
+2. We audit the code and quote a fixed price (typically 2-4 weeks)
+3. We fix it, document it, and hand back a working app
+
+## Links
+- Website: https://vibe.rehab
+- GitHub: https://github.com/lacymorrow/vibe.rehab
