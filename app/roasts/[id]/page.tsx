@@ -17,13 +17,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   
   if (!roast) {
     return {
-      title: "Roast Not Found | Vibe Rehab",
+      title: "Roast Not Found",
     };
   }
 
+  // Root layout template appends " | Vibe Rehab" (13 chars); cap at 46 so the
+  // rendered <title> stays within ~60 chars for SERPs.
   const truncatedTitle = roast.title.length > 46 ? roast.title.slice(0, 43) + "..." : roast.title;
   return {
-    title: `${truncatedTitle} | Vibe Rehab`,
+    title: truncatedTitle,
     description: roast.summary.length > 155 ? roast.summary.slice(0, 152) + "..." : roast.summary,
     openGraph: {
       title: roast.title,
