@@ -21,9 +21,10 @@ AI-generated code is everywhere. Most of it is broken, insecure, and half-finish
 
 ### Services
 
-- **Fix & Finish** - Bug fixes, missing features, security audit, production deployment. Starting at $999.
-- **Bug Fixes** - Targeted pair-programming code audit with roadmap and security recommendations. $99.
-- **Roast My Work** - Free. Brutally honest feedback about your project.
+- **Quick Fix** — Root cause diagnosis and targeted bug fix, tested and deployed. $299.
+- **Full Rescue** — Full codebase audit, bug fixes across all problem areas, architecture cleanup, production deployment. $499.
+- **Complete Rehab** — Full architecture review, selective rewrite, security audit, production deployment. $799.
+- **Roast My Work** — Free. Brutally honest feedback about your project.
 
 ## Tech Stack
 

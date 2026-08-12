@@ -23,6 +23,7 @@ import {
 import { CardsMarquee } from "@/app/_components/cards-marquee";
 import { IndieLaunchTweets } from "./indie-launch-tweets";
 import { ThreeDMarqueeDemo } from "@/app/_components/section-marquee";
+import { TIERS } from "@/lib/pricing";
 
 // Blueprint Background Component - Simplified for LCP
 const BlueprintBackground = ({ isMobile }: { isMobile: boolean }) => (
@@ -79,53 +80,9 @@ const BlueprintBackground = ({ isMobile }: { isMobile: boolean }) => (
 );
 
 const services = {
-  audit: {
-    name: "Quick Fix",
-    price: 299,
-    priceLabel: "$299",
-    description:
-      "Something specific broke and you need it working. Give us the issue, we'll fix it and ship it back.",
-    features: [
-      "Root cause diagnosis",
-      "Bug fixes or error resolution",
-      "Tested and deployed",
-      "1-week turnaround",
-    ],
-    priceId:
-      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW || "LIVE_PRICE_ID_REVIEW_NEEDED",
-    preset: "Quick Fix ($299): I have a specific bug or error I need resolved.",
-  },
-  project: {
-    name: "Full Rescue",
-    price: 499,
-    priceLabel: "$499",
-    description:
-      "Your AI project is half-built or broken across multiple areas. We clean up the mess and get it production-ready.",
-    features: [
-      "Full codebase audit",
-      "Bug fixes across all problem areas",
-      "Architecture cleanup",
-      "Production deployment",
-    ],
-    priceId:
-      process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT || "LIVE_PRICE_ID_PROJECT_NEEDED",
-    preset: "Full Rescue ($499): My project has multiple broken areas and needs a full cleanup.",
-  },
-  maintenance: {
-    name: "Complete Rehab",
-    price: 799,
-    priceLabel: "$799",
-    description:
-      "Large broken project with a lot of AI-generated spaghetti code. We rebuild what needs rebuilding and make it something you can actually maintain.",
-    features: [
-      "Full architecture review",
-      "Selective rewrite where needed",
-      "Security audit",
-      "Production deployment",
-    ],
-    priceId: null,
-    preset: "Complete Rehab ($799): My project is heavily broken and needs major reconstruction.",
-  },
+  audit: TIERS.quick_fix,
+  project: TIERS.full_rescue,
+  maintenance: TIERS.complete_rehab,
 };
 
 const placeholderExamples = [

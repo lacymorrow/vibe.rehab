@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { getAllowedPriceIds } from "@/lib/pricing";
 
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -39,13 +40,10 @@ export async function POST(request: NextRequest) {
 
     // In production, only allow known, configured Price IDs to prevent tampering
     if (process.env.NODE_ENV === "production") {
-      const allowedPriceIds = [
-        process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PROJECT,
-        process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_REVIEW,
-      ].filter(Boolean) as string[];
+      const allowedPriceIds = getAllowedPriceIds();
 
       if (!allowedPriceIds.includes(priceId)) {
-        console.warn("Rejected request with an allowed Stripe priceId", { priceId });
+        console.warn("Rejected request with disallowed Stripe priceId", { priceId });
         return NextResponse.json({ error: "The provided price ID is not allowed" }, { status: 403 });
       }
     }
