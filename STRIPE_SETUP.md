@@ -65,8 +65,45 @@ Before running against live keys, verify against Stripe test mode:
 3. Confirm the success page displays the correct amount (pulled from the Stripe session, not the page).
 4. Only after the above passes should live keys be swapped in.
 
+## Sales telemetry webhook
+
+`POST /api/webhooks/stripe` handles `checkout.session.completed` and, on each sale, emails the board and files a Paperclip issue so we don't miss customers.
+
+### Extra env vars
+
+```bash
+# Stripe webhook signing secret (from the endpoint you create in the Stripe dashboard)
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Resend (already used by /api/send-email)
+RESEND_API_KEY=re_...
+
+# Paperclip control plane — used to file a "SALE: ..." issue per purchase
+PAPERCLIP_API_URL=https://zero.hyrax-boga.ts.net
+PAPERCLIP_API_KEY=...              # scoped API key with write access to the company
+PAPERCLIP_COMPANY_ID=...           # vibe.rehab company id
+PAPERCLIP_SALES_ASSIGNEE_AGENT_ID= # optional; defaults to unassigned when blank
+```
+
+### Register the webhook in Stripe
+
+1. In the Stripe dashboard, **Developers → Webhooks → Add endpoint**.
+2. Endpoint URL: `https://vibe.rehab/api/webhooks/stripe` (register separate endpoints for test and live modes).
+3. Events to send: `checkout.session.completed`.
+4. Copy the signing secret and set `STRIPE_WEBHOOK_SECRET` in Vercel (Production; use a separate secret for any test-mode endpoint pointed at a preview URL).
+
+### What the webhook does on `checkout.session.completed`
+
+1. Verifies the `stripe-signature` header against `STRIPE_WEBHOOK_SECRET`. Missing or bad signatures return 400 and nothing else runs.
+2. Retrieves the session with `line_items.data.price` expanded and matches the price ID against `TIERS` in `lib/pricing.ts` to resolve the tier name.
+3. Files a Paperclip issue titled `SALE: <tier> — <email>` via `POST /api/companies/:id/issues`.
+4. Emails the board (`vibe@shipkit.io`) with tier, amount, customer email, Stripe mode (TEST/LIVE), session id, and the Paperclip identifier.
+
+Failures in either downstream call are logged but the webhook still returns 200 so Stripe does not retry the whole delivery indefinitely.
+
 ## Security Notes
 
 - Never commit `.env.local`.
 - Live secret keys stay in Vercel env / deploy secrets only.
 - The checkout API validates the incoming `priceId` against the configured allowlist in production; unknown price IDs are rejected with 403.
+- The webhook route rejects any request without a valid `stripe-signature` — do not disable this.
