@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Inter_Tight, Roboto_Mono } from "next/font/google";
 import { siteConfig } from "@/config/site-config";
+import { TIERS } from "@/lib/pricing";
 import "./globals.css";
 
 // Web Vitals tracking
@@ -123,34 +124,20 @@ export default function RootLayout({
                   publisher: { "@id": `${siteConfig.url}#organization` },
                   inLanguage: "en-US",
                 },
-                {
+                ...Object.values(TIERS).map((tier) => ({
                   "@type": "Service",
-                  name: "Project Completion Service",
-                  description: "Complete your unfinished MVP or web application with professional development services",
+                  name: tier.name,
+                  description: tier.description,
                   provider: { "@id": `${siteConfig.url}#organization` },
                   serviceType: "Software Development",
                   areaServed: "Worldwide",
                   offers: {
                     "@type": "Offer",
                     priceCurrency: "USD",
-                    price: "999",
-                    description: "Starting at $999 for project completion",
+                    price: String(tier.price),
+                    description: `${tier.priceLabel} — ${tier.name}`,
                   },
-                },
-                {
-                  "@type": "Service",
-                  name: "Code Review Service",
-                  description: "Comprehensive code audit with security and performance recommendations",
-                  provider: { "@id": `${siteConfig.url}#organization` },
-                  serviceType: "Code Quality Assurance",
-                  areaServed: "Worldwide",
-                  offers: {
-                    "@type": "Offer",
-                    priceCurrency: "USD",
-                    price: "99",
-                    description: "Starting at $99 for code review",
-                  },
-                },
+                })),
               ],
             }),
           }}
