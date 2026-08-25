@@ -6,9 +6,9 @@ roastDate: "2026-04-30"
 summary: "Community platform for builders scoring 72/100. Solid SEO and clean design undercut by a missing main landmark, low-contrast footer, and projects gated behind login on a site whose tagline is 'Show the world.'"
 issues:
   - "Overall health score: 72/100 (Grade C)"
-  - "No <main> landmark — screen readers can't navigate the page"
+  - "No <main> landmark - screen readers can't navigate the page"
   - "Footer text contrast ratio: 2.53:1 (needs 4.5:1)"
-  - "Title tag is 12 characters — Google wants 30-60"
+  - "Title tag is 12 characters - Google wants 30-60"
   - "No canonical URL set"
   - "Projects and builder profiles require login to view"
 tags:
@@ -27,9 +27,9 @@ tags:
 
 ## First impressions
 
-Clean. Confident. Black and orange without being garish. The globe with scattered builder dots communicates global reach better than any copy could. The serif headline with the orange second line looks like a real product, not a Framer template someone never finished.
+Okay, first thing: this looks good. Clean, confident, black and orange without being garish. The globe with the scattered builder dots sells "global community" better than a paragraph of copy ever could, and the serif headline with the orange second line reads like a real product instead of a Framer template someone abandoned halfway.
 
-The tagline is "Show, don't tell." Good one. Then you try to see what people actually built and you hit a login screen.
+The tagline is "Show, don't tell." Solid. Then I went to actually see what people built, and I hit a login screen.
 
 ![Buildstory Homepage](buildstory-homepage.png)
 
@@ -37,17 +37,17 @@ The tagline is "Show, don't tell." Good one. Then you try to see what people act
 
 The hero says: "Build something real. Show the world."
 
-/projects requires login. /builders requires login. The activity feed on the homepage teases names and project titles, but clicking anything walls you off until you register. "Show the world" should mean the world can see it. Without an account.
+/projects requires login. /builders requires login. The homepage activity feed dangles names and project titles in front of you, but click anything and you're walled off until you register. "Show the world" should mean the world can actually see it, no account required.
 
-This is the biggest problem on the site. Not a bug, not a missing tag. A product decision that contradicts the core promise. You're asking people to trust a visibility platform that won't show them anything until they sign up.
+This is the biggest problem on the site, and it's not a bug or a missing tag. It's a product decision that fights the core promise. You're asking people to trust a visibility platform that won't show them a single thing until they sign up.
 
 Public project pages fix this. Every project becomes a link. Every link is a discovery path. Right now everything is locked behind a form.
 
 ## SEO
 
-Lighthouse: 100/100. Meta description, Open Graph, Twitter card, viewport, robots — all in place. OG image is set. Every image has alt text. For a community side project, that's more thorough than most.
+Lighthouse: 100/100. Meta description, Open Graph, Twitter card, viewport, robots - all there. OG image is set. Every image has alt text. For a community side project, that's more buttoned-up than most.
 
-The gap: the title tag is "Buildstory." Twelve characters. Google wants 30-60. "Buildstory — Community & Hackathons for Builders" fills the slot. There's also no canonical URL. Both www.buildstory.com and buildstory.com resolve, and Google has to guess which one counts. Pick one and declare it.
+The gap is the title tag: "Buildstory." Twelve characters. Google wants 30-60. Something like "Buildstory - Community & Hackathons for Builders" fills the slot. There's also no canonical URL, and since both www.buildstory.com and buildstory.com resolve, Google has to guess which one counts. Pick one and declare it.
 
 Word count is 666. No issues.
 
@@ -84,7 +84,7 @@ Title and canonical: ten minutes. The `<main>`: five. Footer contrast: two. Publ
 
 ## Verdict
 
-72/100. The technical issues are all fixable in an afternoon. 44 builders, 21 countries, 18 projects — there's real activity here, and the visual identity holds up.
+72/100. The technical issues are all fixable in an afternoon. 44 builders, 21 countries, 18 projects - there's real activity here, and the visual identity holds up.
 
 The product issue is harder. A platform built to show work to the world should let the world see it. Right now every project is effectively private. Fix that, and the homepage stops making a promise it doesn't keep.
 

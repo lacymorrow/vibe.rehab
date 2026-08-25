@@ -2,13 +2,13 @@
 title: "Cobalt: A Media Downloader That Doesn't Download Media"
 url: "https://cobalt.tools"
 roastDate: "2026-04-30"
-summary: "Open-source media downloader with a sharp UI and a principled no-tracking stance, undermined by a centralized proxy model that YouTube has effectively neutered. The main use case is broken on the main instance. The design is honest about what it is. The architecture is honest about what it can't be."
+summary: "Open-source media downloader with a sharp UI and a principled no-tracking stance, undermined by a centralized proxy model that YouTube has effectively neutered. The flagship use case is broken on the main instance, and self-hosting isn't a product answer for most people."
 issues:
-  - "YouTube downloading broken on the main instance since mid-2025 — the most popular use case"
+  - "YouTube downloading broken on the main instance since mid-2025 - the most popular use case"
   - "90% failure rate reported on mobile devices"
   - "Centralized proxy model fundamentally vulnerable to platform anti-scraping"
   - "Clone site proliferation with no official way to verify safe instances"
-  - "No batch or playlist downloading — one link at a time"
+  - "No batch or playlist downloading - one link at a time"
   - "Quality degradation: sometimes downloads 720p when 4K was requested"
 tags:
   - "open-source"
@@ -28,79 +28,79 @@ tags:
 
 ## First Impressions
 
-You land on cobalt.tools and the UI is refreshingly honest. One input field. A mascot. A tagline: *"a media downloader that doesn't piss you off."* No trackers, no ads, no 14-step wizard. Paste a link, get a file. The minimalism isn't laziness — it's a product philosophy expressed in markup.
+You land on cobalt.tools and I have to say, the UI is refreshingly honest. One input field. A little mascot. A tagline that reads *"a media downloader that doesn't piss you off."* No trackers, no ads, none of the 14-step wizard nonsense. You paste a link, you get a file. The minimalism here isn't laziness, it's a point of view someone actually committed to.
 
-The typography is clean. The dark theme doesn't feel like a dark theme checkbox — it feels deliberate. The horizontal nav (save, remux, settings, donate, updates, about) is appropriately sparse. For a tool that does one thing, the UI correctly does not try to be a platform.
+The typography is clean. The dark theme doesn't feel like somebody ticked a "dark mode" checkbox and called it a day, it feels deliberate. The nav across the top (save, remux, settings, donate, updates, about) is sparse in a good way. For a tool that does one thing, this is exactly right - it doesn't try to become a platform.
 
-Then you paste a YouTube URL.
+Then I pasted a YouTube URL.
 
 ## The Irony
 
-YouTube is the most commonly shared video format on the internet. Cobalt supports 30+ platforms. And YouTube, the obvious flagship use case, has been completely broken on the main instance since mid-2025.
+YouTube is the single most shared video source on the internet, and cobalt supports 30+ platforms, so you'd assume it's the flagship. Except YouTube has been flat-out broken on the main instance since mid-2025.
 
-This is not a minor bug. YouTube's anti-bot infrastructure now actively blocks requests at the scale cobalt.tools operates at. The maintainers are honest about it: *"we can't go around them at our scale."* The GitHub issues are open. There's no ETA. The fix likely requires a fundamentally different architecture — decentralized, distributed, or client-side in ways the current proxy model can't accommodate.
+And this isn't a little bug you can patch on a Friday. YouTube's anti-bot infrastructure actively blocks requests at the scale cobalt.tools runs at. The maintainers don't hide from it either - they straight up say *"we can't go around them at our scale."* The GitHub issues are open, there's no ETA, and the real fix probably means a completely different architecture (decentralized, distributed, or shoved client-side in a way the current proxy just can't do).
 
-That's a real problem. Not a *bad code* problem. A *structural constraint* problem. But if you discover it after someone hands you cobalt.tools as a YouTube downloader, you feel misled even though nobody lied to you.
+So it's a legitimate problem, but it's a structural one, not a "your code is bad" one. Trouble is, if someone hands you cobalt.tools as a "YouTube downloader" and you find out the hard way, you feel misled - even though technically nobody lied to you.
 
-The fix list for this starts with the product page, not the codebase: every instance list should clearly mark YouTube support status. Users should know before they paste.
+The fix here starts on the product page, not in the codebase. Every instance list should say, plainly, whether YouTube works. Tell people before they paste, not after.
 
 ## The Architecture Problem
 
-Cobalt's backend is an Express-based proxy. You send it a URL, it resolves the direct media stream and tunnels it back to you. Zero caching. Privacy-first. Stateless. This is elegant for platforms that don't aggressively police third-party access.
+Under the hood, cobalt's backend is an Express proxy. You hand it a URL, it resolves the direct media stream, and it tunnels the file back to you. No caching, no state, privacy-first. For platforms that don't obsess over third-party access, that design is genuinely elegant.
 
-The problem is that a centralized proxy becomes a single target. When YouTube tightens their scraping defenses, *every user of the main instance* hits the wall simultaneously. There's no fallback. No degraded mode. Just a 403.
+The catch is that one centralized proxy is also one big target. The moment YouTube tightens its defenses, everybody on the main instance hits the same wall at the same second. No fallback, no degraded mode, just a 403 staring back at you.
 
-Self-hosting is the stated answer, and the documentation for it is genuinely good — clear, Docker-first, covers DDoS protection. But "self-host it" is not a product answer. Most people who would benefit from cobalt cannot and will not run their own instance. Directing them to a community instance list is reasonable but creates the clone site problem.
+Self-hosting is the official answer, and honestly the docs for it are good - clear, Docker-first, they even cover DDoS protection. But "go host it yourself" isn't really a product answer. The vast majority of people who'd love cobalt are never going to spin up their own instance. Pointing them at a community instance list is a fair compromise, but it opens up the clone problem.
 
 ## The Clone Site Problem
 
-Because cobalt is open source and self-hostable, the internet now has dozens of cobalt instances. Some of them are maintained. Some of them serve ads. Some of them are pulling in cobalt's branding and routing downloads through infrastructure you cannot audit. There's no official instance registry with verified safety status, and the domain privacy on cobalt.tools itself contributes to a general trust ambiguity that ScamAdviser scores at 50/100.
+Because cobalt is open source and easy to self-host, the internet is now littered with cobalt instances. Some are well maintained. Some run ads. And some grab cobalt's branding and route your downloads through infrastructure you have no way to inspect. There's no official registry saying "these instances are verified safe," and the domain privacy on cobalt.tools itself feeds into the general trust fog (ScamAdviser puts it at 50/100).
 
-This is the open-source media downloader's eternal dilemma: the tool that protects your privacy gets cloned by people who don't. Cobalt's brand is clean. The ecosystem around it is not.
+It's the eternal catch-22 for privacy-focused tools: the thing you built to protect people gets cloned by people who won't. Cobalt's own brand is clean. The neighborhood that's grown up around it is not.
 
 ## Mobile
 
-The mobile experience is broken in a different way. Users report a 90% failure rate on smartphones — not just for YouTube, but across platforms. The WASM-based FFmpeg remuxing that powers on-device processing is not mobile-optimized. High data usage on failed requests. Timeout errors without clear messaging.
+Mobile is broken in a different, more annoying way. People report roughly a 90% failure rate on phones, and not just on YouTube - across the board. The WASM FFmpeg remuxing that handles on-device processing just wasn't tuned for mobile. You get high data usage on requests that fail anyway, and timeouts with no real explanation.
 
-The SvelteKit frontend is technically sound. The Svelte bundle is small. The interface renders fine. But rendering fine is not the same as working. A tool that works on desktop and not on mobile in 2026 has a mobile problem.
+The SvelteKit frontend itself is fine. The bundle is small, the interface renders cleanly. But rendering cleanly and actually working are two different things, and a tool that's great on desktop and dead on mobile in 2026 has a real gap to close.
 
 ## What Actually Works
 
-Here's the honest part: when cobalt works, it's exactly what it claims to be.
+Here's the thing though - when cobalt works, it is exactly what it says on the tin.
 
-**The privacy stance is genuine.** No logs, no user accounts, no tracking. Forced tunneling mode hides download sources even from your ISP. The privacy policy is three paragraphs and actually says things. This is rare.
+**The privacy stance is the real deal.** No logs, no accounts, no tracking. Forced tunneling mode hides your download sources even from your ISP. The privacy policy is three short paragraphs that actually commit to something, which is rarer than it should be.
 
-**The UI is honest.** No dark patterns, no upsell banners, no "premium" tier. A tool that does a thing, with a UI that explains the thing, charging nothing for the thing.
+**The UI is honest.** No dark patterns, no upsell banners, no fake "premium" tier lurking behind a button. It does a thing, the UI explains the thing, and it charges you nothing for the thing.
 
-**The tech is interesting.** On-device WASM remuxing is legitimately clever — cobalt streams the file and reassembles it locally without hitting cobalt's servers for processing. When it works, nothing touches your content except your own browser.
+**The tech is genuinely cool.** On-device WASM remuxing is a clever move - cobalt streams the file and reassembles it right there in your browser, so cobalt's servers never touch your content during processing. When it works, nothing sees your file but you.
 
-**The code is readable.** The monorepo structure (`api/`, `web/`, `packages/api-client/`) is clean. The TypeScript coverage is solid. The self-hosting docs are better than most commercial products write for their own onboarding.
+**The code reads well.** The monorepo layout (`api/`, `web/`, `packages/api-client/`) is tidy, the TypeScript coverage holds up, and the self-hosting docs are better than what most paid products write for their own onboarding.
 
-**30+ platforms.** TikTok, Reddit, Twitter, Vimeo, SoundCloud, Twitch — many of these still work on the main instance. For everything-except-YouTube, cobalt is frequently the right tool.
+**30+ platforms.** TikTok, Reddit, Twitter, Vimeo, SoundCloud, Twitch - a lot of these still work fine on the main instance. For basically-everything-except-YouTube, cobalt is often the tool I'd reach for.
 
 ## Fixes
 
 **The product issues:**
 
-1. **Surface YouTube status prominently.** Not buried in a GitHub issue — on the landing page, on the input field. "YouTube: degraded on this instance." Users who know upfront will self-select to self-host or use an alternative. Users who find out after three failed attempts just leave angry.
+1. **Surface YouTube status where people can see it.** Not buried three clicks deep in a GitHub issue - put it on the landing page and near the input field. Something like "YouTube: degraded on this instance." People who know upfront will happily self-host or grab an alternative. People who find out after three failed attempts just leave mad.
 
-2. **Verify and publish an instance registry.** A cobalt-maintained page of known-good instances with health status, YouTube support, and last-verified date. Community trust doesn't scale on reputation alone.
+2. **Verify and publish an instance registry.** A cobalt-maintained page of known-good instances with health status, YouTube support, and a last-verified date. You can't scale community trust on vibes alone.
 
-3. **Fix mobile or document the limitation.** Either invest in mobile-optimized WASM builds, or put "optimized for desktop" somewhere a user will see it before they try on their phone.
+3. **Fix mobile, or at least admit the limitation.** Either put real work into mobile-optimized WASM builds, or slap "optimized for desktop" somewhere a person sees it before they try it on their phone.
 
 **The architectural issues:**
 
-4. **Explore a client-side extraction path.** Browser extensions, native apps, or a browser-native approach that shifts the YouTube request from cobalt's server to the user's own IP. This sidesteps the scale problem entirely. The team knows this — there's discussion in the GitHub issues. It's the right direction.
+4. **Chase a client-side extraction path.** Browser extensions, native apps, or a browser-native approach that moves the YouTube request off cobalt's server and onto the user's own IP. That sidesteps the whole scale problem. The team already knows this - it's being kicked around in the GitHub issues - and it's the right direction.
 
-5. **Batch and playlist support.** Every competitor has it. One link at a time is fine for casual use; it's a dealbreaker for anyone with a workflow.
+5. **Add batch and playlist support.** Every competitor has it. One link at a time is fine when you're grabbing a clip; it's a dealbreaker the second anyone has an actual workflow.
 
 ## Verdict
 
-58/100. The score isn't about the code — the code is good. It's about the product delivering on its promise.
+58/100. And to be clear, the score isn't a knock on the code - the code is good. It's about whether the product delivers on what it promises.
 
-"A media downloader that doesn't piss you off" is a great tagline. But a media downloader that can't download from the world's largest video platform, doesn't work reliably on phones, and produces an ecosystem of unverifiable clones does, eventually, piss you off. Not through bad design. Through structural limitations that have caught up with the model.
+"A media downloader that doesn't piss you off" is a great line. But a downloader that can't touch the world's biggest video site, flakes out on phones, and spawns a swarm of clones you can't verify does, eventually, piss you off. Not because anyone designed it badly. Because the model ran into limits that finally caught up with it.
 
-The good news is that none of these problems are unsolvable. The architecture needs rethinking for YouTube specifically. The mobile story needs investment or honesty. The instance ecosystem needs curation. The team clearly cares — the privacy stance and the code quality both prove that. They just need to match the honesty of the UI with equally honest expectation-setting around what the main instance can and can't do right now.
+The upside is that none of this is unfixable. YouTube needs an architecture rethink. Mobile needs either investment or honesty. The instance ecosystem needs curation. And this team obviously cares - the privacy stance and the code quality both give that away. What's missing is matching the honesty of the UI with equally honest expectations about what the main instance can and can't do right now.
 
 The minimalist UI promised a tool that works. Make the tool work, and the UI can stay exactly as it is.
 
@@ -108,4 +108,4 @@ The minimalist UI promised a tool that works. Make the tool work, and the UI can
 
 ---
 
-*John, cobalt is doing something genuinely hard — respecting user privacy while fighting platforms that actively want to lock content down. The architecture has hit a wall with YouTube specifically. Worth watching where the project goes with decentralization. In the meantime, self-hosting with a private instance is currently the only reliable path to full functionality.*
+*John, cobalt is tackling something genuinely hard - protecting user privacy while fighting platforms that actively want content locked down. It's hit a wall with YouTube specifically. Worth keeping an eye on where the project goes with decentralization. For now, self-hosting a private instance is the only path to full functionality.*
