@@ -76,7 +76,6 @@ export default function RootLayout({
     >
       <head>
         <meta charSet="utf-8" />
-        <link rel="canonical" href={siteConfig.url} />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
@@ -101,7 +100,7 @@ export default function RootLayout({
                     contactType: "customer service",
                     availableLanguage: "English",
                   },
-                  sameAs: [siteConfig.links.twitter, siteConfig.links.github],
+                  sameAs: [siteConfig.links.twitter],
                   foundingDate: "2024",
                   knowsAbout: [
                     "Web Development",
