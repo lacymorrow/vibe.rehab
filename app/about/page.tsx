@@ -6,6 +6,23 @@ export const metadata: Metadata = {
   title: "About Vibe Rehab",
   description:
     "Vibe Rehab is a code fixing and MVP completion service. We help developers and entrepreneurs ship their broken AI projects in 1-4 weeks with flat-rate pricing.",
+  openGraph: {
+    title: "About Vibe Rehab",
+    description:
+      "Vibe Rehab is a code fixing and MVP completion service. We help developers and entrepreneurs ship their broken AI projects in 1-4 weeks with flat-rate pricing.",
+    url: `${siteConfig.url}/about`,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: `${siteConfig.url}/og?title=About%20Vibe%20Rehab`,
+        width: 1200,
+        height: 628,
+        alt: "About Vibe Rehab",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
   alternates: {
     canonical: `${siteConfig.url}/about`,
   },

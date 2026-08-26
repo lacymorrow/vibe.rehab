@@ -6,6 +6,23 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "Vibe Rehab privacy policy. Learn how we collect, use, and protect your personal information when you use our code fixing and MVP completion services.",
+  openGraph: {
+    title: "Privacy Policy | Vibe Rehab",
+    description:
+      "Vibe Rehab privacy policy. Learn how we collect, use, and protect your personal information when you use our code fixing and MVP completion services.",
+    url: `${siteConfig.url}/privacy`,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: `${siteConfig.url}/og?title=Privacy%20Policy`,
+        width: 1200,
+        height: 628,
+        alt: "Vibe Rehab Privacy Policy",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
   alternates: {
     canonical: `${siteConfig.url}/privacy`,
   },

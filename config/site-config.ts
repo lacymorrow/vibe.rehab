@@ -9,7 +9,6 @@ type SiteConfig = {
   ogImage: string;
   links: {
     twitter: string;
-    github: string;
   };
   keywords: string[];
   authors: {
@@ -32,8 +31,7 @@ export const siteConfig: SiteConfig = {
   url: "https://vibe.rehab",
   ogImage: "https://vibe.rehab/og",
   links: {
-    twitter: "https://twitter.com/viberehab",
-    github: "https://github.com/viberehab",
+    twitter: "https://x.com/viberehab",
   },
   keywords: [
     "code fixing",

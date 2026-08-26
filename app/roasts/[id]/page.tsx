@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { siteConfig } from "@/config/site-config";
 import { getRoastById, getAllRoasts } from "@/lib/mdx";
@@ -66,9 +67,30 @@ export default async function RoastPage({ params }: { params: Promise<{ id: stri
     notFound();
   }
 
+  const moreRoasts = getAllRoasts().filter((r) => r.id !== id);
+
   return (
     <main className="min-h-screen bg-slate-50">
       <RoastDetail roast={roast} />
+      {moreRoasts.length > 0 && (
+        <aside className="border-t border-slate-200 bg-white">
+          <div className="max-w-4xl mx-auto px-4 py-12">
+            <h2 className="text-xl font-light text-slate-800 mb-6">more roasts</h2>
+            <ul className="space-y-3">
+              {moreRoasts.map((r) => (
+                <li key={r.id}>
+                  <Link
+                    href={`/roasts/${r.id}`}
+                    className="text-amber-600 hover:text-amber-700 transition-colors underline decoration-dotted underline-offset-4"
+                  >
+                    {r.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      )}
     </main>
   );
 }
