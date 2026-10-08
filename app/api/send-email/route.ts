@@ -1,11 +1,24 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
+const DEFAULT_TEST_EMAIL = "test@test.com";
+const DEFAULT_TEST_RECIPIENT = "admin@buildandserve.com";
+
 function getResend() {
   if (!process.env.RESEND_API_KEY) {
     throw new Error("RESEND_API_KEY environment variable is not set");
   }
   return new Resend(process.env.RESEND_API_KEY);
+}
+
+function resolveTestRouting(submitterEmail: string) {
+  const sentinel = (process.env.CONTACT_TEST_EMAIL ?? DEFAULT_TEST_EMAIL)
+    .trim()
+    .toLowerCase();
+  const recipient =
+    process.env.CONTACT_TEST_RECIPIENT ?? DEFAULT_TEST_RECIPIENT;
+  const isTest = submitterEmail.trim().toLowerCase() === sentinel;
+  return { isTest, recipient };
 }
 
 async function sendEmail(data: {
@@ -45,8 +58,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    const subject =
+    const { isTest, recipient: testRecipient } = resolveTestRouting(email);
+    const baseSubject =
       type === "roast" ? "🔥 New Roast Request" : "🚀 New Project Inquiry";
+    const subject = isTest ? `[TEST] ${baseSubject}` : baseSubject;
 
     const emailContent = `
       Subject: ${subject}
@@ -79,10 +94,11 @@ export async function POST(request: NextRequest) {
       Sent from Vibe Rehab contact form
     `;
 
-    // Send email using Resend
+    // Send email using Resend. Sentinel sender reroutes to the test recipient
+    // so form-test runs never spam the real inbox (LAC-4028 contract).
     const result = await sendEmail({
       from: "Vibe Rehab <noreply@shipkit.io>",
-      to: ["vibe@shipkit.io"],
+      to: [isTest ? testRecipient : "vibe@shipkit.io"],
       subject,
       content: emailContent,
       replyTo: email,
