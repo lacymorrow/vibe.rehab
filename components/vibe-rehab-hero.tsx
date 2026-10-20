@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Check } from "lucide-react";
 import { useParallax, use3DScroll } from "@/hooks/use-scroll-animation";
-import { PaymentDialog } from "@/components/payment-dialog";
 import { ContactDialog } from "@/components/contact-dialog";
 import { AnimatedSection } from "@/components/animated-section";
 import { Logo } from "@/components/logo";
@@ -23,7 +22,7 @@ import {
 import { CardsMarquee } from "@/app/_components/cards-marquee";
 import { IndieLaunchTweets } from "./indie-launch-tweets";
 import { ThreeDMarqueeDemo } from "@/app/_components/section-marquee";
-import { TIERS } from "@/lib/pricing";
+import { TIERS, type Tier, type TierKey } from "@/lib/pricing";
 
 // Blueprint Background Component - Simplified for LCP
 const BlueprintBackground = ({ isMobile }: { isMobile: boolean }) => (
@@ -85,6 +84,11 @@ const services = {
   maintenance: TIERS.complete_rehab,
 };
 
+// A tier with no price ID cannot take money, so its button keeps the old
+// contact-form wording instead of promising checkout.
+const tierCtaLabel = (tier: Tier, buyLabel: string) =>
+  tier.priceId ? buyLabel : `Talk to us about ${tier.name}`;
+
 const placeholderExamples = [
   "https://mybrokenapp.com",
   "john@example.com",
@@ -139,11 +143,8 @@ const detectInputType = (
 };
 
 export default function Component() {
-  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [showContactDialog, setShowContactDialog] = useState(false);
-  const [selectedService, setSelectedService] = useState<
-    typeof services.project | null
-  >(null);
+  const [checkoutTier, setCheckoutTier] = useState<TierKey | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [animationsEnabled, setAnimationsEnabled] = useState(false);
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
@@ -193,9 +194,51 @@ export default function Component() {
     return () => clearInterval(interval);
   }, [isFocused, inputValue, animationsEnabled]);
 
-  const handleServiceClick = (service: typeof services.project) => {
-    setSelectedService(service);
-    setShowPaymentDialog(true);
+  const openContactForTier = (tier: Tier) => {
+    setSubmittedValue(tier.preset);
+    setDetectedType("message");
+    setShowContactDialog(true);
+  };
+
+  const handleTierClick = async (tier: Tier) => {
+    // No price configured for this tier, so there is nothing to charge. Send
+    // them to the contact form instead of a payment UI that cannot take money.
+    if (!tier.priceId) {
+      openContactForTier(tier);
+      return;
+    }
+
+    setCheckoutTier(tier.key);
+
+    try {
+      const response = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId: tier.priceId }),
+      });
+      const data = (await response.json().catch(() => ({}))) as {
+        url?: string;
+        error?: string;
+      };
+
+      if (!response.ok || !data.url) {
+        throw new Error(data.error || "Could not start checkout.");
+      }
+
+      // Leave the button in its pending state through the redirect.
+      window.location.href = data.url;
+    } catch (error) {
+      console.error("Checkout failed:", error);
+      toast({
+        title: "Checkout unavailable",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Could not start checkout. Please try again.",
+        variant: "destructive",
+      });
+      setCheckoutTier(null);
+    }
   };
 
   const handleRoastClick = () => {
@@ -257,13 +300,6 @@ export default function Component() {
       style={{ backgroundColor: "#f0f4f8" }}
     >
       {/* Dialogs */}
-      {selectedService && (
-        <PaymentDialog
-          isOpen={showPaymentDialog}
-          onClose={() => setShowPaymentDialog(false)}
-          service={selectedService}
-        />
-      )}
       <ContactDialog
         isOpen={showContactDialog}
         onClose={handleContactDialogClose}
@@ -498,16 +534,16 @@ export default function Component() {
                 </span>
               </div>
               <Button
-                onClick={() => {
-                  setSubmittedValue(services.audit.preset);
-                  setDetectedType("message");
-                  setShowContactDialog(true);
-                }}
+                onClick={() => handleTierClick(services.audit)}
+                disabled={checkoutTier === services.audit.key}
+                aria-busy={checkoutTier === services.audit.key}
                 variant="outline"
                 className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
                 style={{ position: "relative", zIndex: 50 }}
               >
-                Book a Quick Fix
+                {checkoutTier === services.audit.key
+                  ? "Starting checkout..."
+                  : tierCtaLabel(services.audit, "Buy Quick Fix")}
               </Button>
             </div>
 
@@ -534,15 +570,15 @@ export default function Component() {
                 </span>
               </div>
               <Button
-                onClick={() => {
-                  setSubmittedValue(services.project.preset);
-                  setDetectedType("message");
-                  setShowContactDialog(true);
-                }}
+                onClick={() => handleTierClick(services.project)}
+                disabled={checkoutTier === services.project.key}
+                aria-busy={checkoutTier === services.project.key}
                 className="w-full bg-slate-900 hover:bg-blue-900 text-white font-medium px-6 py-3 rounded-lg transition-all duration-300 relative z-40 pointer-events-auto"
                 style={{ position: "relative", zIndex: 50 }}
               >
-                Start My Rescue
+                {checkoutTier === services.project.key
+                  ? "Starting checkout..."
+                  : tierCtaLabel(services.project, "Buy Full Rescue")}
               </Button>
             </div>
 
@@ -568,16 +604,16 @@ export default function Component() {
                 </span>
               </div>
               <Button
-                onClick={() => {
-                  setSubmittedValue(services.maintenance.preset);
-                  setDetectedType("message");
-                  setShowContactDialog(true);
-                }}
+                onClick={() => handleTierClick(services.maintenance)}
+                disabled={checkoutTier === services.maintenance.key}
+                aria-busy={checkoutTier === services.maintenance.key}
                 variant="outline"
                 className="w-full border-gray-300 text-slate-700 hover:bg-gray-50 transition-all duration-300 relative z-40 pointer-events-auto"
                 style={{ position: "relative", zIndex: 50 }}
               >
-                Book Full Rehab
+                {checkoutTier === services.maintenance.key
+                  ? "Starting checkout..."
+                  : tierCtaLabel(services.maintenance, "Buy Complete Rehab")}
               </Button>
             </div>
           </div>

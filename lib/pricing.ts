@@ -74,3 +74,6 @@ export const getAllowedPriceIds = (): string[] =>
   Object.values(TIERS)
     .map((t) => t.priceId)
     .filter((id): id is string => Boolean(id));
+
+export const resolveTierFromPriceId = (priceId: string): Tier | null =>
+  Object.values(TIERS).find((t) => t.priceId === priceId) ?? null;
