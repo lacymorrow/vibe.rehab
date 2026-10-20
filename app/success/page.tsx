@@ -7,15 +7,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/config/site-config";
+import type { CheckoutSessionSummary } from "@/lib/checkout-session-summary";
 
-interface StripeSessionSummary {
-  // customer_email is only set when we pre-filled it; Stripe Checkout puts the
-  // address the buyer actually typed on customer_details.
-  customer_email?: string | null;
-  customer_details?: { email?: string | null } | null;
-  amount_total?: number | null;
-  metadata?: { service_name?: string } | null;
-}
+const formatAmount = (amountTotal: number, currency: string | null): string => {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: (currency ?? "usd").toUpperCase(),
+    }).format(amountTotal / 100);
+  } catch {
+    return `$${(amountTotal / 100).toFixed(2)}`;
+  }
+};
 
 type IntakeState =
   | { status: "idle" }
@@ -26,19 +29,30 @@ type IntakeState =
 export default function SuccessPage() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
-  const [session, setSession] = useState<StripeSessionSummary | null>(null);
+  const [session, setSession] = useState<CheckoutSessionSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [repoUrl, setRepoUrl] = useState("");
   const [whatBroken, setWhatBroken] = useState("");
   const [intake, setIntake] = useState<IntakeState>({ status: "idle" });
-  const customerEmail = session?.customer_details?.email ?? session?.customer_email ?? null;
+  const customerEmail = session?.customer_email ?? null;
+  // Nothing to show means no empty card.
+  const orderDetails =
+    session &&
+    (session.service_name || session.customer_email || typeof session.amount_total === "number")
+      ? session
+      : null;
 
   useEffect(() => {
     document.title = "Success - Payment Confirmed | Vibe Rehab";
 
     if (sessionId) {
-      fetch(`/api/checkout-session?session_id=${sessionId}`)
-        .then((res) => res.json())
+      fetch(`/api/checkout-session?session_id=${encodeURIComponent(sessionId)}`)
+        .then(async (res) => {
+          // A session we cannot read is not worth an error on this page: the
+          // payment already went through and the intake form works without it.
+          if (!res.ok) return null;
+          return (await res.json()) as CheckoutSessionSummary;
+        })
         .then((data) => {
           setSession(data);
           setLoading(false);
@@ -142,12 +156,12 @@ export default function SuccessPage() {
             Thank you for choosing Vibe Rehab. One quick step and we'll be on it.
           </p>
 
-          {session && (
+          {orderDetails && (
             <div className="bg-slate-50 rounded-lg p-4 mb-6 text-left">
               <h3 className="font-semibold text-slate-900 mb-2">Order Details</h3>
-              {session.metadata?.service_name ? (
+              {orderDetails.service_name ? (
                 <p className="text-sm text-slate-600">
-                  Service: {session.metadata.service_name}
+                  Service: {orderDetails.service_name}
                 </p>
               ) : null}
               {customerEmail ? (
@@ -155,9 +169,9 @@ export default function SuccessPage() {
                   Email: {customerEmail}
                 </p>
               ) : null}
-              {typeof session.amount_total === "number" ? (
+              {typeof orderDetails.amount_total === "number" ? (
                 <p className="text-sm text-slate-600">
-                  Amount: ${(session.amount_total / 100).toFixed(2)}
+                  Amount: {formatAmount(orderDetails.amount_total, orderDetails.currency)}
                 </p>
               ) : null}
             </div>

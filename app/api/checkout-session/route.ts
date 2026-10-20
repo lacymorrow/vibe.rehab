@@ -1,32 +1,53 @@
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { summarizeCheckoutSession } from "@/lib/checkout-session-summary";
 
-function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error("STRIPE_SECRET_KEY environment variable is not set");
-  }
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2024-06-20",
-  });
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+function getStripe(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY environment variable is not set");
+  return new Stripe(key, { apiVersion: "2024-06-20" });
 }
 
-export async function GET(request: NextRequest) {
+// An id we cannot look up is the caller's problem, not ours. Anything else
+// (auth, connectivity, a Stripe outage) is still a 500.
+function isUnknownSession(error: unknown): boolean {
+  if (!(error instanceof Stripe.errors.StripeInvalidRequestError)) return false;
+  return error.code === "resource_missing" || error.statusCode === 404;
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const sessionId = searchParams.get("session_id");
 
-  if (!sessionId) {
-    return NextResponse.json({ error: "Session ID required" }, { status: 400 });
+  if (!sessionId || !sessionId.startsWith("cs_")) {
+    return NextResponse.json({ error: "Missing or invalid session_id" }, { status: 400 });
+  }
+
+  let stripe: Stripe;
+  try {
+    stripe = getStripe();
+  } catch (error) {
+    console.error("[checkout-session] stripe init failed", error);
+    return NextResponse.json({ error: "Stripe not configured" }, { status: 500 });
   }
 
   try {
-    const stripe = getStripe();
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
-    return NextResponse.json(session);
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ["line_items.data.price"],
+    });
+    return NextResponse.json(summarizeCheckoutSession(session));
   } catch (error) {
-    console.error("Error retrieving session:", error);
-    return NextResponse.json(
-      { error: "Error retrieving session" },
-      { status: 500 },
-    );
+    if (isUnknownSession(error)) {
+      console.warn("[checkout-session] session lookup failed", {
+        sessionId,
+        error: error instanceof Error ? error.message : String(error),
+      });
+      return NextResponse.json({ error: "Session not found" }, { status: 404 });
+    }
+    console.error("[checkout-session] session retrieve failed", error);
+    return NextResponse.json({ error: "Error retrieving session" }, { status: 500 });
   }
 }
