@@ -216,13 +216,18 @@ export default function Component() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ priceId: tier.priceId }),
       });
+      if (!response.ok) {
+        const body = (await response.json().catch(() => ({}))) as {
+          error?: string;
+        };
+        throw new Error(body.error || "Could not start checkout.");
+      }
+
       const data = (await response.json().catch(() => ({}))) as {
         url?: string;
-        error?: string;
       };
-
-      if (!response.ok || !data.url) {
-        throw new Error(data.error || "Could not start checkout.");
+      if (!data.url) {
+        throw new Error("Could not start checkout.");
       }
 
       // Leave the button in its pending state through the redirect.
