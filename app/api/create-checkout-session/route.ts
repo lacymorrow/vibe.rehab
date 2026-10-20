@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getAllowedPriceIds } from "@/lib/pricing";
+import { getAllowedPriceIds, resolveTierFromPriceId } from "@/lib/pricing";
 
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -13,16 +13,21 @@ function getStripe() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { priceId, email, serviceName } = await request.json();
+    const { priceId, email } = await request.json();
 
     // Basic input validation
     if (!priceId || typeof priceId !== "string" || !priceId.startsWith("price_")) {
       return NextResponse.json({ error: "Invalid priceId" }, { status: 400 });
     }
 
-    if (!email || typeof email !== "string" || !/^\S+@\S+\.\S+$/.test(email)) {
-      return NextResponse.json({ error: "Valid email required" }, { status: 400 });
+    // Email is optional — Stripe Checkout collects it. When the caller does send
+    // one, it still has to be a valid address.
+    if (email !== undefined && email !== null && email !== "") {
+      if (typeof email !== "string" || !/^\S+@\S+\.\S+$/.test(email)) {
+        return NextResponse.json({ error: "Valid email required" }, { status: 400 });
+      }
     }
+    const customerEmail = typeof email === "string" && email ? email : undefined;
 
     // Determine a safe base URL
     const inferredBaseUrl = (() => {
@@ -48,10 +53,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // The service name comes from our own tier table, never from the request body.
+    const tier = resolveTierFromPriceId(priceId);
+    const metadata: Record<string, string> = {};
+    if (tier) metadata.service_name = tier.name;
+    if (customerEmail) metadata.customer_email = customerEmail;
+
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      customer_email: email,
+      ...(customerEmail ? { customer_email: customerEmail } : {}),
       line_items: [
         {
           price: priceId,
@@ -61,10 +72,7 @@ export async function POST(request: NextRequest) {
       mode: "payment",
       success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/`,
-      metadata: {
-        service_name: serviceName,
-        customer_email: email,
-      },
+      metadata,
     });
 
     return NextResponse.json({ url: session.url });

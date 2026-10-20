@@ -9,7 +9,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { siteConfig } from "@/config/site-config";
 
 interface StripeSessionSummary {
+  // customer_email is only set when we pre-filled it; Stripe Checkout puts the
+  // address the buyer actually typed on customer_details.
   customer_email?: string | null;
+  customer_details?: { email?: string | null } | null;
   amount_total?: number | null;
   metadata?: { service_name?: string } | null;
 }
@@ -28,6 +31,7 @@ export default function SuccessPage() {
   const [repoUrl, setRepoUrl] = useState("");
   const [whatBroken, setWhatBroken] = useState("");
   const [intake, setIntake] = useState<IntakeState>({ status: "idle" });
+  const customerEmail = session?.customer_details?.email ?? session?.customer_email ?? null;
 
   useEffect(() => {
     document.title = "Success - Payment Confirmed | Vibe Rehab";
@@ -146,9 +150,9 @@ export default function SuccessPage() {
                   Service: {session.metadata.service_name}
                 </p>
               ) : null}
-              {session.customer_email ? (
+              {customerEmail ? (
                 <p className="text-sm text-slate-600">
-                  Email: {session.customer_email}
+                  Email: {customerEmail}
                 </p>
               ) : null}
               {typeof session.amount_total === "number" ? (
@@ -164,7 +168,7 @@ export default function SuccessPage() {
           <div className="rounded-lg border border-green-200 bg-green-50 p-4 mb-6 text-left">
             <h2 className="font-semibold text-green-900 mb-2">Intake received</h2>
             <p className="text-sm text-green-800">
-              Thanks — we have your repo and the problem description. Expect a reply within 24 hours at {session?.customer_email ?? "your email"}.
+              Thanks — we have your repo and the problem description. Expect a reply within 24 hours at {customerEmail ?? "your email"}.
             </p>
           </div>
         ) : (
