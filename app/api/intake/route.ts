@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
-import { TIERS, type TierKey } from "@/lib/pricing";
+import { resolveTierLabel } from "@/lib/pricing";
 import { fileIntakeIssue } from "@/lib/paperclip";
 
 export const runtime = "nodejs";
@@ -18,19 +18,6 @@ function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error("STRIPE_SECRET_KEY environment variable is not set");
   return new Stripe(key, { apiVersion: "2024-06-20" });
-}
-
-function resolveTierFromPriceId(priceId: string | null | undefined): {
-  key: TierKey | "unknown";
-  name: string;
-} {
-  if (!priceId) return { key: "unknown", name: "Unknown tier" };
-  for (const tier of Object.values(TIERS)) {
-    if (tier.priceId && tier.priceId === priceId) {
-      return { key: tier.key, name: tier.name };
-    }
-  }
-  return { key: "unknown", name: "Unknown tier" };
 }
 
 function isValidRepoUrl(value: string): boolean {
@@ -153,7 +140,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const firstItem = session.line_items?.data?.[0];
   const price = firstItem?.price;
   const priceId = typeof price === "string" ? price : price?.id ?? null;
-  const { key: tierKey, name: tierName } = resolveTierFromPriceId(priceId);
+  const { key: tierKey, name: tierName } = resolveTierLabel(priceId);
   const customerEmail =
     session.customer_details?.email ||
     session.customer_email ||

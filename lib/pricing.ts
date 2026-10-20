@@ -75,5 +75,19 @@ export const getAllowedPriceIds = (): string[] =>
     .map((t) => t.priceId)
     .filter((id): id is string => Boolean(id));
 
-export const resolveTierFromPriceId = (priceId: string): Tier | null =>
-  Object.values(TIERS).find((t) => t.priceId === priceId) ?? null;
+export const resolveTierFromPriceId = (
+  priceId: string | null | undefined,
+): Tier | null => {
+  if (!priceId) return null;
+  return Object.values(TIERS).find((t) => t.priceId === priceId) ?? null;
+};
+
+// Sale and intake notifications need a label even for a price ID we do not know.
+export const resolveTierLabel = (
+  priceId: string | null | undefined,
+): { key: TierKey | "unknown"; name: string } => {
+  const tier = resolveTierFromPriceId(priceId);
+  return tier
+    ? { key: tier.key, name: tier.name }
+    : { key: "unknown", name: "Unknown tier" };
+};

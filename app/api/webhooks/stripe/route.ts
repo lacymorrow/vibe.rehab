@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
-import { TIERS, type TierKey } from "@/lib/pricing";
+import { resolveTierLabel } from "@/lib/pricing";
 import { fileSaleIssue } from "@/lib/paperclip";
 
 export const runtime = "nodejs";
@@ -25,16 +25,6 @@ function formatAmount(amountTotal: number | null | undefined, currency: string |
   } catch {
     return `${value.toFixed(2)} ${code}`;
   }
-}
-
-function resolveTierFromPriceId(priceId: string | null | undefined): { key: TierKey | "unknown"; name: string } {
-  if (!priceId) return { key: "unknown", name: "Unknown tier" };
-  for (const tier of Object.values(TIERS)) {
-    if (tier.priceId && tier.priceId === priceId) {
-      return { key: tier.key, name: tier.name };
-    }
-  }
-  return { key: "unknown", name: "Unknown tier" };
 }
 
 async function notifyBoardByEmail(args: {
@@ -96,7 +86,7 @@ async function handleCheckoutCompleted(stripe: Stripe, event: Stripe.Event): Pro
     console.error("[stripe webhook] failed to expand line items", { sessionId, error });
   }
 
-  const { key: tierKey, name: tierName } = resolveTierFromPriceId(priceId);
+  const { key: tierKey, name: tierName } = resolveTierLabel(priceId);
   const customerEmail =
     session.customer_details?.email ||
     session.customer_email ||
