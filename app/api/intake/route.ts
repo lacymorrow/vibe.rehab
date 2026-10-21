@@ -1,6 +1,7 @@
-import { type NextRequest, NextResponse } from "next/server";
+import type { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
+import { jsonNoStore } from "@/lib/api-response";
 import { resolveTierLabel } from "@/lib/pricing";
 import { fileIntakeIssue } from "@/lib/paperclip";
 
@@ -82,7 +83,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     payload = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    return jsonNoStore({ error: "Invalid JSON body" }, { status: 400 });
   }
 
   const sessionId = typeof payload.session_id === "string" ? payload.session_id.trim() : "";
@@ -90,10 +91,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const whatBroken = typeof payload.what_broken === "string" ? payload.what_broken.trim() : "";
 
   if (!sessionId || !sessionId.startsWith("cs_")) {
-    return NextResponse.json({ error: "Missing or invalid session_id" }, { status: 400 });
+    return jsonNoStore({ error: "Missing or invalid session_id" }, { status: 400 });
   }
   if (!repoUrl || repoUrl.length > MAX_REPO_URL_LEN || !isValidRepoUrl(repoUrl)) {
-    return NextResponse.json(
+    return jsonNoStore(
       { error: "Repo URL must be a valid http(s) URL under 500 characters" },
       { status: 400 },
     );
@@ -103,7 +104,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     whatBroken.length < MIN_WHAT_BROKEN_LEN ||
     whatBroken.length > MAX_WHAT_BROKEN_LEN
   ) {
-    return NextResponse.json(
+    return jsonNoStore(
       { error: `Description must be ${MIN_WHAT_BROKEN_LEN}-${MAX_WHAT_BROKEN_LEN} characters` },
       { status: 400 },
     );
@@ -114,7 +115,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     stripe = getStripe();
   } catch (error) {
     console.error("[intake] stripe init failed", error);
-    return NextResponse.json({ error: "Stripe not configured" }, { status: 500 });
+    return jsonNoStore({ error: "Stripe not configured" }, { status: 500 });
   }
 
   let session: Stripe.Checkout.Session;
@@ -127,11 +128,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       sessionId,
       error: error instanceof Error ? error.message : String(error),
     });
-    return NextResponse.json({ error: "Session not found" }, { status: 404 });
+    return jsonNoStore({ error: "Session not found" }, { status: 404 });
   }
 
   if (session.payment_status !== "paid") {
-    return NextResponse.json(
+    return jsonNoStore(
       { error: "Session is not paid — intake requires a completed checkout" },
       { status: 402 },
     );
@@ -181,11 +182,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const anyDelivery = paperclipResult.ok || emailResult.ok;
   if (!anyDelivery) {
-    return NextResponse.json(
+    return jsonNoStore(
       { error: "Failed to route intake — try again or email vibe@shipkit.io" },
       { status: 502 },
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return jsonNoStore({ ok: true });
 }
