@@ -53,7 +53,7 @@
     "input-otp": "latest",
     "lucide-react": "^0.575.0",
     "motion": "^12.34.3",
-    "next": "^16.1.6",
+    "next": "^16.4.1",
     "next-mdx-remote": "^6.0.0",
     "next-themes": "latest",
     "react": "^19",
