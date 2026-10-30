@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Payment Confirmed - Your Fix Is On the Way",
-  description:
-    "Payment confirmed. Our team is reviewing your project and will start fixing your code within 24 hours.",
+  // Anyone can open /success without an order, so the title and description
+  // describe the page rather than confirm a payment.
+  title: "Order status",
+  description: "Check an order and tell us what to fix.",
   robots: {
     index: false,
     follow: false,

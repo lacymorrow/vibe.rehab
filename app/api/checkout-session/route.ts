@@ -1,6 +1,7 @@
 import type { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { jsonNoStore } from "@/lib/api-response";
+import { isCheckoutSessionId } from "@/lib/checkout-session-id";
 import { summarizeCheckoutSession } from "@/lib/checkout-session-summary";
 
 export const runtime = "nodejs";
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const sessionId = searchParams.get("session_id");
 
-  if (!sessionId || !sessionId.startsWith("cs_")) {
+  if (!isCheckoutSessionId(sessionId)) {
     return jsonNoStore({ error: "Missing or invalid session_id" }, { status: 400 });
   }
 
