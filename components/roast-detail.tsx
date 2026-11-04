@@ -6,6 +6,8 @@ import { AnimatedSection } from "@/components/animated-section";
 import { Logo } from "@/components/logo";
 import type { RoastWithContent } from "@/lib/mdx";
 import { MDXContent } from "@/components/mdx-content";
+import { RoastViewTracker } from "@/components/roast-view-tracker";
+import { trackEvent } from "@/lib/analytics";
 
 interface RoastDetailProps {
   roast: RoastWithContent;
@@ -16,6 +18,7 @@ export function RoastDetail({ roast }: RoastDetailProps) {
 
   return (
     <article className="min-h-screen">
+      <RoastViewTracker slug={roast.id} />
       {/* Header */}
       <header className="border-b border-slate-200 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -112,7 +115,8 @@ export function RoastDetail({ roast }: RoastDetailProps) {
           <div className="w-24 h-px bg-amber-300 mx-auto" />
           <p className="text-slate-600 italic">is your site next?</p>
           <Link
-            href="/#contact"
+            href={`/?src=roast-${roast.id}#contact`}
+            onClick={() => trackEvent("roast_cta_click", { slug: roast.id, tier: "none" })}
             className="inline-block text-amber-600 hover:text-amber-700 transition-colors underline decoration-dotted underline-offset-4"
           >
             submit your site for roasting

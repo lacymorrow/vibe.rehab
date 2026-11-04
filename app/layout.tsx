@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { AttributionCapture } from "@/components/attribution-capture";
 import { Inter_Tight, Roboto_Mono } from "next/font/google";
 import { siteConfig } from "@/config/site-config";
 import { TIERS } from "@/lib/pricing";
@@ -175,6 +176,7 @@ export default function RootLayout({
           </div>
         </footer>
         <WebVitals />
+        <AttributionCapture />
         <Script
           src="https://analytics.lacy.sh/script.js"
           data-website-id="7ea9eace-debb-4291-bc21-251a79dae897"

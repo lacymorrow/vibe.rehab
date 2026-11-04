@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
 import { resolveTierLabel } from "@/lib/pricing";
+import { trackServerEvent } from "@/lib/umami-server";
 import { fileSaleIssue } from "@/lib/paperclip";
 
 export const runtime = "nodejs";
@@ -102,6 +103,12 @@ async function handleCheckoutCompleted(stripe: Stripe, event: Stripe.Event): Pro
     amountLabel,
     customerEmail,
     livemode,
+  });
+
+  await trackServerEvent("sale", {
+    src: session.metadata?.src || "direct",
+    tier: tierKey,
+    mode: livemode ? "live" : "test",
   });
 
   const paperclipResult = await fileSaleIssue({

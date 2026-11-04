@@ -23,6 +23,8 @@ import { CardsMarquee } from "@/app/_components/cards-marquee";
 import { IndieLaunchTweets } from "./indie-launch-tweets";
 import { ThreeDMarqueeDemo } from "@/app/_components/section-marquee";
 import { TIERS, type Tier, type TierKey } from "@/lib/pricing";
+import { getSrc } from "@/lib/attribution";
+import { trackEvent } from "@/lib/analytics";
 
 // Blueprint Background Component - Simplified for LCP
 const BlueprintBackground = ({ isMobile }: { isMobile: boolean }) => (
@@ -209,12 +211,13 @@ export default function Component() {
     }
 
     setCheckoutTier(tier.key);
+    const src = getSrc();
 
     try {
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId: tier.priceId }),
+        body: JSON.stringify({ priceId: tier.priceId, ...(src ? { src } : {}) }),
       });
       if (!response.ok) {
         const body = (await response.json().catch(() => ({}))) as {
@@ -229,6 +232,8 @@ export default function Component() {
       if (!data.url) {
         throw new Error("Could not start checkout.");
       }
+
+      trackEvent("checkout_started", { src: src ?? undefined, tier: tier.key });
 
       // Leave the button in its pending state through the redirect.
       window.location.href = data.url;

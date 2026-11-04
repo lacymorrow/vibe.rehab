@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { sanitizeSrc } from "@/lib/attribution";
 import { getAllowedPriceIds, resolveTierFromPriceId } from "@/lib/pricing";
 
 function getStripe() {
@@ -13,7 +14,7 @@ function getStripe() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { priceId, email } = await request.json();
+    const { priceId, email, src } = await request.json();
 
     // Basic input validation
     if (!priceId || typeof priceId !== "string" || !priceId.startsWith("price_")) {
@@ -57,6 +58,8 @@ export async function POST(request: NextRequest) {
     const tier = resolveTierFromPriceId(priceId);
     const metadata: Record<string, string> = {};
     if (tier) metadata.service_name = tier.name;
+    const cleanSrc = sanitizeSrc(src);
+    if (cleanSrc) metadata.src = cleanSrc;
     if (customerEmail) metadata.customer_email = customerEmail;
 
     const stripe = getStripe();
