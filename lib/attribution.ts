@@ -16,17 +16,21 @@ function readCookie(): string | null {
   return match ? sanitizeSrc(decodeURIComponent(match[1])) : null;
 }
 
+export function setSrc(value: unknown): string | null {
+  if (typeof window === "undefined") return null;
+  const src = sanitizeSrc(value);
+  if (!src) return null;
+  try {
+    window.sessionStorage.setItem(STORAGE_KEY, src);
+  } catch {}
+  document.cookie = `${STORAGE_KEY}=${encodeURIComponent(src)}; Max-Age=${COOKIE_MAX_AGE}; Path=/; SameSite=Lax; Secure`;
+  return src;
+}
+
 export function captureSrc(): string | null {
   if (typeof window === "undefined") return null;
-  const fromUrl = sanitizeSrc(new URLSearchParams(window.location.search).get("src"));
-  if (fromUrl) {
-    try {
-      window.sessionStorage.setItem(STORAGE_KEY, fromUrl);
-    } catch {}
-    document.cookie = `${STORAGE_KEY}=${encodeURIComponent(fromUrl)}; Max-Age=${COOKIE_MAX_AGE}; Path=/; SameSite=Lax`;
-    return fromUrl;
-  }
-  return getSrc();
+  const fromUrl = setSrc(new URLSearchParams(window.location.search).get("src"));
+  return fromUrl ?? getSrc();
 }
 
 export function getSrc(): string | null {

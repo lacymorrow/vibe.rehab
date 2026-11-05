@@ -1,4 +1,4 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { after, type NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
 import { resolveTierLabel } from "@/lib/pricing";
@@ -105,12 +105,6 @@ async function handleCheckoutCompleted(stripe: Stripe, event: Stripe.Event): Pro
     livemode,
   });
 
-  await trackServerEvent("sale", {
-    src: session.metadata?.src || "direct",
-    tier: tierKey,
-    mode: livemode ? "live" : "test",
-  });
-
   const paperclipResult = await fileSaleIssue({
     tierName,
     tierKey,
@@ -139,6 +133,15 @@ async function handleCheckoutCompleted(stripe: Stripe, event: Stripe.Event): Pro
   if (!emailResult.ok) {
     console.error("[stripe webhook] board email failed", emailResult);
   }
+
+  // After the sale issue and email, off the response path so it cannot delay the Stripe ack.
+  after(() =>
+    trackServerEvent("sale", {
+      src: session.metadata?.src || "direct",
+      tier: tierKey,
+      mode: livemode ? "live" : "test",
+    }),
+  );
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {

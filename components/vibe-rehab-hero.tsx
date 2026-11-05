@@ -233,7 +233,7 @@ export default function Component() {
         throw new Error("Could not start checkout.");
       }
 
-      trackEvent("checkout_started", { src: src ?? undefined, tier: tier.key });
+      trackEvent("checkout_started", { src: src ?? "direct", tier: tier.key });
 
       // Leave the button in its pending state through the redirect.
       window.location.href = data.url;

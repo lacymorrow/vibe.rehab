@@ -8,6 +8,7 @@ import type { RoastWithContent } from "@/lib/mdx";
 import { MDXContent } from "@/components/mdx-content";
 import { RoastViewTracker } from "@/components/roast-view-tracker";
 import { trackEvent } from "@/lib/analytics";
+import { setSrc } from "@/lib/attribution";
 
 interface RoastDetailProps {
   roast: RoastWithContent;
@@ -116,7 +117,10 @@ export function RoastDetail({ roast }: RoastDetailProps) {
           <p className="text-slate-600 italic">is your site next?</p>
           <Link
             href={`/?src=roast-${roast.id}#contact`}
-            onClick={() => trackEvent("roast_cta_click", { slug: roast.id, tier: "none" })}
+            onClick={() => {
+              setSrc(`roast-${roast.id}`);
+              trackEvent("roast_cta_click", { slug: roast.id, tier: "none" });
+            }}
             className="inline-block text-amber-600 hover:text-amber-700 transition-colors underline decoration-dotted underline-offset-4"
           >
             submit your site for roasting
