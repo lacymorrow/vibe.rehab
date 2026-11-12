@@ -1,0 +1,64 @@
+---
+title: "Repo in Peace: A Marketplace With No Way to Contact the Marketplace"
+url: "https://repoinpeace.app"
+roastDate: "2026-11-12"
+summary: "A funny, working marketplace for dead startups. The joke lands. The contact link goes nowhere, one button spills off a phone screen, and the Lovable edit badge is still in the page."
+issues:
+  - "The 'contact' link has no destination"
+  - "A second link, 'apa_template', has no destination either"
+  - "A button is 403px wide on a 390px phone"
+  - "Lovable's edit badge is still in the live page"
+tags:
+  - "lovable"
+  - "mobile"
+  - "ux"
+---
+
+# Repo in Peace: A Marketplace With No Way to Contact the Marketplace
+
+**The site:** repoinpeace.app
+**Built with:** Lovable
+**Score: 70/100 - Grade C**
+
+## First Impressions
+
+A marketplace where dead startups go to be bought, with the tone of a funeral home. The concept is the best part of this site and the copy commits to it. I came to roast the code and stayed to read the listings.
+
+## What I Found
+
+**1. You cannot contact the marketplace.** The "contact" link has no destination. A marketplace where people buy and sell whole projects needs one working way to reach a human, and this is the link a buyer clicks before they pay.
+
+*Repro:* Click "contact".
+
+**2. A second link is also dead.** `apa_template` goes nowhere. It reads like a placeholder that shipped.
+
+*Repro:* Click it.
+
+**3. One button is wider than the phone.** At 390px a button measures 403px, so the page scrolls 13px sideways. Small, but it is the kind of thing that makes a page feel unfinished.
+
+*Repro:* DevTools, 390x844, drag sideways.
+
+**4. The Lovable badge is still in the page.** The "Edit with" element is present in the live DOM. On a site selling finished projects, it is a small tell that this one is not.
+
+*Repro:* Inspect the DOM, search for "Edit with".
+
+<Solution>
+1. Point "contact" at a `mailto:` link or a form.
+2. Wire up or remove `apa_template`.
+3. Let the wide button wrap or reduce its padding on small screens.
+4. Turn off the edit badge in Lovable's publish settings.
+</Solution>
+
+## What Works
+
+The concept, the voice, and the commitment to the bit. There is a canonical tag and a custom social image, which is more than most sites at this stage.
+
+## Verdict
+
+70/100. Four small fixes from a clean pass. The humor is doing the work the polish has not caught up to yet.
+
+**Overall Score: 70/100 - Grade C**
+
+---
+
+*If you built this, I enjoyed it. vibe.rehab can do the four fixes if you want a hand. If you would rather this page came down, say so and it is gone the same day.*

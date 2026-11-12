@@ -1,0 +1,59 @@
+---
+title: "Fox (kelo.lovable.app): An AI SEO Tool With Eight Dead Footer Links"
+url: "https://kelo.lovable.app"
+roastDate: "2026-11-12"
+summary: "A Lovable-built AI SEO product in beta. The hero form overflows a phone screen, eight footer links go nowhere (including Privacy and Terms), and the link preview is Lovable's default card. All three fixes take under an hour."
+issues:
+  - "Hero signup form is 476px wide on a 390px phone, so the page scrolls sideways"
+  - "Eight footer links have no destination, including Privacy and Terms"
+  - "Social card is Lovable's default image and there is no canonical tag"
+tags:
+  - "lovable"
+  - "mobile"
+  - "seo"
+  - "ux"
+---
+
+# Fox (kelo.lovable.app): An AI SEO Tool With Eight Dead Footer Links
+
+**The site:** kelo.lovable.app
+**Built with:** Lovable
+**Score: 54/100 - Grade F**
+
+## First Impressions
+
+The pitch is clear: AI that helps you with SEO, "Now in Beta," one signup box. The design is tidy. Nothing here looks broken at a glance on a laptop. That is exactly why these three problems are worth fixing: you only find them when a real visitor does.
+
+## What I Found
+
+**1. The hero form is wider than a phone.** At 390px wide the form and its button measure 476px, so the whole page scrolls 86px sideways. On a phone, the first thing a visitor does is try to sign up, and the first thing they see is a page that slides around under their thumb.
+
+*Repro:* Chrome DevTools, 390x844, reload, drag sideways.
+
+**2. Eight footer links do nothing.** Pricing, Integrations, Changelog, SEO Guides, About, Contact, Privacy and Terms all render as links with no destination. For a product asking people to sign up, a dead Privacy and Terms link is the one that costs trust. People look for those before they hand over an email.
+
+*Repro:* Click any footer link. Nothing happens.
+
+**3. The link preview is Lovable's, not yours.** The social image is the default Lovable card, and there is no canonical tag. This is an SEO product. Every share of it advertises the tool that built it instead of the tool it is.
+
+*Repro:* View source, search for `og:image` and `canonical`.
+
+<Solution>
+1. Let the form wrap on small screens (`flex-wrap`, full-width input under 480px).
+2. Point each footer link at a real page, or delete the ones you have not built yet. A short Privacy and Terms page is the priority.
+3. Set your own `og:image` and a canonical URL.
+</Solution>
+
+## What Works
+
+The hero copy says what the product does in one line. The layout holds together on desktop. The product has a clear audience. None of the fixes above need a redesign.
+
+## Verdict
+
+54/100. This is a polish gap, not a product gap. It is also the typical gap in an AI-built first version: the happy path on a desktop works, and everything a skeptical visitor checks next does not.
+
+**Overall Score: 54/100 - Grade F**
+
+---
+
+*If you built this and want the three fixes done properly, vibe.rehab does exactly this. If you would rather do it yourself, the list above is the whole job. If you want this page taken down, say so and it is gone the same day.*
