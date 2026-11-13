@@ -87,4 +87,11 @@ describe("POST /api/webhooks/stripe notification reporting", () => {
     expect(res.status).toBe(200);
     expect((await res.json()).notified).toEqual({ email: false, paperclip: true });
   });
+
+  it("acks with 200 and handled:false when fileSaleIssue throws, so Stripe does not retry", async () => {
+    fileSaleIssue.mockRejectedValue(new Error("paperclip down"));
+    const res = await post();
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toEqual({ received: true, handled: false });
+  });
 });
