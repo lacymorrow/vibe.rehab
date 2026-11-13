@@ -70,7 +70,12 @@ async function notifyBoardByEmail(args: {
   }
 }
 
-async function handleCheckoutCompleted(stripe: Stripe, event: Stripe.Event): Promise<void> {
+interface NotifyOutcome {
+  email: boolean;
+  paperclip: boolean;
+}
+
+async function handleCheckoutCompleted(stripe: Stripe, event: Stripe.Event): Promise<NotifyOutcome> {
   const session = event.data.object as Stripe.Checkout.Session;
   const sessionId = session.id;
 
@@ -142,6 +147,8 @@ async function handleCheckoutCompleted(stripe: Stripe, event: Stripe.Event): Pro
       mode: livemode ? "live" : "test",
     }),
   );
+
+  return { email: emailResult.ok, paperclip: paperclipResult.ok };
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -175,9 +182,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: `Invalid signature: ${message}` }, { status: 400 });
   }
 
+  let notified: NotifyOutcome | undefined;
   try {
     if (event.type === "checkout.session.completed") {
-      await handleCheckoutCompleted(stripe, event);
+      notified = await handleCheckoutCompleted(stripe, event);
     } else {
       console.log("[stripe webhook] ignoring event", { type: event.type, id: event.id });
     }
@@ -187,5 +195,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ received: true, handled: false }, { status: 200 });
   }
 
-  return NextResponse.json({ received: true, handled: true });
+  // Always 2xx: Stripe retries non-2xx and the handler is not idempotent, so a
+  // failed leg is reported here (and in the logs) instead of replayed.
+  return NextResponse.json({ received: true, handled: true, ...(notified ? { notified } : {}) });
 }
