@@ -1,0 +1,58 @@
+---
+title: "MissionForge: Every URL Is the Homepage"
+url: "https://missionforgehq.com"
+roastDate: "2026-11-12"
+summary: "A skill-learning product with real infrastructure behind it, held back by a mobile layout 199px too wide and a server that answers every unknown URL, including the favicon, with the homepage and a 200."
+issues:
+  - "Mobile page is 589px wide on a 390px screen"
+  - "Every unknown URL returns 200 with the homepage, including /favicon.ico"
+  - "Smallest text is 10 to 11px and the privacy link is a 16px tap target"
+tags:
+  - "mobile"
+  - "seo"
+  - "accessibility"
+  - "routing"
+---
+
+# MissionForge: Every URL Is the Homepage
+
+**The site:** missionforgehq.com
+**Score: 61/100 - Grade D**
+
+## First Impressions
+
+This one is more serious than most: real analytics, bot protection, an actual backend. Someone cared about the plumbing. The mission, "change how people learn new skills," is a good one. The problems are in the layer you only notice when you leave the happy path.
+
+## What I Found
+
+**1. The phone sees a page 589px wide.** On a 390px screen the page scrolls 199px sideways. The nav row and a button are each about 412px, and the rest of the layout stretches to match. Mobile is where a lot of first visits to a learning product happen.
+
+*Repro:* DevTools, 390x844, reload, drag sideways.
+
+**2. Every URL is the homepage.** Ask for `/nope` and you get a 200 with the full homepage (about 30KB). Ask for `/favicon.ico` and you get the same HTML with a 200, not an icon. To a search engine that is an unlimited number of duplicate pages. To a visitor who mistypes a link, it is a page that looks right and is wrong.
+
+*Repro:* Open `/nope`. Open `/favicon.ico`.
+
+**3. The small print is too small to use.** The smallest text is 10 to 11px and the privacy link is 16px tall, under the 24px minimum for a tap target.
+
+*Repro:* DevTools computed styles.
+
+<Solution>
+1. Find the container holding the nav and button and let it wrap or scroll inside itself (`overflow-x` on that element, `min-width: 0` on its flex children).
+2. Return a real 404 status for unknown paths and serve an actual `favicon.ico`.
+3. Raise the minimum font size to 12px and pad the privacy link to 24px high.
+</Solution>
+
+## What Works
+
+The stack choices are sensible and the product has a point of view. This is a team that will fix these in an afternoon once they see them.
+
+## Verdict
+
+61/100. The foundation is better than the score. The score is the gap between a site that works for the person who built it and one that works for a stranger on a phone.
+
+**Overall Score: 61/100 - Grade D**
+
+---
+
+*If you built this and want a hand with the three fixes, vibe.rehab does exactly this. If you would rather not have this page up, say so and it is removed the same day.*
